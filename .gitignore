@@ -1,0 +1,4 @@
+node_modules/
+dist/*
+!dist/aframe.js
+!dist/aframe.min.js.map
