@@ -1,8 +1,7 @@
 {
-  "name": "vertik",
-  "version": "1.0.0",
-  "description": "VR Test aka Tik",
-  "main": "index.js",
+  "name": "js13k-2020",
+  "version": "0.1.0",
+  "description": "Js13kGames 2020 competition entry",
   "scripts": {
     "build": "rollup -c & pug -o dist src",
     "watch-ts": "rollup -c -w",
@@ -10,8 +9,7 @@
     "dev": "concurrently \"npm:watch-ts\" \"npm:watch-pug\" \"http-server dist\"",
     "test": "jest"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Andras Serfozo <subztep@gmail.com>",
   "dependencies": {
     "aframe": "^1.0.4"
   },
