@@ -1,6 +1,8 @@
 import updateGround from "./ground"
-// console.log("Hello Index")
+import deployForest from "./forest"
+import "./components/tree"
 
 window.onload = () => {
   updateGround()
+  deployForest()
 }
