@@ -1,13 +1,10 @@
 import Sound from "./Sound"
 import synth from "./synth.json"
-import { SynthStore, Sounds } from "./audio.d"
+import { SynthStore, Sounds, Bar, StepValue } from "./audio.d"
 
-let audioContext = new AudioContext()
-
-const loadSound = (name: string, ctx?: BaseAudioContext) => {
+const loadSound = (name: string, ctx: BaseAudioContext) => {
   const obj: SynthStore = synth[name]
-
-  const s = new Sound(ctx ?? audioContext)
+  const s = new Sound(ctx)
 
   obj.analysers.forEach(node => s.setAnalyser(node))
   obj.gains.forEach(node => s.setGain(node))
@@ -17,51 +14,38 @@ const loadSound = (name: string, ctx?: BaseAudioContext) => {
   return s
 }
 
-export const loadBeat = () => {
-  const sequence: Sounds = synth.sequencer
-
-  const stepsPerBar = sequence.notesPerBeat * sequence.beatsPerBar
-  const bps = sequence.BPM / 60
-  const stepsPerBeat = stepsPerBar / 2 // / 4
-  let lengthOfStep = bps / stepsPerBeat
-
-  Object.values(sequence.bars).forEach(bar => {
-    const sound = loadSound(bar.soundName, audioContext)
-    if (sound !== null) {
-      bar.steps.forEach((step, index) => {
-        if (step !== null) {
-          sound.play(step, lengthOfStep * (index + 1))
-        }
-      })
-    }
-  })
-}
-
 export const getAudioBuffer = async () => {
-  const offlineCtx = new OfflineAudioContext(
-    2,
-    audioContext.sampleRate * 30,
-    audioContext.sampleRate
+  let sequence: Sounds = synth.sequencer
+  let stepsPerBar = sequence.notesPerBeat * sequence.beatsPerBar
+
+  let i: number
+  let j: number
+  let bar: Bar
+  let barId: string
+  let step: StepValue
+  let sound: Sound | null
+  let repeat = 1
+  let lengthOfStep = stepsPerBar / sequence.BPM
+  let sampleRate = 44_100
+  let offlineCtx = new OfflineAudioContext(
+    1,
+    lengthOfStep * stepsPerBar * sampleRate * repeat,
+    sampleRate
   )
 
-  const sequence: Sounds = synth.sequencer
-
-  const stepsPerBar = sequence.notesPerBeat * sequence.beatsPerBar
-  const bps = sequence.BPM / 60
-  const stepsPerBeat = stepsPerBar / 2 // / 4
-  let lengthOfStep = bps / stepsPerBeat
-
-  Object.values(sequence.bars).forEach(bar => {
-    const sound = loadSound(bar.soundName, offlineCtx)
-    if (sound !== null) {
-      bar.steps.forEach((step, index) => {
+  for (barId in sequence.bars) {
+    bar = sequence.bars[barId]
+    for (j = 0; j < repeat; j++)
+      for (i = 0; i < stepsPerBar; i++) {
+        step = bar.steps[i]
         if (step !== null) {
-          sound.play(step, lengthOfStep * (index + 1))
+          sound = loadSound(bar.soundName, offlineCtx)
+          if (sound !== null) {
+            sound.play(step, lengthOfStep * i + j * stepsPerBar * lengthOfStep)
+          }
         }
-      })
-    }
-  })
+      }
+  }
 
-  const buffer = await offlineCtx.startRendering()
-  return buffer
+  return await offlineCtx.startRendering()
 }

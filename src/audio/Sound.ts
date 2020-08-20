@@ -30,12 +30,11 @@ const soundNodeFactory = (node: BaseNode, type: AudioNodeType): SoundNode => {
 }
 
 export default class {
-  nodes: Map<string, SoundNode>
-  audioCtx: BaseAudioContext
+  audioCtx: BaseAudioContext | null = null
+  nodes = new Map<string, SoundNode>()
 
   constructor(audioContext: BaseAudioContext) {
     this.audioCtx = audioContext
-    this.nodes = new Map<string, SoundNode>()
   }
 
   destroyAudioNodes() {
@@ -196,7 +195,7 @@ export default class {
         ) {
           //FIXME: Stop without click noise
           //https://webaudiotech.com/2017/02/27/stopping-a-web-audio-oscillator-at-cycle-completion/
-          let halfCycleDuration = 0.5 / node.attrs.frequency //FIXME: read default from setting
+          let halfCycleDuration = 0.5 / (node.attrs?.frequency ?? 440) //FIXME: read default from setting
           let runningTime = this.audioCtx!.currentTime - node.startTime
           let completedHalfCycles = Math.floor(runningTime / halfCycleDuration)
           let timeOfLastZC = node.startTime + halfCycleDuration * completedHalfCycles

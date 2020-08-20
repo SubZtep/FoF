@@ -14,8 +14,11 @@ const config = {
     resolve({ extensions }),
     babel({ babelHelpers: "bundled", extensions, include: ["src/**/*"] }),
     json(),
-    terser(),
   ],
+}
+
+if (process.env.BUILD === "production") {
+  config.plugins.push(terser())
 }
 
 export default config

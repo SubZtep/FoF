@@ -1,4 +1,4 @@
-/// <reference types="../node_modules/aframe/node_modules/super-three/src/Three" />
+/// <reference types="../node_modules/super-three/src/Three" />
 
 let STAGE_SIZE = 200
 

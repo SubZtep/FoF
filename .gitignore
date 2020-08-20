@@ -1,6 +1,3 @@
 node_modules/
-dist/*
-!dist/aframe.js
-!dist/aframe.min.js.map
-!dist/favicon.ico
-!dist/sci-fi.mp3
+dist/
+*.pem
