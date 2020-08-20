@@ -1,6 +1,7 @@
+import json from "@rollup/plugin-json"
 import babel from "@rollup/plugin-babel"
-import resolve from "rollup-plugin-node-resolve"
 import { terser } from "rollup-plugin-terser"
+import resolve from "rollup-plugin-node-resolve"
 
 const extensions = [".js", ".ts"]
 const config = {
@@ -12,6 +13,7 @@ const config = {
   plugins: [
     resolve({ extensions }),
     babel({ babelHelpers: "bundled", extensions, include: ["src/**/*"] }),
+    json(),
     terser(),
   ],
 }
