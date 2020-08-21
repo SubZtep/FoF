@@ -1,17 +1,16 @@
 //import { getAudioBuffer } from "./audio/audio"
 import updateGround from "./ground"
-import deployForest from "./forest"
-import "./components/tree"
+import "./systems/forest"
+import "./components/tree-primitive"
+import "./components/tree-pythagoras"
 import "./components/sound"
 
 window.onload = () => {
   updateGround()
-  deployForest()
+  // deployForest()
   // loadBeat()
-
   //let buffer = await getAudioBuffer()
   //let sound = document.createElement("a-sound")
-
   // sound.setAttribute("src", buffer)
-  // document.querySelector("a-scene").appendChild(sound)
+  // document.querySelector("a-scene").object3D.add(new THREE.AxesHelper())
 }

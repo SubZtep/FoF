@@ -7,9 +7,10 @@
     "build": "rollup --environment BUILD:production -c & pug -o dist src",
     "watch-ts": "rollup -c -w",
     "watch-pug": "pug -o dist -P -w src",
-    "dev": "concurrently \"npm:watch-ts\" \"npm:watch-pug\" \"http-server dist -c-1 -S -C cert.pem\"",
+    "dev": "concurrently \"npm:watch-ts\" \"npm:watch-pug\" \"http-server dist -c-1\"",
+    "dev-ssl": "concurrently \"npm:watch-ts\" \"npm:watch-pug\" \"http-server dist -c-1 -S -C cert.pem\"",
     "pemgen": "openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout key.pem -out cert.pem",
-    "postinstall": "cp node_modules/aframe/dist/aframe.js dist"
+    "postinstall": "cp node_modules/aframe/dist/aframe.js* dist"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
@@ -33,5 +34,6 @@
     "rollup-plugin-terser": "^7.0.0",
     "super-three": "^0.119.0",
     "typescript": "^4.0.2"
-  }
+  },
+  "dependencies": {}
 }

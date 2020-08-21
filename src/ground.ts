@@ -1,7 +1,4 @@
-/// <reference types="../node_modules/super-three/src/Three" />
-
 let STAGE_SIZE = 200
-
 let resolution = 64 // number of divisions of the ground mesh
 
 let environmentData = {
@@ -20,12 +17,7 @@ const drawTexture = (ctx: CanvasRenderingContext2D, size: number) => {
   ctx.fillStyle = environmentData.groundColor
   ctx.fillRect(0, 0, size, size)
 
-  let i: number,
-    col: THREE.Color,
-    col1: THREE.Color,
-    col2: THREE.Color,
-    im: Uint8ClampedArray,
-    imdata: ImageData
+  let i: number, col: THREE.Color, col1: THREE.Color, col2: THREE.Color, im: Uint8ClampedArray, imdata: ImageData
 
   // walkernoise
   let s = Math.floor(size / 2)
@@ -84,12 +76,7 @@ export default () => {
   let ground = document.createElement("a-entity")
   ground.setAttribute("rotation", "-90 0 0")
 
-  let groundGeometry = new THREE.PlaneGeometry(
-    STAGE_SIZE + 2,
-    STAGE_SIZE + 2,
-    resolution - 1,
-    resolution - 1
-  )
+  let groundGeometry = new THREE.PlaneGeometry(STAGE_SIZE + 2, STAGE_SIZE + 2, resolution - 1, resolution - 1)
 
   let verts = groundGeometry.vertices
   let numVerts = groundGeometry.vertices.length
