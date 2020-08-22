@@ -1,0 +1,5 @@
+AFRAME.registerSystem("storyline", {
+  init() {
+    //
+  },
+})

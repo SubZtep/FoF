@@ -10,6 +10,8 @@
     "dev": "concurrently \"npm:watch-ts\" \"npm:watch-pug\" \"http-server dist -c-1\"",
     "dev-ssl": "concurrently \"npm:watch-ts\" \"npm:watch-pug\" \"http-server dist -c-1 -S -C cert.pem\"",
     "pemgen": "openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout key.pem -out cert.pem",
+    "wipe": "npx rimraf dist node_modules package-lock.json",
+    "preinstall": "mkdir dist 2>&1 &",
     "postinstall": "cp node_modules/aframe/dist/aframe.js* dist"
   },
   "devDependencies": {

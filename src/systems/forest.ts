@@ -1,12 +1,14 @@
 import { rnd } from "../utils"
 
 AFRAME.registerSystem("forest", {
-  schema: {
-    stageSize: { type: "number", default: 100 }, // 200
-    treeCount: { type: "number", default: 300 }, // 500
+  init() {
+    this.sceneEl.addEventListener("makeEarthGreen", this.makeEarthGreen, { once: true })
   },
 
-  init() {
+  makeEarthGreen() {
+    let stageSize = 100 // 200
+    let treeCount = 300 // 500
+
     let seed = 8
 
     const random = (x: number) => {
@@ -18,12 +20,12 @@ AFRAME.registerSystem("forest", {
       )
     }
 
-    for (let i = 0, r = 88343; i < this.data.treeCount; i++, r++) {
+    for (let i = 0, r = 88343; i < treeCount; i++, r++) {
       // set random position, rotation and scale
       let dv = new THREE.Vector3(10, 10, 10)
 
       // No trees on play area
-      let distance = 10 + Math.max(dv.x, dv.z) + 10 * random(r + 1) + (random(r + 2) * this.data.stageSize) / 3
+      let distance = 10 + Math.max(dv.x, dv.z) + 10 * random(r + 1) + (random(r + 2) * stageSize) / 3
       let direction = random(r + 3) * Math.PI * 2
 
       let tree = document.createElement("a-tree")

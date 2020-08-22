@@ -9,14 +9,27 @@ html(lang="en")
     script(src="aframe.js")
     script(src="index.js")
   body
-    a-scene(shadow fog="far: 1000; color: #c2c17e" background="color: #24b5af")
+    a-scene(
+      shadow
+      background="color: #000"
+      animation="property: background.color; type: color; to: #24b5af; easing: easeInOutQuint; delay: 5000; dur: 10000")
+
+      a-text(
+        value="Four 'o for"
+        negate="false"
+        font="roboto"
+        letter-spacing="4.21"
+        color="#fff"
+        width="10"
+        position="-1.2 2 -2"
+        opacity="0"
+        animation="property: opacity; to: 1; easing: easeInOutElastic; delay: 500; dur: 1200")
+
       a-entity(light="type:directional; castShadow:true;" position="0 2 -4" rotation="-30 0 0")
 
-      a-entity(oculus-touch-controls="hand: left")
-      a-entity(oculus-touch-controls="hand: right")
+      include entities/controllers.pug
 
       //- a-entity(tree-pythagoras position="0 3 -3")
-
       //-a-entity(
         geometry="primitive: plane"
         material="color: blue"

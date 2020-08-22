@@ -10,11 +10,7 @@ const config = {
     dir: "dist",
     format: "esm",
   },
-  plugins: [
-    resolve({ extensions }),
-    babel({ babelHelpers: "bundled", extensions, include: ["src/**/*"] }),
-    json(),
-  ],
+  plugins: [resolve({ extensions }), babel({ babelHelpers: "bundled", extensions, include: ["src/**/*"] }), json()],
 }
 
 if (process.env.BUILD === "production") {
