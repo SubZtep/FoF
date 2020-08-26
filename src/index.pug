@@ -8,29 +8,32 @@ html(lang="en")
     //- script(src="https://js13kgames.com/webxr-src/2020/aframe.js")
     script(src="aframe.js")
     script(src="index.js")
+    //-style(type="text/css").
+      .a-enter-vr > button::before {
+        content: "NO VR NO DEMO";
+        padding-right: 200px;
+      }
   body
-    a-scene(
+    a-scene(shadow background="color: #24b5af")
+      a-entity#rig(wasd-controls)
+        a-entity(camera look-controls)
+        include entities/controllers.pug
+      //-include entities/intro.pug
+        //-a-entity(oscillator="")
+
+      a-plane(material="color: green" height="10" width="10" rotation="-90 0 0" position="0 -2 0")
+
+    //-a-scene(
       shadow
       background="color: #000"
       animation="property: background.color; type: color; to: #24b5af; easing: easeInOutQuint; delay: 5000; dur: 10000")
-
-      a-text(
-        value="Four 'o for"
-        negate="false"
-        font="roboto"
-        letter-spacing="4.21"
-        color="#fff"
-        width="10"
-        position="-1.2 2 -2"
-        opacity="0"
-        animation="property: opacity; to: 1; easing: easeInOutElastic; delay: 500; dur: 1200")
 
       a-entity(light="type:directional; castShadow:true;" position="0 2 -4" rotation="-30 0 0")
 
       include entities/controllers.pug
 
       //- a-entity(tree-pythagoras position="0 3 -3")
-      //-a-entity(
+      a-entity(
         geometry="primitive: plane"
         material="color: blue"
         position="1 2 -3"

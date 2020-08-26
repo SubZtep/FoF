@@ -27,11 +27,7 @@ export const getAudioBuffer = async () => {
   let repeat = 1
   let lengthOfStep = stepsPerBar / sequence.BPM
   let sampleRate = 44_100
-  let offlineCtx = new OfflineAudioContext(
-    1,
-    lengthOfStep * stepsPerBar * sampleRate * repeat,
-    sampleRate
-  )
+  let offlineCtx = new OfflineAudioContext(1, lengthOfStep * stepsPerBar * sampleRate * repeat, sampleRate)
 
   for (barId in sequence.bars) {
     bar = sequence.bars[barId]
