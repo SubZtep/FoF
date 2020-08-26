@@ -1,10 +1,9 @@
-import { getEntity } from "../utils"
+import { loadEntity } from "../utils"
 
 AFRAME.registerComponent("intro", {
   async init() {
-    let els = await getEntity("intro", this.el)
+    await loadEntity("intro", this.el)
 
-    els.forEach(el => void this.el.appendChild(el))
     this.el.setAttribute("background", "color: #000")
     this.el.setAttribute(
       "animation",

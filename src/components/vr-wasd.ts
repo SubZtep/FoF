@@ -1,7 +1,4 @@
 AFRAME.registerComponent("vr-wasd", {
-  schema: {
-    acceleration: { default: 200 },
-  },
   init() {
     this.rig = document.querySelector("#rig")
     if (this.rig.hasLoaded) {
@@ -11,38 +8,31 @@ AFRAME.registerComponent("vr-wasd", {
     }
   },
 
-  //TODO: fix with gameplay
-  addControls() {
-    this.el.addEventListener("axismove", e => {
-      const [axisX, axisY] = e.detail.axis
-      const [changedX, changedY] = e.detail.changed
-      this.rig.components["wasd-controls"].data.acceleration = this.data.acceleration * Math.abs(axisY || axisX)
-      // console.log("a", [axisX, axisY, axisX || axisY])
+  move(e) {
+    const wasd = this.rig.components["wasd-controls"]
+    const [axisX, axisY] = e.detail.axis
+    const keys: { [key: string]: any } = {}
 
-      if (changedX) {
-        if (axisX === 0) {
-          window.dispatchEvent(new KeyboardEvent("keyup", { code: this.lastX }))
-        } else {
-          let code = axisX < 0 ? "KeyA" : "KeyD"
-          if (this.lastX !== code) {
-            window.dispatchEvent(new KeyboardEvent("keyup", { code: this.lastX }))
-          }
-          window.dispatchEvent(new KeyboardEvent("keydown", { code }))
-          this.lastX = code
-        }
-      }
-      if (changedY) {
-        if (axisY === 0) {
-          window.dispatchEvent(new KeyboardEvent("keyup", { code: this.lastY }))
-        } else {
-          let code = axisY < 0 ? "KeyW" : "KeyS"
-          if (this.lastY !== code) {
-            window.dispatchEvent(new KeyboardEvent("keyup", { code: this.lastY }))
-          }
-          window.dispatchEvent(new KeyboardEvent("keydown", { code }))
-          this.lastY = code
-        }
-      }
-    })
+    if (axisY < 0) {
+      keys.KeyW = 1
+    } else if (axisY > 0) {
+      keys.KeyS = 1
+    }
+
+    if (axisX < 0) {
+      keys.KeyA = 1
+    } else if (axisX > 0) {
+      keys.KeyD = 1
+    }
+    wasd.data.acceleration = Math.max(Math.abs(axisY), Math.abs(axisX)) * 200
+    wasd.keys = keys
+  },
+
+  addControls() {
+    this.el.addEventListener("axismove", this.move.bind(this))
+  },
+
+  remove() {
+    this.el.removeEventListener("axismove", this.move)
   },
 })
