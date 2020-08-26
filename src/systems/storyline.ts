@@ -1,15 +1,16 @@
-import { EntityEventMap } from "aframe"
+import { DetailEvent } from "aframe"
 import { loadEntity } from "../utils"
 
 AFRAME.registerSystem("storyline", {
+  dependencies: ["ground"],
   init() {
     this.el.addEventListener(
       "enter-vr",
       async () => {
         // console.log("ENTER VR")
         await loadEntity("controllers", document.querySelector("#rig"))
-        this.el.addState("intro")
-        // this.el.addState("forest")
+        // this.el.addState("intro")
+        this.el.addState("forest")
       },
       { once: true }
     )
@@ -18,7 +19,7 @@ AFRAME.registerSystem("storyline", {
       console.log("EXIT VR")
     })
 
-    this.el.addEventListener("stateadded", (e: EntityEventMap["stateadded"]) => {
+    this.el.addEventListener("stateadded", (e: DetailEvent<string>) => {
       switch (e.detail) {
         case "intro":
           this.el.setAttribute("intro", "")
@@ -28,7 +29,9 @@ AFRAME.registerSystem("storyline", {
           this.el.systems.forest.deploy()
           break
       }
-      console.log(e.detail)
     })
+
+    // For Non-VR
+    this.el.addState("forest")
   },
 })

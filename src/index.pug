@@ -14,26 +14,22 @@ html(lang="en")
         padding-right: 200px;
       }
   body
-    a-scene(shadow background="color: #24b5af")
-      a-entity#rig(wasd-controls)
-        a-entity(camera look-controls)
-      //-  include entities/controllers.pug
-      //-include entities/intro.pug
-        //-a-entity(oscillator="")
+    a-scene(shadow background="color: #24a3b5")
+      //-a-entity#rig(wasd-controls="acceleration: 150" grounder)
+      a-entity#rig(wasd-controls="acceleration: 150; fly: true" position="-10 5 10")
+        //- Eye position is 1.6 meter
+        a-entity(camera look-controls position="0 1.6 0")
+        //- a-entity(position="0 -1 0" rotation="80 0 0" raycaster="objects: .ground; far: 3; showLine: true" rigid)
 
+      //-a-entity(oscillator="")
       //-a-plane(material="color: green" height="10" width="10" rotation="-90 0 0" position="0 -2 0")
 
-    //-a-scene(
-      shadow
-      background="color: #000"
-      animation="property: background.color; type: color; to: #24b5af; easing: easeInOutQuint; delay: 5000; dur: 10000")
+      //-a-entity(light="type:directional; castShadow:true;" position="0 2 -4" rotation="-30 0 0")
 
-      a-entity(light="type:directional; castShadow:true;" position="0 2 -4" rotation="-30 0 0")
-
-      include entities/controllers.pug
+      //- a-box.ground
 
       //- a-entity(tree-pythagoras position="0 3 -3")
-      a-entity(
+      //-a-entity(
         geometry="primitive: plane"
         material="color: blue"
         position="1 2 -3"

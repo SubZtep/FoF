@@ -75,7 +75,7 @@ AFRAME.registerSystem("ground", {
     }
 
     let ground = document.createElement("a-entity")
-    ground.setAttribute("rotation", "-90 0 0")
+    ground.object3D.rotation.x = -Math.PI / 2
 
     let groundGeometry = new THREE.PlaneGeometry(STAGE_SIZE + 2, STAGE_SIZE + 2, resolution - 1, resolution - 1)
 
@@ -115,8 +115,7 @@ AFRAME.registerSystem("ground", {
     groundGeometry.normalsNeedUpdate = true
 
     // apply Y scale. There's no need to recalculate the geometry for this. Just change scale
-    // @ts-ignore
-    ground.setAttribute("scale", { z: environmentData.groundYScale })
+    ground.object3D.scale.set(1, -1, environmentData.groundYScale)
 
     // update ground, playarea and grid textures.
     let groundResolution = 2048
@@ -147,7 +146,8 @@ AFRAME.registerSystem("ground", {
       emissiveMap: gridTexture,
     }
 
-    let groundMaterial = new THREE.MeshLambertMaterial(groundMaterialProps)
+    // let groundMaterial = new THREE.MeshLambertMaterial(groundMaterialProps)
+    let groundMaterial = new THREE.MeshPhongMaterial({ color: new THREE.Color(0x00ff00), wireframe: true })
 
     let groundctx = groundCanvas.getContext("2d")
 
@@ -156,6 +156,7 @@ AFRAME.registerSystem("ground", {
     groundTexture.needsUpdate = true
 
     let mesh = new THREE.Mesh(groundGeometry, groundMaterial)
+
     // @ts-ignore
     ground.setObject3D("mesh", mesh)
 

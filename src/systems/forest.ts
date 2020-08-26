@@ -2,7 +2,7 @@ import { rnd } from "../utils"
 
 AFRAME.registerSystem("forest", {
   deploy() {
-    let stageSize = 100 // 200
+    let stageSize = 200 // 200
     let treeCount = 300 // 500
 
     let seed = 8
@@ -24,11 +24,13 @@ AFRAME.registerSystem("forest", {
       let distance = 10 + Math.max(dv.x, dv.z) + 10 * random(r + 1) + (random(r + 2) * stageSize) / 3
       let direction = random(r + 3) * Math.PI * 2
 
-      let tree = document.createElement("a-tree")
-      tree.object3D.position.set(Math.cos(direction) * distance, 0, Math.sin(direction) * distance)
-      tree.object3D.scale.set(rnd(0.8, 1.2), rnd(0.8, 1.2), rnd(0.8, 1.2))
-
-      document.querySelector("a-scene").appendChild(tree)
+      let tree = document.createElement("a-entity")
+      tree.setAttribute("tree-primitive", "")
+      tree.setAttribute("position", `${Math.cos(direction) * distance} 0 ${Math.sin(direction) * distance}`)
+      tree.setAttribute("grounder", "")
+      // tree.object3D.position.set(Math.cos(direction) * distance, 0, Math.sin(direction) * distance)
+      // tree.object3D.scale.set(rnd(0.8, 1.2), rnd(0.8, 1.2), rnd(0.8, 1.2))
+      this.el.appendChild(tree)
     }
   },
 })

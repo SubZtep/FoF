@@ -1,14 +1,16 @@
 //import { getAudioBuffer } from "./audio/audio"
-import "./systems/storyline"
-import "./systems/ground"
-import "./systems/forest"
+// import "./components/sound"
+import "./components/rigid"
+import "./components/grounder"
 import "./components/oscillator"
 import "./components/intro"
 import "./components/vr-wasd"
 import "./components/vr-rotate"
 import "./components/tree-primitive"
 import "./components/tree-pythagoras"
-// import "./components/sound"
+import "./systems/ground"
+import "./systems/forest"
+import "./systems/storyline"
 
 // window.onload = () => {
 //   const scene = document.querySelector("a-scene")
