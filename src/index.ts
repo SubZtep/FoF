@@ -11,19 +11,3 @@ import "./components/tree-pythagoras"
 import "./systems/ground"
 import "./systems/forest"
 import "./systems/storyline"
-
-// window.onload = () => {
-//   const scene = document.querySelector("a-scene")
-
-//   scene.setAttribute("intro", "")
-//   setTimeout(() => {
-//     scene.removeAttribute("intro")
-//   }, 5000)
-
-//   // setTimeout(() => {
-//   //   document.querySelector("a-scene").emit("makeEarthFlat")
-//   // }, 5000)
-//   // setTimeout(() => {
-//   //   document.querySelector("a-scene").emit("makeEarthGreen")
-//   // }, 8000)
-// }

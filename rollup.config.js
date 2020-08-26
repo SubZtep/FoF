@@ -4,17 +4,34 @@ import { terser } from "rollup-plugin-terser"
 import resolve from "rollup-plugin-node-resolve"
 
 const extensions = [".js", ".ts"]
-const config = {
-  input: "src/index.ts",
-  output: {
-    dir: "dist",
-    format: "esm",
-  },
-  plugins: [resolve({ extensions }), babel({ babelHelpers: "bundled", extensions, include: ["src/**/*"] }), json()],
+const plugins = [
+  resolve({ extensions }),
+  babel({
+    babelHelpers: "bundled",
+    extensions,
+    include: ["src/**/*"],
+  }),
+  json(),
+]
+const output = {
+  dir: "dist",
+  format: "esm",
 }
 
 if (process.env.BUILD === "production") {
-  config.plugins.push(terser())
+  plugins.push(terser())
 }
 
-export default config
+const config1 = {
+  input: "src/index.ts",
+  output,
+  plugins,
+}
+
+const config2 = {
+  input: "src/workers/ground.ts",
+  output,
+  plugins,
+}
+
+export default [config1, config2]

@@ -19,7 +19,12 @@ AFRAME.registerSystem("ground", {
       ctx.fillStyle = environmentData.groundColor
       ctx.fillRect(0, 0, size, size)
 
-      let i: number, col: THREE.Color, col1: THREE.Color, col2: THREE.Color, im: Uint8ClampedArray, imdata: ImageData
+      let i: number
+      let col: THREE.Color
+      let col1: THREE.Color
+      let col2: THREE.Color
+      let im: Uint8ClampedArray
+      let imdata: ImageData
 
       // walkernoise
       let s = Math.floor(size / 2)
@@ -75,6 +80,7 @@ AFRAME.registerSystem("ground", {
     }
 
     let ground = document.createElement("a-entity")
+    ground.className = "ground"
     ground.object3D.rotation.x = -Math.PI / 2
 
     let groundGeometry = new THREE.PlaneGeometry(STAGE_SIZE + 2, STAGE_SIZE + 2, resolution - 1, resolution - 1)
@@ -146,15 +152,12 @@ AFRAME.registerSystem("ground", {
       emissiveMap: gridTexture,
     }
 
-    // let groundMaterial = new THREE.MeshLambertMaterial(groundMaterialProps)
-    let groundMaterial = new THREE.MeshPhongMaterial({ color: new THREE.Color(0x00ff00), wireframe: true })
+    let groundMaterial = new THREE.MeshLambertMaterial(groundMaterialProps)
+    // let groundMaterial = new THREE.MeshPhongMaterial({ color: new THREE.Color(0x00ff00), wireframe: true })
 
     let groundctx = groundCanvas.getContext("2d")
-
     drawTexture(groundctx, groundResolution)
-
     groundTexture.needsUpdate = true
-
     let mesh = new THREE.Mesh(groundGeometry, groundMaterial)
 
     // @ts-ignore
@@ -167,5 +170,12 @@ AFRAME.registerSystem("ground", {
     })
 
     document.querySelector("a-scene").appendChild(ground)
+
+    // Start Ground Worker
+    this.worker = new Worker("ground.js")
+    this.worker.postMessage({
+      cmd: "vertices",
+      payload: groundGeometry.vertices,
+    })
   },
 })
