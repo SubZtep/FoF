@@ -1,3 +1,6 @@
+import { DetailEvent } from "aframe"
+import { ControllerInput } from "../types"
+
 AFRAME.registerComponent("vr-rotate", {
   init() {
     this.rig = document.querySelector("#rig")
@@ -8,7 +11,7 @@ AFRAME.registerComponent("vr-rotate", {
     }
   },
 
-  rotate(e) {
+  rotate(e: DetailEvent<ControllerInput>) {
     this.rig.object3D.rotation.y -= e.detail.axis[0] * 0.02
   },
 

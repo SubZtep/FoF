@@ -1,11 +1,7 @@
 import { rnd } from "../utils"
 
 AFRAME.registerSystem("forest", {
-  init() {
-    this.sceneEl.addEventListener("makeEarthGreen", this.makeEarthGreen, { once: true })
-  },
-
-  makeEarthGreen() {
+  deploy() {
     let stageSize = 100 // 200
     let treeCount = 300 // 500
 

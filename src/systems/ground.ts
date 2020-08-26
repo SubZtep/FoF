@@ -1,9 +1,5 @@
 AFRAME.registerSystem("ground", {
-  init() {
-    this.sceneEl.addEventListener("makeEarthFlat", this.makeEarthFlat, { once: true })
-  },
-
-  makeEarthFlat() {
+  deploy() {
     let STAGE_SIZE = 200
     let resolution = 64 // number of divisions of the ground mesh
 

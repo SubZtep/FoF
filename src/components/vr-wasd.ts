@@ -1,3 +1,6 @@
+import { DetailEvent } from "aframe"
+import { ControllerInput } from "../types"
+
 AFRAME.registerComponent("vr-wasd", {
   init() {
     this.rig = document.querySelector("#rig")
@@ -8,7 +11,7 @@ AFRAME.registerComponent("vr-wasd", {
     }
   },
 
-  move(e) {
+  move(e: DetailEvent<ControllerInput>) {
     const wasd = this.rig.components["wasd-controls"]
     const [axisX, axisY] = e.detail.axis
     const keys: { [key: string]: any } = {}

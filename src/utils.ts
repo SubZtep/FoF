@@ -4,5 +4,5 @@ export const rnd = (min: number, max: number) => Math.random() * (min - max) + m
 
 export const loadEntity = async (name: string, parent: AFrame.Entity) => {
   const res = await fetch(`entities/${name}.html`)
-  parent.insertAdjacentHTML("afterbegin", await res.text())
+  parent.insertAdjacentHTML("beforeend", await res.text())
 }
