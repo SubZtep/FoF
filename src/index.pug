@@ -3,30 +3,26 @@ html(lang="en")
   head
     title #js13k-2020
     meta(charset="utf-8")
-    meta(name="viewport" content="width=device-width, initial-scale=1")
+    meta(name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0")
     link(rel="icon" href="data:,")
     //- script(src="https://js13kgames.com/webxr-src/2020/aframe.js")
     script(src="aframe.js")
     script(src="index.js")
-    //-style(type="text/css").
-      .a-enter-vr > button::before {
+    style(type="text/css").
+      body {
+        background: linear-gradient(to right, #5a3f37, #2c7744);
+      }
+      /*.a-enter-vr > button::before {
         content: "NO VR NO DEMO";
         padding-right: 200px;
-      }
+      }*/
   body
-    a-scene(shadow background="color: #24a3b5")
-      //-a-entity#rig(wasd-controls="acceleration: 150" grounder)
-      a-entity#rig(wasd-controls="acceleration: 150")
-        //- Eye position is 1.6 meter
-        a-entity(camera look-controls position="0 1.6 0")
-        //- a-entity(position="0 -1 0" rotation="80 0 0" raycaster="objects: .ground; far: 3; showLine: true" rigid)
+    a-scene(shadow background="color: #24a3b5" skypox stats)
+      include entities/lights.pug
+      include entities/player.pug
 
       //-a-entity(oscillator="")
       //-a-plane(material="color: green" height="10" width="10" rotation="-90 0 0" position="0 -2 0")
-
-      //-a-entity(light="type:directional; castShadow:true;" position="0 2 -4" rotation="-30 0 0")
-
-      //- a-box.ground
 
       //- a-entity(tree-pythagoras position="0 3 -3")
       //-a-entity(

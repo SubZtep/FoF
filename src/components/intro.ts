@@ -9,6 +9,8 @@ AFRAME.registerComponent("intro", {
       let c = document.querySelector(`#${h}`)
       c.addEventListener("thumbstickdown", () => {
         this.end++
+
+        //- Press both thumbstick to continue
         if (this.end === 2) {
           this.el.setAttribute(
             "animation",

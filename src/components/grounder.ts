@@ -1,9 +1,5 @@
 AFRAME.registerComponent("grounder", {
-  dependencies: ["position"],
-
   init() {
-    // console.log("AAA", [this.el.id, this.el.object3D.position])
-
     let worker = this.el.sceneEl.systems.ground.worker
 
     worker.addEventListener("message", (msg: MessageEvent) => {
@@ -11,6 +7,7 @@ AFRAME.registerComponent("grounder", {
       if (id === this.el.id) {
         this.el.object3D.position.set(...pos)
         this.el.object3D.visible = true
+        this.el.object3D.matrixAutoUpdate = false
       }
     })
 
