@@ -6,3 +6,22 @@ export const loadEntity = async (name: string, parent: AFrame.Entity) => {
   const res = await fetch(`entities/${name}.html`)
   parent.insertAdjacentHTML("beforeend", await res.text())
 }
+
+/**
+ * remap value from the range of [smin,smax] to [emin,emax]
+ */
+export const map = (val: number, smin: number, smax: number, emin: number, emax: number) =>
+  ((emax - emin) * (val - smin)) / (smax - smin) + emin
+
+/**
+ * randomly displace the x,y,z coords by the `per` value
+ */
+export const jitter = (geo: THREE.Geometry, per: number) =>
+  geo.vertices.forEach(v => {
+    v.x += map(Math.random(), 0, 1, -per, per)
+    v.y += map(Math.random(), 0, 1, -per, per)
+    v.z += map(Math.random(), 0, 1, -per, per)
+  })
+
+export const chopBottom = (geo: THREE.Geometry, bottom: number) =>
+  geo.vertices.forEach(v => (v.y = Math.max(v.y, bottom)))

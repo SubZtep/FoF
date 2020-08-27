@@ -1,15 +1,45 @@
 AFRAME.registerSystem("ground", {
-  deploy(
-    stageSize = 200,
-    playArea = 0.85,
-    groundYScale = 2,
-    /** number of divisions of the ground mesh */
-    resolution = 64
-  ) {
+  deploy(stageSize = 200, playArea = 0.85, groundYScale = 2, resolution = 64) {
     let ground = document.createElement("a-entity")
     ground.className = "ground"
     ground.object3D.rotation.x = -Math.PI / 2
 
+    // apply Y scale. There's no need to recalculate the geometry for this. Just change scale
+    ground.object3D.scale.set(1, -1, groundYScale)
+
+    let groundGeometry = this.getGeometry(stageSize, resolution, playArea)
+    let groundMaterial = this.getMaterial(stageSize, 2048, 20)
+
+    let mesh = new THREE.Mesh(groundGeometry, groundMaterial)
+
+    // @ts-ignore
+    ground.setObject3D("mesh", mesh)
+
+    // @ts-ignore
+    ground.setAttribute("shadow", {
+      cast: false,
+      receive: true,
+    })
+
+    // this.el.sceneEl.add(ground)
+    document.querySelector("a-scene").appendChild(ground)
+
+    // Start Ground Worker
+    this.createWorker(groundGeometry.vertices)
+  },
+
+  createWorker(vertices: THREE.Vector3) {
+    this.worker = new Worker("ground.js")
+    this.worker.postMessage({
+      cmd: "vertices",
+      payload: vertices,
+    })
+  },
+
+  /**
+   * @param resolution number of divisions of the ground mesh
+   */
+  getGeometry(stageSize: number, resolution: number, playArea: number) {
     let groundGeometry = new THREE.PlaneGeometry(stageSize + 2, stageSize + 2, resolution - 1, resolution - 1)
 
     let verts = groundGeometry.vertices
@@ -46,12 +76,14 @@ AFRAME.registerSystem("ground", {
     groundGeometry.verticesNeedUpdate = true
     groundGeometry.normalsNeedUpdate = true
 
-    // apply Y scale. There's no need to recalculate the geometry for this. Just change scale
-    ground.object3D.scale.set(1, -1, groundYScale)
+    return groundGeometry
+  },
 
-    // update ground, playarea and grid textures.
-    let groundResolution = 2048
-    let texMeters = 20 // ground texture of 20 x 20 meters
+  /**
+   * update ground, playarea and grid textures.
+   * @param texMeters ground texture of 20 x 20 meters
+   */
+  getMaterial(stageSize: number, groundResolution: number, texMeters: number) {
     let texRepeat = stageSize / texMeters
 
     let gridCanvas: any = document.createElement("canvas")
@@ -84,29 +116,8 @@ AFRAME.registerSystem("ground", {
     let groundctx = groundCanvas.getContext("2d")
     this.drawTexture(groundctx, groundResolution)
     groundTexture.needsUpdate = true
-    let mesh = new THREE.Mesh(groundGeometry, groundMaterial)
 
-    // @ts-ignore
-    ground.setObject3D("mesh", mesh)
-
-    // @ts-ignore
-    ground.setAttribute("shadow", {
-      cast: false,
-      receive: true,
-    })
-
-    document.querySelector("a-scene").appendChild(ground)
-
-    // Start Ground Worker
-    this.createWorker(groundGeometry.vertices)
-  },
-
-  createWorker(vertices: THREE.Vector3) {
-    this.worker = new Worker("ground.js")
-    this.worker.postMessage({
-      cmd: "vertices",
-      payload: vertices,
-    })
+    return groundMaterial
   },
 
   // draw ground texture to a canvas context
@@ -173,6 +184,5 @@ AFRAME.registerSystem("ground", {
           .toString()
           .substr(7)
     )
-  }
-
+  },
 })

@@ -21,11 +21,13 @@ AFRAME.registerSystem("forest", {
       // No trees on play area
       let distance = 10 + Math.max(dv.x, dv.z) + 10 * random(r + 1) + (random(r + 2) * stageSize) / 3
       let direction = random(r + 3) * Math.PI * 2
+      let posX = Math.cos(direction) * distance
+      let posY = Math.sin(direction) * distance
 
       let tree = document.createElement("a-entity")
-      tree.setAttribute("tree-primitive", "")
+      tree.setAttribute(posX < 0 && posY < 0 ? "tree-pine" : "tree-simple", "")
       tree.setAttribute("id", `t${i}`)
-      tree.setAttribute("position", `${Math.cos(direction) * distance} 0 ${Math.sin(direction) * distance}`)
+      tree.setAttribute("position", `${posX} 0 ${posY}`)
       tree.setAttribute("grounder", "")
       tree.object3D.visible = false
       this.el.appendChild(tree)
