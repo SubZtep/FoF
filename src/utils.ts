@@ -7,6 +7,12 @@ export const loadEntity = async (name: string, parent: AFrame.Entity) => {
   parent.insertAdjacentHTML("beforeend", await res.text())
 }
 
+export const sum = (nums: number[]) => nums.reduce((a, b) => a + b, 0)
+
+export const setColor = (geo: THREE.Geometry, color: THREE.Color | number) => {
+  geo.faces.forEach(f => f.color.set(color))
+}
+
 /**
  * remap value from the range of [smin,smax] to [emin,emax]
  */

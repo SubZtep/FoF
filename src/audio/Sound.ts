@@ -172,9 +172,7 @@ export default class {
     this.nodes.forEach(node => {
       node.connectIds.forEach(toId => {
         node.audioNode!.connect(
-          toId === AUDIO_CONTEXT_DESTINATION
-            ? this.audioCtx!.destination
-            : this.nodes.get(toId)!.audioNode!
+          toId === AUDIO_CONTEXT_DESTINATION ? this.audioCtx!.destination : this.nodes.get(toId)!.audioNode!
         )
       })
     })

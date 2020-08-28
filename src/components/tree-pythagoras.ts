@@ -7,14 +7,11 @@ AFRAME.registerComponent("tree-pythagoras", {
   },
 
   init() {
-    // console.log("POS", this.el.object3D.position)
     let color = new THREE.Color(0x995a00)
     let geometry = new THREE.BoxGeometry(this.data.edge.x, this.data.edge.y, this.data.edge.x)
     let material = new THREE.MeshPhongMaterial({ color, wireframe: false })
     let mesh = new THREE.Mesh(geometry, material)
-
-    this.el.sceneEl.object3D.add(mesh)
-    mesh.matrix.makeTranslation(0, -0.125, 0)
+    this.el.setObject3D("mesh", mesh)
     mesh.matrixAutoUpdate = false
 
     const tree = (n: number, mat: THREE.Matrix4, c: THREE.Color) => {
@@ -31,6 +28,7 @@ AFRAME.registerComponent("tree-pythagoras", {
 
         col1.g += 0.64 / this.data.levels
         material = new THREE.MeshPhongMaterial({ color: col1, wireframe: false })
+        // material = new THREE.MeshPhongMaterial({ color: col1, wireframe: false, opacity: 0.5, transparent: true })
         mesh = new THREE.Mesh(geometry, material)
         // new_mat_t0.makeTranslation(this.data.edge.x / 2, 0, 0)
         new_mat_t0.makeTranslation(this.data.edge.x / 2, this.data.edge.y, 0)

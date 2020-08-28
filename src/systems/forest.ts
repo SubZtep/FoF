@@ -25,6 +25,7 @@ AFRAME.registerSystem("forest", {
       let posY = Math.sin(direction) * distance
 
       let tree = document.createElement("a-entity")
+      this.el.object3D.matrixAutoUpdate = false
       tree.setAttribute(posX < 0 && posY < 0 ? "tree-pine" : "tree-simple", "")
       tree.setAttribute("id", `t${i}`)
       tree.setAttribute("position", `${posX} 0 ${posY}`)

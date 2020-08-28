@@ -1,24 +1,20 @@
+import { rnd, setColor, sum } from "../utils"
+
 AFRAME.registerComponent("tree-pine", {
   init() {
-    const geo = new THREE.Geometry()
+    let geo = new THREE.Geometry()
+    let length = rnd(4, 6)
+    let h = Array.from({ length }, () => rnd(2, 4))
 
-    const level1 = new THREE.ConeGeometry(1.5, 2, 8)
-    level1.faces.forEach(f => f.color.set(0x00ff00))
-    level1.translate(0, 4, 0)
-    geo.merge(level1)
+    for (let i = 0; i < length - 2; i++) {
+      let level = new THREE.ConeGeometry(1.5 + i * 0.5, h.pop(), 8)
+      setColor(level, 0x009900)
+      level.translate(0, sum(h) - h.length, 0)
+      geo.merge(level)
+    }
 
-    const level2 = new THREE.ConeGeometry(2, 2, 8)
-    level2.faces.forEach(f => f.color.set(0x00ff00))
-    level2.translate(0, 3, 0)
-    geo.merge(level2)
-
-    const level3 = new THREE.ConeGeometry(3, 2, 8)
-    level3.faces.forEach(f => f.color.set(0x00ff00))
-    level3.translate(0, 2, 0)
-    geo.merge(level3)
-
-    const trunk = new THREE.CylinderGeometry(0.5, 0.5, 2)
-    trunk.faces.forEach(f => f.color.set(0xbb6600))
+    let trunk = new THREE.CylinderGeometry(0.5, 0.5, h.pop())
+    setColor(trunk, 0x0b0e02)
     trunk.translate(0, 0, 0)
     geo.merge(trunk)
 

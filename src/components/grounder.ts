@@ -7,7 +7,7 @@ AFRAME.registerComponent("grounder", {
       if (id === this.el.id) {
         this.el.object3D.position.set(...pos)
         this.el.object3D.visible = true
-        this.el.object3D.matrixAutoUpdate = false
+        this.el.object3D.updateMatrix()
       }
     })
 

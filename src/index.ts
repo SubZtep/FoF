@@ -1,5 +1,5 @@
 //import { getAudioBuffer } from "./audio/audio"
-// import "./components/sound"
+import "./components/sound"
 import "./components/rigid"
 import "./components/skypox"
 import "./components/grounder"

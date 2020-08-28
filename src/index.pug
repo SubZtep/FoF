@@ -9,25 +9,31 @@ html(lang="en")
     script(src="aframe.js")
     script(src="index.js")
     style(type="text/css").
-      body {
-        background: linear-gradient(to right, #5a3f37, #2c7744);
+      body, body {
+        width: 100vw;
+        height: 100vh;
+        padding: 0;
+        margin: 0;
       }
-      /*.a-enter-vr > button::before {
-        content: "NO VR NO DEMO";
-        padding-right: 200px;
-      }*/
+      body {
+        background: linear-gradient(#24a3b5, #40320a);
+      }
   body
-    a-scene(shadow background="color: #24a3b5" skypox stats="false")
+    a-scene(shadow background="color: #24a3b5" skypox="" stats="false")
       include entities/lights.pug
       include entities/player.pug
 
-      a-entity(water position="-110 0 0")
+      a-entity(
+        oscillator=""
+        geometry="primitive: box; width: 0.5; height: 0.5; depth: 0.5"
+        position="0 0.5 -3"
+        material="color: red"
+        shadow="receive: false")
 
-      //-a-entity(oscillator="")
-
-      a-entity(tree-pythagoras position="0 3 -3")
       //-a-entity(
         geometry="primitive: plane"
         material="color: blue"
         position="1 2 -3"
-        sound="src: boo; autoplay: true; loop: true")
+        sound="src: x; autoplay: true; loop: true")
+      //- a-entity(water position="-110 0 0")
+      //- a-entity(tree-pythagoras="")

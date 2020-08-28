@@ -2,7 +2,15 @@ import { DetailEvent } from "aframe"
 import { ControllerInput } from "../types"
 
 AFRAME.registerComponent("vr-rotate", {
+  schema: {
+    angle: {
+      type: "number",
+      default: Math.PI / 5,
+    },
+  },
+
   init() {
+    this.lastRotate = 0
     this.rig = document.querySelector("#rig")
     if (this.rig.hasLoaded) {
       this.addControls()
@@ -12,7 +20,11 @@ AFRAME.registerComponent("vr-rotate", {
   },
 
   rotate(e: DetailEvent<ControllerInput>) {
-    this.rig.object3D.rotation.y -= e.detail.axis[0] * 0.02
+    let sign = Math.sign(e.detail.axis[0])
+    if (sign !== this.lastRotate) {
+      this.lastRotate = sign
+      this.rig.object3D.rotation.y -= sign * this.data.angle
+    }
   },
 
   addControls() {
