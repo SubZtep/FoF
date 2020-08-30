@@ -1,11 +1,17 @@
-AFRAME.registerSystem("forest", {
-  deploy() {
-    let stageSize = 200
-    let treeCount = 300 // 500
+AFRAME.registerComponent("forest", {
+  schema: {
+    stageSize: {
+      type: "number",
+      default: 100 - 50,
+    },
+    treeCount: {
+      type: "int",
+      default: 100,
+    },
+  },
 
-    let seed = 8
-
-    const random = (x: number) => {
+  update() {
+    const random = (x: number, seed = 8) => {
       return parseFloat(
         "0." +
           Math.sin(seed * 9999 * x)
@@ -14,23 +20,22 @@ AFRAME.registerSystem("forest", {
       )
     }
 
-    for (let i = 0, r = 88343; i < treeCount; i++, r++) {
+    for (let i = 0, r = 88343; i < this.data.treeCount; i++, r++) {
       // set random position, rotation and scale
       let dv = new THREE.Vector3(10, 10, 10)
 
       // No trees on play area
-      let distance = 10 + Math.max(dv.x, dv.z) + 10 * random(r + 1) + (random(r + 2) * stageSize) / 3
+      let distance = 10 + Math.max(dv.x, dv.z) + 10 * random(r + 1) + (random(r + 2) * this.data.stageSize) / 3
       let direction = random(r + 3) * Math.PI * 2
       let posX = Math.cos(direction) * distance
       let posY = Math.sin(direction) * distance
 
       let tree = document.createElement("a-entity")
-      this.el.object3D.matrixAutoUpdate = false
+      // this.el.object3D.matrixAutoUpdate = false
       tree.setAttribute(posX < 0 && posY < 0 ? "tree-pine" : "tree-simple", "")
       tree.setAttribute("id", `t${i}`)
       tree.setAttribute("position", `${posX} 0 ${posY}`)
       tree.setAttribute("grounder", "")
-      tree.object3D.visible = false
       this.el.appendChild(tree)
     }
   },

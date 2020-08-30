@@ -25,8 +25,8 @@ AFRAME.registerSystem("storyline", {
           this.el.setAttribute("intro", "")
           break
         case "forest":
-          this.el.systems.ground.deploy()
-          this.el.systems.forest.deploy()
+          // this.el.systems.ground.deploy()
+          // this.el.systems.forest.deploy()
           break
       }
     })

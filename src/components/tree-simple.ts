@@ -21,14 +21,8 @@ AFRAME.registerComponent("tree-simple", {
     geoTrunk.translate(0, trunkHeight / 2, 0)
     geo.merge(geoTrunk)
 
-    let tree = new THREE.Mesh(
-      geo,
-      new THREE.MeshStandardMaterial({
-        vertexColors: true,
-        flatShading: true,
-      })
-    )
-    tree.castShadow = true
+    let mat = new THREE.MeshPhongMaterial({ vertexColors: true, flatShading: true })
+    let tree = new THREE.Mesh(geo, mat)
     this.el.setObject3D("mesh", tree)
   },
 })

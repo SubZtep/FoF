@@ -23,8 +23,12 @@ AFRAME.registerComponent("water", {
       this.matShader = shader
     }
 
-    const plane = new THREE.Mesh(new THREE.PlaneBufferGeometry(20, 20, 100, 100), mat)
-    plane.rotation.x = (-90 * Math.PI) / 180
+    // const plane = new THREE.Mesh(new THREE.PlaneBufferGeometry(100, 30, 100, 100), mat)
+    const plane = new THREE.Mesh(new THREE.PlaneBufferGeometry(100, 30, 1, 1), mat)
+
+    // plane.name = "Water"
+    // plane.rotation.x = (-90 * Math.PI) / 180
+    // plane.rotation.y = -90
     this.el.setObject3D("mesh", plane)
   },
 

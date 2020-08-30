@@ -19,14 +19,26 @@ html(lang="en")
         background: linear-gradient(#24a3b5, #40320a);
       }
   body
-    a-scene(shadow background="color: #24a3b5" skypox="" stats="false")
-      include entities/lights.pug
+    a-scene(
+      shadow
+      background="color: #2480b5"
+      skypox=""
+      stats="true"
+      audio-listener)
+
+      a-entity#environment(visible="true")
+        include entities/environment.pug
+      a-entity#lights
+        include entities/lights.pug
       include entities/player.pug
 
       a-entity(
+        pos-audio
         oscillator=""
+        oscillator__a="frequency: 110"
+        soundwave
         geometry="primitive: box; width: 0.5; height: 0.5; depth: 0.5"
-        position="0 0.5 -3"
+        position="0 1.5 -3"
         material="color: red"
         shadow="receive: false")
 
@@ -35,5 +47,3 @@ html(lang="en")
         material="color: blue"
         position="1 2 -3"
         sound="src: x; autoplay: true; loop: true")
-      //- a-entity(water position="-110 0 0")
-      //- a-entity(tree-pythagoras="")

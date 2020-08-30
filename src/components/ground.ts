@@ -1,39 +1,45 @@
-AFRAME.registerSystem("ground", {
-  deploy(stageSize = 200, playArea = 0.85, groundYScale = 2, resolution = 64) {
-    let ground = document.createElement("a-entity")
-    ground.className = "ground"
-    ground.object3D.rotation.x = -Math.PI / 2
+AFRAME.registerComponent("ground", {
+  schema: {
+    stageSize: {
+      type: "number",
+      default: 100,
+    },
+    playArea: {
+      type: "number",
+      default: 0.85,
+    },
+    groundYScale: {
+      type: "number",
+      default: 1.5,
+    },
+    resolution: {
+      type: "number",
+      default: 64,
+    },
+  },
 
+  update() {
     // apply Y scale. There's no need to recalculate the geometry for this. Just change scale
-    ground.object3D.scale.set(1, -1, groundYScale)
+    this.el.object3D.scale.set(1, -1, this.data.groundYScale)
+    let groundGeometry = this.getGeometry(this.data.stageSize, this.data.resolution, this.data.playArea)
 
-    let groundGeometry = this.getGeometry(stageSize, resolution, playArea)
-    let groundMaterial = this.getMaterial(stageSize, 2048, 20)
+    let groundMaterial = this.getMaterial(this.data.stageSize, 2048, 20)
+    let mat = new THREE.MeshPhongMaterial({ color: "black", vertexColors: true, flatShading: true, wireframe: true })
 
     let mesh = new THREE.Mesh(groundGeometry, groundMaterial)
-
-    // @ts-ignore
-    ground.setObject3D("mesh", mesh)
-
-    // @ts-ignore
-    ground.setAttribute("shadow", {
-      cast: false,
-      receive: true,
-    })
-
-    // this.el.sceneEl.add(ground)
-    document.querySelector("a-scene").appendChild(ground)
+    this.el.setObject3D("mesh", mesh)
 
     // Start Ground Worker
     this.createWorker(groundGeometry.vertices)
   },
 
   createWorker(vertices: THREE.Vector3) {
-    this.worker = new Worker("ground.js")
-    this.worker.postMessage({
+    const worker = new Worker("ground.js")
+    worker.postMessage({
       cmd: "vertices",
       payload: vertices,
     })
+    this.el.sceneEl.groundWorker = worker
   },
 
   /**

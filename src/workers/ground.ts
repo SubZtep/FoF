@@ -23,11 +23,11 @@ self.onmessage = ({ data }: MessageEvent<GroundWorkerMessage>) => {
 
       let vpos = vertices.find(v => v.x === x && v.y === y)
 
-      // Scale value (2) from ground.ts, 0.1 meter in the soil.
+      // Scale value (2) from ground.ts, 0.2 meter in the soil.
       // @ts-ignore
       self.postMessage({
         id,
-        pos: [vpos.x, vpos.z * 2 - 0.05, vpos.y],
+        pos: [vpos.x, vpos.z * 1.5 - 0.2, vpos.y],
       })
   }
 }

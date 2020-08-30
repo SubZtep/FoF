@@ -1,6 +1,7 @@
 AFRAME.registerComponent("grounder", {
   init() {
-    let worker = this.el.sceneEl.systems.ground.worker
+    let worker = this.el.sceneEl.groundWorker
+    if (!worker) return
 
     worker.addEventListener("message", (msg: MessageEvent) => {
       const { id, pos } = msg.data
