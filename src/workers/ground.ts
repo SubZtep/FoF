@@ -27,7 +27,8 @@ self.onmessage = ({ data }: MessageEvent<GroundWorkerMessage>) => {
       // @ts-ignore
       self.postMessage({
         id,
-        pos: [vpos.x, vpos.z * 1.5 - 0.2, vpos.y],
+        pos: [vpos.x, vpos.z, vpos.y],
+        // pos: [vpos.x, vpos.z * 1.5 - 0.2, vpos.y],
       })
   }
 }

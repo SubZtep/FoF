@@ -26,7 +26,10 @@ AFRAME.registerComponent("vr-wasd", {
   },
 
   move(e: DetailEvent<ControllerInput>) {
-    const [axisX, axisY] = e.detail.axis
+    let a = e.detail.axis,
+      i = a.length === 4 ? 2 : 0,
+      axisX = a[i++],
+      axisY = a[i]
     const keys: { [key: string]: any } = {}
 
     if (axisY < 0) {

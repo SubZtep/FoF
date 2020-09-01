@@ -20,7 +20,9 @@ AFRAME.registerComponent("vr-rotate", {
   },
 
   rotate(e: DetailEvent<ControllerInput>) {
-    let sign = Math.sign(e.detail.axis[0])
+    let a = e.detail.axis,
+      i = a.length === 4 ? 2 : 0
+    let sign = Math.sign(a[i])
     if (sign !== this.lastRotate) {
       this.lastRotate = sign
       this.rig.object3D.rotation.y -= sign * this.data.angle

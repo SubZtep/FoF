@@ -1,6 +1,6 @@
 AFRAME.registerComponent("ground", {
   schema: {
-    stageSize: {
+    size: {
       type: "number",
       default: 100,
     },
@@ -19,22 +19,45 @@ AFRAME.registerComponent("ground", {
   },
 
   update() {
-    // apply Y scale. There's no need to recalculate the geometry for this. Just change scale
-    this.el.object3D.scale.set(1, -1, this.data.groundYScale)
-    let groundGeometry = this.getGeometry(this.data.stageSize, this.data.resolution, this.data.playArea)
+    // this.addBeach()
+    // this.el.object3D.scale.set(1, -1, this.data.groundYScale)
 
-    let groundMaterial = this.getMaterial(this.data.stageSize, 2048, 20)
-    let mat = new THREE.MeshPhongMaterial({ color: "black", vertexColors: true, flatShading: true, wireframe: true })
-
-    let mesh = new THREE.Mesh(groundGeometry, groundMaterial)
+    let geometry = this.getGeometry(this.data.size, this.data.resolution, this.data.playArea)
+    let mesh = new THREE.Mesh(geometry, this.getMaterial(this.data.size, false))
     this.el.setObject3D("mesh", mesh)
 
     // Start Ground Worker
-    this.createWorker(groundGeometry.vertices)
+    this.createWorker(geometry.vertices)
+  },
+
+  addBeach() {
+    let w = this.data.size
+    let shape = new THREE.Shape()
+    shape.moveTo(0, 0)
+    shape.lineTo(0, w)
+    shape.lineTo(w, w)
+    shape.lineTo(w, 0)
+    shape.lineTo(0, 0)
+
+    let geometry = new THREE.ExtrudeGeometry(shape, {
+      steps: 1,
+      depth: 1,
+      bevelOffset: 0,
+      bevelThickness: 1,
+      bevelSize: 10,
+      bevelSegments: 1,
+    })
+    let material = new THREE.MeshPhongMaterial({ color: 0x00cc00, wireframe: false })
+    let mesh = new THREE.Mesh(geometry, material)
+    mesh.matrixAutoUpdate = false
+    mesh.position.set(-w / 2, -w / 2, -2.1)
+    mesh.updateMatrix()
+
+    this.el.setObject3D("beach", mesh)
   },
 
   createWorker(vertices: THREE.Vector3) {
-    const worker = new Worker("ground.js")
+    let worker = new Worker("ground.js")
     worker.postMessage({
       cmd: "vertices",
       payload: vertices,
@@ -46,24 +69,45 @@ AFRAME.registerComponent("ground", {
    * @param resolution number of divisions of the ground mesh
    */
   getGeometry(stageSize: number, resolution: number, playArea: number) {
-    let groundGeometry = new THREE.PlaneGeometry(stageSize + 2, stageSize + 2, resolution - 1, resolution - 1)
+    // let geo = new THREE.PlaneGeometry(stageSize + 2, stageSize + 2, resolution - 1, resolution - 1)
+    let geo = new THREE.PlaneGeometry(stageSize, stageSize, resolution, resolution)
+    // let geo = new THREE.PlaneGeometry(stageSize, stageSize, 8, 8)
 
-    let verts = groundGeometry.vertices
-    let numVerts = groundGeometry.vertices.length
-    let frequency = 10
+    let verts = geo.vertices
+    let numVerts = geo.vertices.length
+    let frequency = 5
     let inc = frequency / resolution
+
+    console.log({ numVerts })
+    let col = Math.sqrt(numVerts)
 
     for (let i = 0, x = 0, y = 0; i < numVerts; i++) {
       let h = this.random(i) < 0.35 ? this.random(i + 1) : 0 // noise
       h += this.random(i + 2) * 0.1 // add some randomness
 
-      // flat ground in the center
       let xx = (x * 2) / frequency - 1
       let yy = (y * 2) / frequency - 1
-      xx = Math.max(0, Math.min(1, (Math.abs(xx) - (playArea - 0.9)) * (1 / playArea)))
-      yy = Math.max(0, Math.min(1, (Math.abs(yy) - (playArea - 0.9)) * (1 / playArea)))
+
+      // xx = Math.max(0, Math.min(1, (Math.abs(xx) - (playArea - 0.9)) * (1 / playArea)))
+      // yy = Math.max(0, Math.min(1, (Math.abs(yy) - (playArea - 0.9)) * (1 / playArea)))
       h *= xx > yy ? xx : yy
+
       if (h < 0.01) h = 0 // stick to the floor
+
+      // edges down
+      if (i < col || i > numVerts - col - 1) {
+        h = 0
+      } else {
+        let pos = i - col * Math.floor(i / col)
+        if (pos === 0 || pos === col - 1) {
+          h = 0
+        }
+      }
+
+      // max spike height
+      if (h > 1.5) h = 1.5
+
+      // console.log(`if (x === ${x} && y === ${y}) h = 0`)
 
       // set height
       verts[i].z = h
@@ -76,59 +120,41 @@ AFRAME.registerComponent("ground", {
       }
     }
 
-    groundGeometry.computeFaceNormals()
-    groundGeometry.computeVertexNormals()
+    geo.computeFaceNormals()
+    geo.computeVertexNormals()
 
-    groundGeometry.verticesNeedUpdate = true
-    groundGeometry.normalsNeedUpdate = true
+    geo.verticesNeedUpdate = true
+    geo.normalsNeedUpdate = true
 
-    return groundGeometry
+    return geo
   },
 
   /**
    * update ground, playarea and grid textures.
    * @param texMeters ground texture of 20 x 20 meters
    */
-  getMaterial(stageSize: number, groundResolution: number, texMeters: number) {
+  getMaterial(stageSize: number, wireframe: false, resolution = 2048, texMeters = 20) {
     let texRepeat = stageSize / texMeters
 
-    let gridCanvas: any = document.createElement("canvas")
-    gridCanvas.width = groundResolution
-    gridCanvas.height = groundResolution
-    let gridTexture = new THREE.Texture(gridCanvas)
-    gridTexture.wrapS = THREE.RepeatWrapping
-    gridTexture.wrapT = THREE.RepeatWrapping
-    gridTexture.repeat.set(texRepeat, texRepeat)
+    let canvas: any = document.createElement("canvas")
+    canvas.width = resolution
+    canvas.height = resolution
 
-    let groundCanvas: any = document.createElement("canvas")
-    groundCanvas.width = groundResolution
-    groundCanvas.height = groundResolution
-    let groundTexture = new THREE.Texture(groundCanvas)
-    groundTexture.wrapS = THREE.RepeatWrapping
-    groundTexture.wrapT = THREE.RepeatWrapping
-    groundTexture.repeat.set(texRepeat, texRepeat)
+    let map = new THREE.Texture(canvas)
+    map.wrapS = THREE.RepeatWrapping
+    map.wrapT = THREE.RepeatWrapping
+    map.repeat.set(texRepeat, texRepeat)
 
-    // ground material diffuse map is the regular ground texture and the grid texture
-    // is used in the emissive map. This way, the grid is always equally visible, even at night.
-    let groundMaterialProps = {
-      map: groundTexture,
-      emissive: new THREE.Color(0xffffff),
-      emissiveMap: gridTexture,
-    }
+    let material = new THREE.MeshLambertMaterial({ map, wireframe })
+    // let material = new THREE.MeshPhongMaterial({ color: new THREE.Color(0x00ff00), wireframe: true })
 
-    let groundMaterial = new THREE.MeshLambertMaterial(groundMaterialProps)
-    // let groundMaterial = new THREE.MeshPhongMaterial({ color: new THREE.Color(0x00ff00), wireframe: true })
+    this.drawTexture(canvas.getContext("2d"), resolution)
+    map.needsUpdate = true
 
-    let groundctx = groundCanvas.getContext("2d")
-    this.drawTexture(groundctx, groundResolution)
-    groundTexture.needsUpdate = true
-
-    return groundMaterial
+    return material
   },
 
-  // draw ground texture to a canvas context
   drawTexture(ctx: CanvasRenderingContext2D, size: number, groundColor = "#836a14", groundColor2 = "#060") {
-    // fill all with ground Color
     ctx.fillStyle = groundColor
     ctx.fillRect(0, 0, size, size)
 

@@ -1,16 +1,23 @@
+import * as oak from "../3d/tree-oak"
+import * as pine from "../3d/tree-pine"
+
 AFRAME.registerComponent("forest", {
   schema: {
-    stageSize: {
-      type: "number",
-      default: 100 - 50,
-    },
     treeCount: {
       type: "int",
       default: 100,
     },
+    emptyWidth: {
+      type: "number",
+      default: 10,
+    },
+    forestWidth: {
+      type: "number",
+      default: 40,
+    },
   },
 
-  update() {
+  init() {
     const random = (x: number, seed = 8) => {
       return parseFloat(
         "0." +
@@ -20,23 +27,25 @@ AFRAME.registerComponent("forest", {
       )
     }
 
-    for (let i = 0, r = 88343; i < this.data.treeCount; i++, r++) {
-      // set random position, rotation and scale
-      let dv = new THREE.Vector3(10, 10, 10)
+    let oaks = new THREE.Geometry()
+    let pines = new THREE.Geometry()
 
-      // No trees on play area
-      let distance = 10 + Math.max(dv.x, dv.z) + 10 * random(r + 1) + (random(r + 2) * this.data.stageSize) / 3
+    for (let i = 0, r = 88343; i < this.data.treeCount; i++, r++) {
+      let distance = this.data.emptyWidth + this.data.forestWidth * random(r + 1)
       let direction = random(r + 3) * Math.PI * 2
+
       let posX = Math.cos(direction) * distance
       let posY = Math.sin(direction) * distance
 
-      let tree = document.createElement("a-entity")
-      // this.el.object3D.matrixAutoUpdate = false
-      tree.setAttribute(posX < 0 && posY < 0 ? "tree-pine" : "tree-simple", "")
-      tree.setAttribute("id", `t${i}`)
-      tree.setAttribute("position", `${posX} 0 ${posY}`)
-      tree.setAttribute("grounder", "")
-      this.el.appendChild(tree)
+      if (posX < 0 && posY < 0) {
+        pines.merge(pine.geo(posX, posY))
+      } else {
+        oaks.merge(oak.geo(posX, posY))
+      }
     }
+
+    this.el.setObject3D("oaks", new THREE.Mesh(oaks, oak.mat()))
+    this.el.setObject3D("pines", new THREE.Mesh(pines, pine.mat()))
+    this.el.object3D.matrixAutoUpdate = false
   },
 })

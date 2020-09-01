@@ -2,6 +2,12 @@
 
 ...
 
+## Oculus Rift with Google Chrome
+
+Be sure no Chrome instances are running and start the browser with the following command-line options:
+
+`--enable-features=oculus --disable-features=XRSandbox --force-webxr-runtime=oculus`
+
 ## Local HTTPS
 
 Run the following command for TLS/SSL:

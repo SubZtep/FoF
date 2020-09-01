@@ -1,6 +1,13 @@
 // https://blog.mozvr.com/water-ripples-with-vertex-shaders/
 
 AFRAME.registerComponent("water", {
+  schema: {
+    size: {
+      type: "vec2",
+      default: { x: 100, y: 30 },
+    },
+  },
+
   init() {
     const mat = new THREE.MeshPhongMaterial({ color: 0x2288ff, shininess: 100 })
 
@@ -24,11 +31,9 @@ AFRAME.registerComponent("water", {
     }
 
     // const plane = new THREE.Mesh(new THREE.PlaneBufferGeometry(100, 30, 100, 100), mat)
-    const plane = new THREE.Mesh(new THREE.PlaneBufferGeometry(100, 30, 1, 1), mat)
 
-    // plane.name = "Water"
-    // plane.rotation.x = (-90 * Math.PI) / 180
-    // plane.rotation.y = -90
+    const plane = new THREE.Mesh(new THREE.PlaneBufferGeometry(this.data.size.x, this.data.size.y, 1, 1), mat)
+    plane.rotation.x = (-90 * Math.PI) / 180
     this.el.setObject3D("mesh", plane)
   },
 

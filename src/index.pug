@@ -5,11 +5,11 @@ html(lang="en")
     meta(charset="utf-8")
     meta(name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0")
     link(rel="icon" href="data:,")
-    //- script(src="https://js13kgames.com/webxr-src/2020/aframe.js")
-    script(src="aframe.js")
+    script(src="https://js13kgames.com/webxr-src/2020/aframe.js")
+    //- script(src="aframe.js")
     script(src="index.js")
     style(type="text/css").
-      body, body {
+      html, body {
         width: 100vw;
         height: 100vh;
         padding: 0;
@@ -30,9 +30,10 @@ html(lang="en")
         include entities/environment.pug
       a-entity#lights
         include entities/lights.pug
+
       include entities/player.pug
 
-      a-entity(
+      //- a-entity(
         pos-audio
         oscillator=""
         oscillator__a="frequency: 110"
