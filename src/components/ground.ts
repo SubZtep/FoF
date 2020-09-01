@@ -22,7 +22,7 @@ AFRAME.registerComponent("ground", {
     // this.addBeach()
     // this.el.object3D.scale.set(1, -1, this.data.groundYScale)
 
-    let geometry = this.getGeometry(this.data.size, this.data.resolution, this.data.playArea)
+    let geometry = this.getGeometry(this.data.size, this.data.resolution)
     let mesh = new THREE.Mesh(geometry, this.getMaterial(this.data.size, false))
     this.el.setObject3D("mesh", mesh)
 
@@ -68,17 +68,14 @@ AFRAME.registerComponent("ground", {
   /**
    * @param resolution number of divisions of the ground mesh
    */
-  getGeometry(stageSize: number, resolution: number, playArea: number) {
-    // let geo = new THREE.PlaneGeometry(stageSize + 2, stageSize + 2, resolution - 1, resolution - 1)
+  getGeometry(stageSize: number, resolution: number) {
     let geo = new THREE.PlaneGeometry(stageSize, stageSize, resolution, resolution)
-    // let geo = new THREE.PlaneGeometry(stageSize, stageSize, 8, 8)
 
     let verts = geo.vertices
     let numVerts = geo.vertices.length
     let frequency = 5
     let inc = frequency / resolution
 
-    console.log({ numVerts })
     let col = Math.sqrt(numVerts)
 
     for (let i = 0, x = 0, y = 0; i < numVerts; i++) {
@@ -88,8 +85,6 @@ AFRAME.registerComponent("ground", {
       let xx = (x * 2) / frequency - 1
       let yy = (y * 2) / frequency - 1
 
-      // xx = Math.max(0, Math.min(1, (Math.abs(xx) - (playArea - 0.9)) * (1 / playArea)))
-      // yy = Math.max(0, Math.min(1, (Math.abs(yy) - (playArea - 0.9)) * (1 / playArea)))
       h *= xx > yy ? xx : yy
 
       if (h < 0.01) h = 0 // stick to the floor
@@ -106,8 +101,6 @@ AFRAME.registerComponent("ground", {
 
       // max spike height
       if (h > 1.5) h = 1.5
-
-      // console.log(`if (x === ${x} && y === ${y}) h = 0`)
 
       // set height
       verts[i].z = h

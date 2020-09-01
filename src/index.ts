@@ -1,4 +1,5 @@
 import "./components/audio-listener"
+import "./components/cursor-listener"
 import "./components/pos-audio"
 import "./components/ground"
 import "./components/forest"

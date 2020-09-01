@@ -30,6 +30,7 @@ AFRAME.registerComponent("vr-wasd", {
       i = a.length === 4 ? 2 : 0,
       axisX = a[i++],
       axisY = a[i]
+    console.log(a)
     const keys: { [key: string]: any } = {}
 
     if (axisY < 0) {

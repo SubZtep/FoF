@@ -5,8 +5,8 @@ html(lang="en")
     meta(charset="utf-8")
     meta(name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0")
     link(rel="icon" href="data:,")
-    script(src="https://js13kgames.com/webxr-src/2020/aframe.js")
-    //- script(src="aframe.js")
+    //- script(src="https://js13kgames.com/webxr-src/2020/aframe.js")
+    script(src="aframe.js")
     script(src="index.js")
     style(type="text/css").
       html, body {
@@ -20,7 +20,6 @@ html(lang="en")
       }
   body
     a-scene(
-      shadow
       background="color: #2480b5"
       skypox=""
       stats="true"
@@ -33,15 +32,17 @@ html(lang="en")
 
       include entities/player.pug
 
-      //- a-entity(
+      a-entity(
         pos-audio
         oscillator=""
         oscillator__a="frequency: 110"
-        soundwave
+        soundwave=""
         geometry="primitive: box; width: 0.5; height: 0.5; depth: 0.5"
-        position="0 1.5 -3"
+        position="4 1.5 -3"
+        rotation="0 90 0"
         material="color: red"
-        shadow="receive: false")
+        shadow="receive: false"
+        cursor-listener)
 
       //-a-entity(
         geometry="primitive: plane"

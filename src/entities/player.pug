@@ -1,14 +1,25 @@
+- var eyePosition = "0 1.6 0"
+
 //-a-entity#rig(wasd-controls="acceleration: 150" grounder)
 
 a-entity#rig(
-  wasd-controls="acceleration: 150"
+  wasd-controls="acceleration: 150;"
 )
   //- position="0 100 0" rotation="-90 0 0"
   //- position="40 0 0")
 
-  //- Eye position is 1.6 meter
-  a-entity(camera look-controls position="0 1.6 0")
+  a-entity(
+    camera
+    look-controls
+    position=eyePosition)
 
-  a-box(color="blue" width="0.5" height="3.2" depth="0.3")
+    a-entity(
+      raycaster="showLine: true; far: 100"
+      line="color: orange;"
+      cursor=""
+      position="0 0 -1"
+      geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+      material="color: black; shader: flat")
 
+  //-a-box(color="blue" width="0.5" height="3.2" depth="0.3")
   //- a-entity(position="0 -1 0" rotation="80 0 0" raycaster="objects: .ground; far: 3; showLine: true" rigid)
