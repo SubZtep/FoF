@@ -1,4 +1,4 @@
-import { geo, mat } from "../3d/tree-pine"
+import { geo, mat } from "../../3d/tree-pine"
 
 AFRAME.registerComponent("tree-pine", {
   init() {

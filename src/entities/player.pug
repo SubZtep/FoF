@@ -14,12 +14,21 @@ a-entity#rig(
     position=eyePosition)
 
     a-entity(
-      raycaster="showLine: true; far: 100"
-      line="color: orange;"
+      raycaster="far: 50"
       cursor=""
       position="0 0 -1"
       geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
       material="color: black; shader: flat")
+      //- raycaster="showLine: true; far: 100"
+      //- line="color: orange; lineWidth: 10"
+
+  a-entity#l(
+    hand-controls="hand: left; handModelStyle: lowPoly; color: #0ffc93"
+    vr-wasd="")
+  a-entity#r(
+    hand-controls="hand: right; handModelStyle: lowPoly; color: #0ffc93"
+    vr-rotate="")
+
 
   //-a-box(color="blue" width="0.5" height="3.2" depth="0.3")
   //- a-entity(position="0 -1 0" rotation="80 0 0" raycaster="objects: .ground; far: 3; showLine: true" rigid)

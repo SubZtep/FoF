@@ -31,4 +31,8 @@ AFRAME.registerComponent("oscillator", {
   remove() {
     this.oscillator?.disconnect()
   },
+
+  pause() {
+    console.log("PAUSEEE")
+  },
 })

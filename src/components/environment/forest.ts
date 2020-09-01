@@ -1,5 +1,5 @@
-import * as oak from "../3d/tree-oak"
-import * as pine from "../3d/tree-pine"
+import * as oak from "../../3d/tree-oak"
+import * as pine from "../../3d/tree-pine"
 
 AFRAME.registerComponent("forest", {
   schema: {

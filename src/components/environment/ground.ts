@@ -24,6 +24,7 @@ AFRAME.registerComponent("ground", {
 
     let geometry = this.getGeometry(this.data.size, this.data.resolution)
     let mesh = new THREE.Mesh(geometry, this.getMaterial(this.data.size, false))
+    mesh.matrixAutoUpdate = false
     this.el.setObject3D("mesh", mesh)
 
     // Start Ground Worker

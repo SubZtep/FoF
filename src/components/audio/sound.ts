@@ -1,4 +1,4 @@
-import { getAudioBuffer } from "../audio/audio"
+import { getAudioBuffer } from "../../audio/audio"
 
 Object.defineProperty(AFRAME.components.sound.Component.prototype, "audioLoader", {
   value: {
