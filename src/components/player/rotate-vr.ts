@@ -1,21 +1,24 @@
 import { DetailEvent } from "aframe"
-import { ControllerInput } from "../types"
+import { ControllerInput } from "../../types"
 
-AFRAME.registerComponent("vr-rotate", {
+AFRAME.registerComponent("rotate-vr", {
   schema: {
     angle: {
       type: "number",
       default: Math.PI / 5,
     },
+    target: {
+      type: "selector",
+      default: "#player",
+    },
   },
 
   init() {
     this.lastRotate = 0
-    this.rig = document.querySelector("#rig")
-    if (this.rig.hasLoaded) {
+    if (this.data.target.hasLoaded) {
       this.addControls()
     } else {
-      this.rig.addEventListener("loaded", this.addControls.bind(this), { once: true })
+      this.data.target.addEventListener("loaded", this.addControls.bind(this), { once: true })
     }
   },
 
@@ -25,7 +28,7 @@ AFRAME.registerComponent("vr-rotate", {
     let sign = Math.sign(a[i])
     if (sign !== this.lastRotate) {
       this.lastRotate = sign
-      this.rig.object3D.rotation.y -= sign * this.data.angle
+      this.data.target.object3D.rotation.y -= sign * this.data.angle
     }
   },
 

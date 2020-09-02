@@ -1,7 +1,7 @@
 import { DetailEvent } from "aframe"
-import { ControllerInput } from "../types"
+import { ControllerInput } from "../../types"
 
-AFRAME.registerComponent("vr-wasd", {
+AFRAME.registerComponent("wasd-vr", {
   schema: {
     velocity: {
       type: "number",
@@ -11,17 +11,20 @@ AFRAME.registerComponent("vr-wasd", {
       type: "number",
       default: 2, // multiplier
     },
+    target: {
+      type: "selector",
+      default: "#player",
+    },
   },
 
   init() {
     this.state = {
       trigger: false,
     }
-    this.rig = document.querySelector("#rig")
-    if (this.rig.hasLoaded) {
+    if (this.data.target.hasLoaded) {
       this.addControls()
     } else {
-      this.rig.addEventListener("loaded", this.addControls.bind(this), { once: true })
+      this.data.target.addEventListener("loaded", this.addControls.bind(this), { once: true })
     }
   },
 
@@ -30,7 +33,7 @@ AFRAME.registerComponent("vr-wasd", {
       i = a.length === 4 ? 2 : 0,
       axisX = a[i++],
       axisY = a[i]
-    console.log(a)
+
     const keys: { [key: string]: any } = {}
 
     if (axisY < 0) {
@@ -50,13 +53,18 @@ AFRAME.registerComponent("vr-wasd", {
   },
 
   addControls() {
-    this.wasd = this.rig.components["wasd-controls"]
+    this.wasd = this.data.target.components["wasd-controls"]
     this.el.addEventListener("axismove", this.move.bind(this))
     this.el.addEventListener("triggerdown", () => {
       this.state.trigger = true
     })
     this.el.addEventListener("triggerup", () => {
       this.state.trigger = false
+    })
+
+    // Raycast obsticles
+    this.el.addEventListener("raycaster", evt => {
+      console.log(evt)
     })
   },
 

@@ -8,7 +8,7 @@ AFRAME.registerSystem("storyline", {
       "enter-vr",
       async () => {
         // console.log("ENTER VR")
-        // await loadEntity("controllers", document.querySelector("#rig"))
+        // await loadEntity("controllers", document.querySelector("#player"))
         // this.el.addState("intro")
         this.el.addState("forest")
       },
