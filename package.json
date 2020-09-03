@@ -11,7 +11,7 @@
     "dev": "concurrently \"npm:watch-ts\" \"npm:watch-pug\" \"npm:server\"",
     "dev-ssl": "concurrently \"npm:watch-ts\" \"npm:watch-pug\" \"http-server dist -c-1 -S -C cert.pem\"",
     "pemgen": "openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout key.pem -out cert.pem",
-    "wipe": "npx rimraf dist package-lock.json node_modules",
+    "wipe": "rimraf dist package-lock.json node_modules",
     "preinstall": "mkdir dist 2>&1 &",
     "postinstall": "cp node_modules/aframe/dist/aframe.js* dist"
   },
@@ -37,5 +37,8 @@
     "rollup-plugin-terser": "^7.0.1",
     "super-three": "^0.119.0",
     "typescript": "^4.0.2"
+  },
+  "peerDependencies": {
+    "rimraf": "x"
   }
 }

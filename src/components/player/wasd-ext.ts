@@ -1,5 +1,5 @@
 AFRAME.registerComponent("wasd-ext", {
-  dependencies: ["wasd-controls"],
+  dependencies: ["wasd-controls", "raycaster"],
 
   schema: {
     rotate: {
@@ -14,6 +14,11 @@ AFRAME.registerComponent("wasd-ext", {
   rotate: 0,
   camUp: false,
 
+  init() {
+    this.el.sceneEl.addEventListener("enter-vr", this.pause.bind(this))
+    this.el.sceneEl.addEventListener("exit-vr", this.play.bind(this))
+  },
+
   play() {
     window.addEventListener("keydown", this.onKeyDown.bind(this))
     window.addEventListener("keyup", this.onKeyUp.bind(this))
@@ -22,6 +27,15 @@ AFRAME.registerComponent("wasd-ext", {
   pause() {
     window.removeEventListener("keydown", this.onKeyDown)
     window.removeEventListener("keyup", this.onKeyUp)
+    this.cam(false)
+  },
+
+  cam(up: boolean) {
+    this.el.sceneEl.camera.el.emit(up ? "u" : "d")
+    setTimeout(() => {
+      this.data.avatar.setAttribute("visible", up)
+      this.el.setAttribute("raycaster", "showLine", up)
+    }, 200)
   },
 
   onKeyDown({ key }: KeyboardEvent) {
@@ -31,8 +45,7 @@ AFRAME.registerComponent("wasd-ext", {
       this.rotate = -1
     } else if (key === "c") {
       this.camUp = !this.camUp
-      this.el.sceneEl.camera.el.emit(this.camUp ? "u" : "d")
-      setTimeout(() => this.data.avarar.setAttribute("visible", this.camUp), 200)
+      this.cam(this.camUp)
     }
   },
 

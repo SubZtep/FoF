@@ -3,12 +3,12 @@ a-entity#ground(
   rotation="-90 0 0"
   ground="size: 100; resolution: 32")
 
-//- a-entity#forest.obstacle(
 a-entity#forest(
+  data-obstacle
   forest="treeCount: 250"
   shadow="cast: true; receive: false")
 
-//-a-entity#water(position="0 0 0")
+a-entity#water(position="0 0 0")
   a-entity(water="size: 100 40" position="0 0 -70")
   a-entity(water="size: 100 40" position="0 0 70")
   a-entity(water="size: 40 100" position="-70 0 0")

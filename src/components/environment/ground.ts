@@ -101,7 +101,8 @@ AFRAME.registerComponent("ground", {
       }
 
       // max spike height
-      if (h > 1.5) h = 1.5
+      if (h > 1) h = 1
+      // if (h > 1.5) h = 1.5
 
       // set height
       verts[i].z = h

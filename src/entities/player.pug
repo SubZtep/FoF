@@ -3,8 +3,8 @@
 a-entity#player(
   wasd-controls="acceleration: 150"
   wasd-ext
-  raycaster="far: 2.5; showLine: true; objects: [data-obstacle]"
-  collider-control)
+  raycaster="far: 2.5; objects: [data-obstacle]"
+  obstacle-stop)
 
   a-entity(
     camera
@@ -22,20 +22,24 @@ a-entity#player(
     //-   //- raycaster="showLine: true; far: 100"
     //-   //- line="color: orange; lineWidth: 10"
 
-  a-entity#l(
-    hand-controls="hand: left; handModelStyle: lowPoly; color: #0ffc93"
+  a-entity(
+    raycaster="far: 0.1; direction: 1 0 0; objects: [data-handy]; showLine: true"
+    hand-controls="hand: left; color: #0ffc93"
+    hand-vr="hand: left"
     wasd-vr)
-  a-entity#r(
-    hand-controls="hand: right; handModelStyle: lowPoly; color: #0ffc93"
+  a-entity(
+    raycaster="far: 0.1; direction: -1 0 0; objects: [data-handy]; showLine: true"
+    hand-controls="hand: right; color: #0ffc93"
+    hand-vr="hand: right"
     rotate-vr)
 
   a-box#avatar(
     visible="false"
-    color="blue"
+    color="lime"
     width="0.5"
     height="1.8"
     depth="0.3"
     position="0 0.9 0"
-    shadow="cast: true")
+    shadow)
 
   //- a-entity(position="0 -1 0" rotation="80 0 0" raycaster="objects: .ground; far: 3; showLine: true" rigid)
