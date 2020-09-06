@@ -5,7 +5,7 @@
  * c: toggle 1st and 3rd person camera with visible raycaster vector for obstacle detection
  */
 AFRAME.registerComponent("wasd-ext", {
-  dependencies: ["wasd-controls", "raycaster"],
+  dependencies: ["wasd-controls"],
 
   schema: {
     rotate: {
@@ -40,7 +40,7 @@ AFRAME.registerComponent("wasd-ext", {
     this.el.sceneEl.camera.el.emit(up ? "u" : "d")
     setTimeout(() => {
       this.data.avatar.setAttribute("visible", up)
-      this.el.setAttribute("raycaster", "showLine", up)
+      this.el.children[0].setAttribute("raycaster", "showLine", up)
     }, 200)
   },
 

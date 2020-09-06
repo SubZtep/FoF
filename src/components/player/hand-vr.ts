@@ -10,6 +10,7 @@ import { Intersection } from "super-three/src/core/Raycaster"
 AFRAME.registerComponent("hand-vr", {
   dependencies: ["raycaster"],
   // dependencies: ["raycaster", "hand-controls"], // if "hand" required
+  // this.el.components["hand-controls"].data.hand // "left" | "right"
 
   schema: {
     player: {
@@ -22,22 +23,14 @@ AFRAME.registerComponent("hand-vr", {
   uuids: [], // object(s) in hand
 
   init() {
-    // this.el.components["hand-controls"].data.hand // "left" | "right"
     this.raycaster = this.el.components.raycaster
   },
 
   play() {
     let el: Entity = this.el
 
-    el.addEventListener(
-      "raycaster-intersection",
-      () => {
-        console.log("HANDHIITTTT")
-        this.intersections = this.raycaster.intersections
-      },
-      false
-    )
-    el.addEventListener("raycaster-intersection-cleared", () => (this.intersections = []), false)
+    el.addEventListener("raycaster-intersection", () => (this.intersections = this.raycaster.intersections))
+    el.addEventListener("raycaster-intersection-cleared", () => (this.intersections = []))
     el.addEventListener("gripup", () => el.removeState("grip")) // open
     el.addEventListener("gripdown", () => el.addState("grip")) // close
 
@@ -46,11 +39,7 @@ AFRAME.registerComponent("hand-vr", {
         this.intersections.forEach((intersection: Intersection | any) => {
           let child = intersection.object.parent.el.object3D
           this.uuids.push(child.uuid)
-
-          // copy position
-          // el.object3D.add(child)
-          // child.position.set(0, 0, 0)
-          el.object3D.attach(child)
+          el.object3D.attach(child) // copy position and rotation
         })
       }
     })
@@ -62,11 +51,7 @@ AFRAME.registerComponent("hand-vr", {
           let child = el.object3D.children.find(obj3d => obj3d.uuid === this.uuids[i])
           if (child) {
             this.uuids.splice(i, 1)
-
-            // copy position
-            // el.sceneEl.object3D.add(child)
-            // child.position.copy(el.object3D.position).add(this.data.player.object3D.position)
-            el.sceneEl.object3D.attach(child)
+            el.sceneEl.object3D.attach(child) // copy position and rotation
           }
         }
       }

@@ -2,15 +2,29 @@
  * Stop movement toward obsticles
  */
 AFRAME.registerComponent("obstacle-stop", {
-  dependencies: ["raycaster", "wasd-controls"],
+  dependencies: ["raycaster"],
+
+  schema: {
+    player: {
+      type: "selector",
+      default: "#player",
+    },
+  },
 
   init() {
-    this.wasd = this.el.components["wasd-controls"]
+    if (this.data.player.hasLoaded) {
+      this.addControls()
+    } else {
+      this.data.player.addEventListener("loaded", this.addControls.bind(this), { once: true })
+    }
+  },
+
+  addControls() {
+    this.wasd = this.data.player.components["wasd-controls"]
     let om = this.wasd.getMovementVector
     let zm = () => new THREE.Vector3()
 
     this.el.addEventListener("raycaster-intersection", () => {
-      // A-Frame raycast always recursive, will pickup hand's intersections
       this.wasd.getMovementVector = zm
     })
     this.el.addEventListener("raycaster-intersection-cleared", () => {

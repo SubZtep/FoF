@@ -2,9 +2,10 @@
 
 a-entity#player(
   wasd-controls="acceleration: 150"
-  wasd-ext
-  raycaster="far: 2; objects: [data-obstacle]"
-  obstacle-stop)
+  wasd-ext)
+  a-entity.ray(
+    raycaster="far: 2; objects: [data-obstacle]"
+    obstacle-stop)
 
   a-entity.camera(
     camera="far: 200"
