@@ -15,24 +15,22 @@ a-entity#player(
     animation__pd="property: position; to: 0 1.6 0; startEvents: d; dur: 300")
 
     //- a-entity(
-    //-   raycaster="far: 50"
-    //-   cursor=""
-    //-   position="0 0 -1"
-    //-   geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+    //-   raycaster="far: 2"
+    //-   cursor
+    //-   position="0 0 -0.1"
+    //-   geometry="primitive: ring; radiusInner: 0.005; radiusOuter: 0.008"
     //-   material="color: black; shader: flat")
-    //-   //- raycaster="showLine: true; far: 100"
-    //-   //- line="color: orange; lineWidth: 10"
 
   a-entity.left-hand(
     hand-controls="hand: left; color: #0ffc93"
-    raycaster="far: 0.15; direction: 1 0 0; objects: [handy]; showLine: true"
+    raycaster="far: 0.15; direction: 1 0 0; objects: [handy]; showLine: true; enabled: false"
     hand-vr
-    wasd-vr)
+    wasd-vr="action: move")
   a-entity.right-hand(
     hand-controls="hand: right; color: #0ffc93"
-    raycaster="far: 0.15; direction: -1 0 0; objects: [handy]; showLine: true"
+    raycaster="far: 0.15; direction: -1 0 0; objects: [handy]; showLine: true; enabled: false"
     hand-vr
-    turn-vr)
+    wasd-vr="action: turn")
 
   a-box#avatar(
     visible="false"

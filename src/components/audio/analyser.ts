@@ -29,14 +29,12 @@ AFRAME.registerComponent("analyser", {
     this.el.addEventListener("pos-audio-active", this.setup.bind(this))
   },
 
-  setup({ detail: audio }: DetailEvent<THREE.PositionalAudio>) {
-    this.analyser = audio.context.createAnalyser()
-    this.analyser.smoothingTimeConstant = 1
-    audio.getOutput().connect(this.analyser)
-    this.el.addEventListener("click", this.nextFFT.bind(this))
+  setup({ detail }: DetailEvent<THREE.PositionalAudio>) {
+    this.analyser = detail.context.createAnalyser()
+    detail.getOutput().connect(this.analyser)
 
     this.lineObj = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: "#ff0" }))
-    this.lineObj.frustumCulled = false // render line even its parent not in viewing frustum
+
     this.el.setObject3D("line", this.lineObj)
     this.update({})
   },
@@ -59,8 +57,6 @@ AFRAME.registerComponent("analyser", {
   tick(time) {
     if (!this.analyser) return
 
-    // console.time("aaa")
-
     if (this.data.lag) {
       let t = Math.round(time / 100)
       if (t === this.lastTime) return
@@ -79,7 +75,6 @@ AFRAME.registerComponent("analyser", {
       posa[index++] = -this.sliceLength * i
     }
 
-    // console.timeEnd("aaa")
     pos.needsUpdate = true
   },
 })

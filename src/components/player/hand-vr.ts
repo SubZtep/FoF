@@ -37,10 +37,12 @@ AFRAME.registerComponent("hand-vr", {
     el.addEventListener("stateadded", () => {
       if (el.is("grip")) {
         this.intersections.forEach((intersection: Intersection | any) => {
-          let child = intersection.object.parent.el.object3D
+          // let child = intersection.object.parent.el.object3D
+          let child = intersection.object.parent.parent.el.object3D
           this.uuids.push(child.uuid)
           el.object3D.attach(child) // copy position and rotation
-          child.el.emit("hand", true)
+          //TODO: better base then `children[0]`
+          child.children[0].el.emit("hand", true)
         })
       }
     })
@@ -54,7 +56,7 @@ AFRAME.registerComponent("hand-vr", {
             this.uuids.splice(i, 1)
             el.sceneEl.object3D.attach(child) // copy position and rotation
             /// @ts-ignore
-            child.el.emit("hand", false)
+            child.children[0].el.emit("hand", false)
           }
         }
       }

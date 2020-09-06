@@ -34,7 +34,7 @@ html(lang="en")
 
       include entities/player.pug
 
-      a-entity(
+      //-a-entity(
         handy
         geometry="primitive: box; width: 0.25; height: 0.25; depth: 0.25"
         position="0 1.7 -0.5"
@@ -46,18 +46,19 @@ html(lang="en")
         position="4 1.5 -3"
         material="color: red")
 
-      //-a-entity(
-        data-obstacle
-        pos-audio
-        oscillator=""
-        oscillator__a="frequency: 110"
-        analyser=""
-        geometry="primitive: box; width: 0.3; height: 0.3; depth: 0.3"
-        position="-4 1.6 -3"
-        rotation="0 90 0"
-        material="color: red"
-        shadow="receive: false"
-        cursor-listener)
+      a-entity(
+          pos-audio
+          oscillator=""
+          oscillator__a="frequency: 110"
+          position="-4 1.6 -3"
+          rotation="0 90 0"
+          analyser="")
+        a-entity(
+          handy
+          geometry="primitive: box; width: 0.3; height: 0.3; depth: 0.3"
+          material="color: green"
+          shadow="receive: false")
+          //- cursor-listener)
 
       //-a-entity(
         geometry="primitive: plane"
