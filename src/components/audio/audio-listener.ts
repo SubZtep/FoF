@@ -1,3 +1,6 @@
+/**
+ * Add to the scene. This component add audio listener to the camera
+ */
 import { DetailEvent, Entity } from "aframe"
 
 AFRAME.registerComponent("audio-listener", {

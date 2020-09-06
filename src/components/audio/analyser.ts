@@ -1,6 +1,6 @@
 import { DetailEvent } from "aframe"
 
-AFRAME.registerComponent("analyser-line", {
+AFRAME.registerComponent("analyser", {
   schema: {
     fftSize: {
       default: 2048,
@@ -59,6 +59,8 @@ AFRAME.registerComponent("analyser-line", {
   tick(time) {
     if (!this.analyser) return
 
+    // console.time("aaa")
+
     if (this.data.lag) {
       let t = Math.round(time / 100)
       if (t === this.lastTime) return
@@ -77,6 +79,7 @@ AFRAME.registerComponent("analyser-line", {
       posa[index++] = -this.sliceLength * i
     }
 
+    // console.timeEnd("aaa")
     pos.needsUpdate = true
   },
 })

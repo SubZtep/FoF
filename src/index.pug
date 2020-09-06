@@ -25,9 +25,9 @@ html(lang="en")
       stats="true"
       audio-listener)
 
-      a-entity#environment(visible="true")
+      a-entity.environment(visible="true")
         include entities/environment.pug
-      a-entity#lights
+      a-entity.lights
         include entities/lights.pug
 
       include entities/player.pug
@@ -38,18 +38,18 @@ html(lang="en")
         position="0 1.7 -0.5"
         material="color: green")
 
-      //-a-entity(
+      a-entity(
         data-obstacle
         geometry="primitive: box; width: 0.5; height: 0.5; depth: 0.5"
         position="4 1.5 -3"
         material="color: red")
 
-      a-entity(
+      //-a-entity(
         data-obstacle
         pos-audio
         oscillator=""
         oscillator__a="frequency: 110"
-        analyser-line=""
+        analyser=""
         geometry="primitive: box; width: 0.3; height: 0.3; depth: 0.3"
         position="-4 1.6 -3"
         rotation="0 90 0"

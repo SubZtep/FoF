@@ -34,4 +34,7 @@ const config2 = {
   plugins,
 }
 
-export default [config1, config2]
+export default [
+  config1,
+  // config2
+]

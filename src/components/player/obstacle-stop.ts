@@ -1,54 +1,30 @@
-// import { Intersection } from "super-three/src/core/Raycaster"
-// import { PlayerRayCol } from "../../types"
-
+/**
+ * Stop movement toward obsticles
+ */
 AFRAME.registerComponent("obstacle-stop", {
   dependencies: ["raycaster", "wasd-controls"],
 
   init() {
-    this.raycaster = this.el.components.raycaster
     this.wasd = this.el.components["wasd-controls"]
+    let om = this.wasd.getMovementVector
+    let zm = () => new THREE.Vector3()
 
     this.el.addEventListener("raycaster-intersection", () => {
-      this.wasd.pause()
-      // this.intersections = this.raycaster.intersections
+      // A-Frame raycast always recursive, will pickup hand's intersections
+      this.wasd.getMovementVector = zm
     })
     this.el.addEventListener("raycaster-intersection-cleared", () => {
-      this.wasd.play()
-      // this.intersections = null
+      this.wasd.getMovementVector = om
     })
   },
 
   tick() {
-    // Set raycast direction
-    // let raydata: PlayerRayCol = {}
     let velocity = this.wasd.velocity
-
     if (velocity.x !== 0 || velocity.z !== 0) {
-      let direction = velocity.clone().normalize().divideScalar(2)
-      direction.y = 1.5
-      this.el.setAttribute("raycaster", { direction })
+      let origin = velocity.clone().normalize().divideScalar(3)
+      let direction = origin.clone().divideScalar(2)
+      direction.y = 2
+      this.el.setAttribute("raycaster", { origin, direction })
     }
-
-    // let moving = velocity.x !== 0 || velocity.z !== 0
-    // if (moving) {
-    //   let direction = velocity.clone().normalize().divideScalar(2)
-    //   direction.y = 1.5
-    //   raydata.direction = direction
-    // }
-    // let on = this.intersections || moving
-    // if (this.raycaster.data.enabled !== on) {
-    //   raydata.enabled = on
-    // }
-
-    // if (Object.keys(raydata).length > 0) {
-    //   this.el.setAttribute("raycaster", raydata)
-    // }
-
-    //TODO: let player go to the opposite direction from the intersected object
-    // if (this.intersections) {
-    //   this.intersections.forEach((intersection: Intersection) => {
-    //     //
-    //   })
-    // }
   },
 })

@@ -1,3 +1,9 @@
+/**
+ * Add extra keyboard movement keys for `wasd-controls` component:
+ * q: turn left
+ * e: turn right
+ * c: toggle 1st and 3rd person camera with visible raycaster vector for obstacle detection
+ */
 AFRAME.registerComponent("wasd-ext", {
   dependencies: ["wasd-controls", "raycaster"],
 
