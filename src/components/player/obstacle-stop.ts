@@ -35,7 +35,7 @@ AFRAME.registerComponent("obstacle-stop", {
   tick() {
     let velocity = this.wasd.velocity
     if (velocity.x !== 0 || velocity.z !== 0) {
-      let origin = velocity.clone().normalize().divideScalar(3)
+      let origin = velocity.clone().normalize().divideScalar(4)
       let direction = origin.clone().divideScalar(2)
       direction.y = 2
       this.el.setAttribute("raycaster", { origin, direction })

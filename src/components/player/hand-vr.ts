@@ -40,6 +40,7 @@ AFRAME.registerComponent("hand-vr", {
           let child = intersection.object.parent.el.object3D
           this.uuids.push(child.uuid)
           el.object3D.attach(child) // copy position and rotation
+          child.el.emit("hand", true)
         })
       }
     })
@@ -52,6 +53,8 @@ AFRAME.registerComponent("hand-vr", {
           if (child) {
             this.uuids.splice(i, 1)
             el.sceneEl.object3D.attach(child) // copy position and rotation
+            /// @ts-ignore
+            child.el.emit("hand", false)
           }
         }
       }
