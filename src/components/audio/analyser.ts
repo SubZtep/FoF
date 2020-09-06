@@ -1,6 +1,8 @@
 import { DetailEvent } from "aframe"
 
 AFRAME.registerComponent("analyser", {
+  dependencies: ["pos-audio"],
+
   schema: {
     fftSize: {
       default: 2048,
@@ -34,9 +36,10 @@ AFRAME.registerComponent("analyser", {
     detail.getOutput().connect(this.analyser)
 
     this.lineObj = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: "#ff0" }))
-
     this.el.setObject3D("line", this.lineObj)
     this.update({})
+
+    this.audio = detail
   },
 
   update(oldData) {
@@ -55,7 +58,7 @@ AFRAME.registerComponent("analyser", {
   },
 
   tick(time) {
-    if (!this.analyser) return
+    if (!this.audio) return
 
     if (this.data.lag) {
       let t = Math.round(time / 100)
@@ -63,17 +66,29 @@ AFRAME.registerComponent("analyser", {
       this.lastTime = t
     }
 
-    this.analyser.getFloatTimeDomainData(this.tddata)
+    let { exe } = this.el.object3D.parent.userData
+    let len = exe !== undefined ? exe.value : 0
+    console.time("t")
+    if (len === 0) {
+      this.tddata.fill(0)
+    } else {
+      this.analyser.getFloatTimeDomainData(this.tddata)
+    }
+
+    this.audio.gain.gain.setValueAtTime(len, 0)
+
     let pos = this.lineObj.geometry.attributes.position
     let posa = pos.array
     let index = 0
     let i: number
 
     for (i = 0; i < this.bufferLength; i++) {
-      posa[index++] = Math.random() / 4 - 0.1
+      // posa[index++] = Math.random() / 4 - 0.1
+      posa[index++] = Math.random() / 16 - 0.04
       posa[index++] = this.tddata[i] * this.halfWidth
-      posa[index++] = -this.sliceLength * i
+      posa[index++] = -this.sliceLength * i * len
     }
+    console.timeEnd("t")
 
     pos.needsUpdate = true
   },

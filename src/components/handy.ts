@@ -21,7 +21,7 @@ AFRAME.registerComponent("handy", {
         el.object3D.scale.set(1, 1, 1)
         el.removeAttribute("mixin")
       } else {
-        el.setAttribute("mixin", `pulse${el.is("intersect") ? " opacity" : ""}`)
+        el.setAttribute("mixin", `pulse${el.is("intersect") ? " fastanim" : ""}`)
       }
     }
 

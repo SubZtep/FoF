@@ -4,13 +4,11 @@
  * Entity state: grip
  */
 
-import { Entity } from "aframe"
+import { DetailEvent, Entity } from "aframe"
 import { Intersection } from "super-three/src/core/Raycaster"
 
 AFRAME.registerComponent("hand-vr", {
   dependencies: ["raycaster"],
-  // dependencies: ["raycaster", "hand-controls"], // if "hand" required
-  // this.el.components["hand-controls"].data.hand // "left" | "right"
 
   schema: {
     player: {
@@ -31,34 +29,52 @@ AFRAME.registerComponent("hand-vr", {
 
     el.addEventListener("raycaster-intersection", () => (this.intersections = this.raycaster.intersections))
     el.addEventListener("raycaster-intersection-cleared", () => (this.intersections = []))
-    el.addEventListener("gripup", () => el.removeState("grip")) // open
-    el.addEventListener("gripdown", () => el.addState("grip")) // close
 
-    el.addEventListener("stateadded", () => {
-      if (el.is("grip")) {
-        this.intersections.forEach((intersection: Intersection | any) => {
-          // let child = intersection.object.parent.el.object3D
-          let child = intersection.object.parent.parent.el.object3D
-          this.uuids.push(child.uuid)
-          el.object3D.attach(child) // copy position and rotation
-          //TODO: better base then `children[0]`
-          child.children[0].el.emit("hand", true)
-        })
+    el.addEventListener("stateadded", ({ detail }: DetailEvent<string>) => {
+      switch (detail) {
+        case "hold":
+          let int: Intersection | any
+          for (int of this.intersections) {
+            let child = int.object.parent.parent.el.object3D
+            this.uuids.push(child.uuid)
+            el.object3D.attach(child) // copy position and rotation
+            //TODO: better base then `children[0]`
+            child.children[0].el.emit("hand", true)
+          }
+          break
+        case "exe":
+          let a
+          for (a of el.object3D.children) {
+            if (this.uuids.includes(a.uuid)) {
+              a.el.addState("exe")
+            }
+          }
+          break
       }
     })
 
-    el.addEventListener("stateremoved", () => {
-      if (!el.is("grip")) {
-        let i = this.uuids.length
-        while (i--) {
-          let child = el.object3D.children.find(obj3d => obj3d.uuid === this.uuids[i])
-          if (child) {
-            this.uuids.splice(i, 1)
-            el.sceneEl.object3D.attach(child) // copy position and rotation
-            /// @ts-ignore
-            child.children[0].el.emit("hand", false)
+    el.addEventListener("stateremoved", ({ detail }: DetailEvent<string>) => {
+      switch (detail) {
+        case "hold":
+          let i = this.uuids.length
+          while (i--) {
+            let child = el.object3D.children.find(obj3d => obj3d.uuid === this.uuids[i])
+            if (child) {
+              this.uuids.splice(i, 1)
+              el.sceneEl.object3D.attach(child) // copy position and rotation
+              /// @ts-ignore
+              child.children[0].el.emit("hand", false)
+            }
           }
-        }
+          break
+        case "exe":
+          let a
+          for (a of el.object3D.children) {
+            if (this.uuids.includes(a.uuid)) {
+              a.el.removeState("exe")
+            }
+          }
+          break
       }
     })
   },

@@ -74,13 +74,19 @@ AFRAME.registerComponent("wasd-vr", {
     let el: Entity = this.el
     this.wasd = this.data.player.components["wasd-controls"]
     el.addEventListener("buttonchanged", ({ detail }: DetailEvent<ButtonDetail>) => {
+      let fn = detail.state.pressed ? "addState" : "removeState"
       let button = this.mapping().buttons[detail.id]
-      if (button === "thumbstick") {
-        if (detail.state.pressed) {
-          el.addState("run")
-        } else {
-          el.removeState("run")
-        }
+      switch (button) {
+        case "thumbstick":
+          el[fn]("run")
+          break
+        case "grip":
+          el[fn]("hold")
+          break
+        case "trigger":
+          el[fn]("exe")
+          el.object3D.userData.exe = detail.state
+          break
       }
     })
     el.addEventListener("axismove", ({ detail }: DetailEvent<AxisDetail>) => {

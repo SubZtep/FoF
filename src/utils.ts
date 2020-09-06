@@ -1,4 +1,5 @@
 import * as AFrame from "aframe"
+import { Face3 } from "super-three/src/core/Face3"
 
 export const rnd = (min: number, max: number) => Math.random() * (min - max) + max
 
@@ -10,7 +11,11 @@ export const loadEntity = async (name: string, parent: AFrame.Entity) => {
 export const sum = (nums: number[]) => nums.reduce((a, b) => a + b, 0)
 
 export const setColor = (geo: THREE.Geometry, color: THREE.Color | number) => {
-  geo.faces.forEach(f => f.color.set(color))
+  // geo.faces.forEach(f => f.color.set(color))
+  let f: Face3
+  for (f of geo.faces) {
+    f.color.set(color)
+  }
 }
 
 /**

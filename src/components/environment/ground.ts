@@ -58,12 +58,12 @@ AFRAME.registerComponent("ground", {
   },
 
   createWorker(vertices: THREE.Vector3) {
-    let worker = new Worker("ground.js")
-    worker.postMessage({
-      cmd: "vertices",
-      payload: vertices,
-    })
-    this.el.sceneEl.groundWorker = worker
+    // let worker = new Worker("ground.js")
+    // worker.postMessage({
+    //   cmd: "vertices",
+    //   payload: vertices,
+    // })
+    // this.el.sceneEl.groundWorker = worker
   },
 
   /**
