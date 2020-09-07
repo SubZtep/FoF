@@ -1,4 +1,4 @@
-AFRAME.registerComponent("skypox", {
+AFRAME.registerComponent("stars", {
   init() {
     var distance = 100
     var geometry = new THREE.Geometry()
@@ -20,8 +20,8 @@ AFRAME.registerComponent("skypox", {
     var particles = new THREE.Points(
       geometry,
       new THREE.PointsMaterial({
-        color: 0x8a0707,
-        size: 1,
+        color: 0xdaa520,
+        size: 3,
         sizeAttenuation: false,
       })
     )

@@ -68,7 +68,7 @@ AFRAME.registerComponent("analyser", {
 
     let { exe } = this.el.object3D.parent.userData
     let len = exe !== undefined ? exe.value : 0
-    console.time("t")
+    // console.time("t")
     if (len === 0) {
       this.tddata.fill(0)
     } else {
@@ -83,12 +83,11 @@ AFRAME.registerComponent("analyser", {
     let i: number
 
     for (i = 0; i < this.bufferLength; i++) {
-      // posa[index++] = Math.random() / 4 - 0.1
       posa[index++] = Math.random() / 16 - 0.04
       posa[index++] = this.tddata[i] * this.halfWidth
       posa[index++] = -this.sliceLength * i * len
     }
-    console.timeEnd("t")
+    // console.timeEnd("t")
 
     pos.needsUpdate = true
   },

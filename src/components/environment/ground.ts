@@ -26,9 +26,6 @@ AFRAME.registerComponent("ground", {
     let mesh = new THREE.Mesh(geometry, this.getMaterial(this.data.size, false))
     mesh.matrixAutoUpdate = false
     this.el.setObject3D("mesh", mesh)
-
-    // Start Ground Worker
-    this.createWorker(geometry.vertices)
   },
 
   addBeach() {
@@ -55,15 +52,6 @@ AFRAME.registerComponent("ground", {
     mesh.updateMatrix()
 
     this.el.setObject3D("beach", mesh)
-  },
-
-  createWorker(vertices: THREE.Vector3) {
-    // let worker = new Worker("ground.js")
-    // worker.postMessage({
-    //   cmd: "vertices",
-    //   payload: vertices,
-    // })
-    // this.el.sceneEl.groundWorker = worker
   },
 
   /**
@@ -149,7 +137,7 @@ AFRAME.registerComponent("ground", {
     return material
   },
 
-  drawTexture(ctx: CanvasRenderingContext2D, size: number, groundColor = "#836a14", groundColor2 = "#060") {
+  drawTexture(ctx: CanvasRenderingContext2D, size: number, groundColor = "#499d45", groundColor2 = "#000") {
     ctx.fillStyle = groundColor
     ctx.fillRect(0, 0, size, size)
 

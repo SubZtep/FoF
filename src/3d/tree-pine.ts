@@ -1,3 +1,7 @@
+/**    /\
+ *    /_\
+ *  /___\
+ */
 import { rnd, setColor, sum } from "../utils"
 
 export const geo = (x = 0, z = 0) => {
@@ -21,4 +25,4 @@ export const geo = (x = 0, z = 0) => {
   return geo
 }
 
-export const mat = () => new THREE.MeshLambertMaterial({ vertexColors: true })
+export const mat = () => new THREE.MeshToonMaterial({ color: "#d5ff80", vertexColors: true })
