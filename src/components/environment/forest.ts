@@ -1,20 +1,9 @@
-import * as oak from "../../3d/tree-oak"
-import * as pine from "../../3d/tree-pine"
+import { Entity } from "aframe"
 
 AFRAME.registerComponent("forest", {
   schema: {
-    treeCount: {
-      type: "int",
-      default: 100,
-    },
-    emptyWidth: {
-      type: "number",
-      default: 10,
-    },
-    forestWidth: {
-      type: "number",
-      default: 40,
-    },
+    width: { default: 10 },
+    gap: { default: 10 },
   },
 
   init() {
@@ -27,25 +16,31 @@ AFRAME.registerComponent("forest", {
       )
     }
 
-    let oaks = new THREE.Geometry()
-    let pines = new THREE.Geometry()
-
-    for (let i = 0, r = 88343; i < this.data.treeCount; i++, r++) {
-      let distance = this.data.emptyWidth + this.data.forestWidth * random(r + 1)
+    let e: Entity,
+      r = 88343,
+      c = this.el.components
+    while ((e = c.pool__oak.requestEntity() || c.pool__knot.requestEntity() || c.pool__pine.requestEntity())) {
+      let distance = this.data.width + this.data.gap * random(++r + 1)
       let direction = random(r + 3) * Math.PI * 2
 
       let posX = Math.cos(direction) * distance
       let posY = Math.sin(direction) * distance
 
-      if (posX < 0 && posY < 0) {
-        pines.merge(pine.geo(posX, posY))
-      } else {
-        oaks.merge(oak.geo(posX, posY))
-      }
+      // b = this.el.components.pool__bird.requestEntity()
+      // @ts-ignore
+      e.object3D.el.setAttribute("position", `${posX} 1 ${posY}`)
+      e.play()
+
+      // if (posX < 0 && posY < 0) {
+      //   pines.merge(pine.geo(posX, posY))
+      // } else {
+      //   oaks.merge(oak.geo(posX, posY))
+      // }
+      // this.sceneEl.components.pool__kacsa.requestEntity()
     }
 
-    this.el.setObject3D("oaks", new THREE.Mesh(oaks, oak.mat()))
-    this.el.setObject3D("pines", new THREE.Mesh(pines, pine.mat()))
-    this.el.object3D.matrixAutoUpdate = false
+    // this.el.setObject3D("oaks", new THREE.Mesh(oaks, oak.mat()))
+    // this.el.setObject3D("pines", new THREE.Mesh(pines, pine.mat()))
+    // this.el.object3D.matrixAutoUpdate = false
   },
 })

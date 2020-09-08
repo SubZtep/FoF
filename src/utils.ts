@@ -3,11 +3,6 @@ import { Face3 } from "super-three/src/core/Face3"
 
 export const rnd = (min: number, max: number) => Math.random() * (min - max) + max
 
-export const loadEntity = async (name: string, parent: AFrame.Entity) => {
-  const res = await fetch(`entities/${name}.html`)
-  parent.insertAdjacentHTML("beforeend", await res.text())
-}
-
 export const sum = (nums: number[]) => nums.reduce((a, b) => a + b, 0)
 
 export const setColor = (geo: THREE.Geometry, color: THREE.Color | number) => {

@@ -1,58 +1,46 @@
 AFRAME.registerComponent("ground", {
   schema: {
     size: {
-      type: "number",
-      default: 100,
-    },
-    playArea: {
-      type: "number",
-      default: 0.85,
-    },
-    groundYScale: {
-      type: "number",
-      default: 1.5,
+      default: 10,
     },
     resolution: {
-      type: "number",
-      default: 64,
+      default: 32,
+    },
+    color: {
+      type: "color",
+      default: "#499d45",
     },
   },
 
-  update() {
+  init() {
     // this.addBeach()
-    // this.el.object3D.scale.set(1, -1, this.data.groundYScale)
 
     let geometry = this.getGeometry(this.data.size, this.data.resolution)
     let mesh = new THREE.Mesh(geometry, this.getMaterial(this.data.size, false))
-    mesh.matrixAutoUpdate = false
+    // mesh.matrixAutoUpdate = false
     this.el.setObject3D("mesh", mesh)
   },
 
-  addBeach() {
-    let w = this.data.size
-    let shape = new THREE.Shape()
-    shape.moveTo(0, 0)
-    shape.lineTo(0, w)
-    shape.lineTo(w, w)
-    shape.lineTo(w, 0)
-    shape.lineTo(0, 0)
+  // addBeach() {
+  //   let w = this.data.size
+  //   let shape = new THREE.Shape().moveTo(0, 0).lineTo(0, w).lineTo(w, w).lineTo(w, 0).lineTo(0, 0)
 
-    let geometry = new THREE.ExtrudeGeometry(shape, {
-      steps: 1,
-      depth: 1,
-      bevelOffset: 0,
-      bevelThickness: 1,
-      bevelSize: 10,
-      bevelSegments: 1,
-    })
-    let material = new THREE.MeshPhongMaterial({ color: 0x00cc00, wireframe: false })
-    let mesh = new THREE.Mesh(geometry, material)
-    mesh.matrixAutoUpdate = false
-    mesh.position.set(-w / 2, -w / 2, -2.1)
-    mesh.updateMatrix()
+  //   let geometry = new THREE.ExtrudeGeometry(shape, {
+  //     steps: 1,
+  //     depth: 1,
+  //     bevelOffset: 0,
+  //     bevelThickness: 1,
+  //     bevelSize: 10,
+  //     bevelSegments: 1,
+  //   })
+  //   let material = new THREE.MeshPhongMaterial({ color: 0x00cc00, wireframe: false })
+  //   let mesh = new THREE.Mesh(geometry, material)
+  //   mesh.matrixAutoUpdate = false
+  //   mesh.position.set(-w / 2, -w / 2, -2.1)
+  //   mesh.updateMatrix()
 
-    this.el.setObject3D("beach", mesh)
-  },
+  //   this.el.setObject3D("beach", mesh)
+  // },
 
   /**
    * @param resolution number of divisions of the ground mesh
@@ -103,6 +91,8 @@ AFRAME.registerComponent("ground", {
       }
     }
 
+    // geo.rotate(90)
+
     geo.computeFaceNormals()
     geo.computeVertexNormals()
 
@@ -113,7 +103,6 @@ AFRAME.registerComponent("ground", {
   },
 
   /**
-   * update ground, playarea and grid textures.
    * @param texMeters ground texture of 20 x 20 meters
    */
   getMaterial(stageSize: number, wireframe: false, resolution = 2048, texMeters = 20) {
@@ -138,6 +127,7 @@ AFRAME.registerComponent("ground", {
   },
 
   drawTexture(ctx: CanvasRenderingContext2D, size: number, groundColor = "#499d45", groundColor2 = "#000") {
+    groundColor = this.data.color
     ctx.fillStyle = groundColor
     ctx.fillRect(0, 0, size, size)
 

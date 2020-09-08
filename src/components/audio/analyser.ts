@@ -5,7 +5,7 @@ AFRAME.registerComponent("analyser", {
 
   schema: {
     fftSize: {
-      default: 2048,
+      default: 512,
       oneOf: [32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768],
     },
     length: {
@@ -17,7 +17,7 @@ AFRAME.registerComponent("analyser", {
       default: 2,
     },
     lag: {
-      default: false,
+      default: 100,
     },
   },
 
@@ -29,6 +29,10 @@ AFRAME.registerComponent("analyser", {
 
   init() {
     this.el.addEventListener("pos-audio-active", this.setup.bind(this))
+
+    if (this.data.lag) {
+      this.tick = AFRAME.utils.throttleTick(this.tick, 100, this)
+    }
   },
 
   setup({ detail }: DetailEvent<THREE.PositionalAudio>) {

@@ -1,12 +1,7 @@
-a-entity.ground(
-  shadow="cast: false; receive: true"
-  rotation="-90 0 0"
-  ground="size: 100; resolution: 32")
-
-a-entity.forest(
-  data-obstacle
-  forest="treeCount: 200"
-  shadow="cast: true; receive: false")
+a-entity(
+  geometry="primitive: ground"
+  gmat
+  rotation="-90 0 0")
 
 a-entity.water(position="0 0 0")
   a-entity(water="size: 100 40" position="0 0 -70")

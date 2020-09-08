@@ -1,12 +1,14 @@
 doctype html
 html(lang="en")
   head
-    title #js13k-2020
+    title #js13k-2020 [#{isProduction ? "production" : "development"}]
     meta(charset="utf-8")
     meta(name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0")
     link(rel="icon" href="data:,")
-    //- script(src="https://js13kgames.com/webxr-src/2020/aframe.js")
-    script(src="aframe.js")
+    if isProduction
+      script(src="https://js13kgames.com/webxr-src/2020/aframe.js")
+    else
+      script(src="aframe.js")
     script(src="index.js")
     style(type="text/css").
       html, body {
@@ -19,14 +21,4 @@ html(lang="en")
         background: linear-gradient(#24a3b5, #40320a);
       }
   body
-    a-scene(
-      background="color: #303c42"
-      fog="color: #303c42; near: 30; far: 50; type: 'exponential'"
-      stars=""
-      stats="true"
-      audio-listener)
-
-      include entities/mixins.pug
-      include entities/environment.pug
-      include entities/lights.pug
-      include entities/player.pug
+    include entities/scene.pug

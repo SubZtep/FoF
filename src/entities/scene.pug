@@ -1,0 +1,21 @@
+- var debugComponents = {}
+unless isProduction
+  - debugComponents.stats = true
+  - debugComponents["stats-in-vr"] = ""
+
+a-scene(
+  pool__bird="mixin: bird; size: 10"
+  pool__oak="mixin: oak; size: 10"
+  pool__knot="mixin: knot; size: 10"
+  pool__pine="mixin: pine; size: 10"
+  background="color: #303c42"
+  stars
+  forest
+  fog="color: #303c42; near: 20; far: 60; type: 'exponential'"
+  audio-listener
+  )&attributes(debugComponents)
+
+  include mixins.pug
+  include environment.pug
+  include lights.pug
+  include player.pug

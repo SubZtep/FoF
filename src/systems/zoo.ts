@@ -1,16 +1,24 @@
-import bird from "../3d/bird"
+import { Entity } from "aframe"
+import { rnd } from "../utils"
 
 AFRAME.registerSystem("zoo", {
   init() {
-    let e = document.createElement("a-entity")
-    e.setAttribute("oscillator", "")
-    e.setAttribute("analyser", "lag: true")
-    let s = document.createElement("a-entity")
-    s.setObject3D("bird", bird.rotateY(Math.PI).translateY(-0.37))
-    s.setAttribute("handy", "")
-    e.appendChild(s)
-    e.object3D.position.set(0, 1.6, -4)
-    e.object3D.rotateY(Math.PI / 2)
-    this.sceneEl.appendChild(e)
+    this.throttledRelease = AFRAME.utils.throttle(this.release, 500, this)
+  },
+
+  release() {
+    let pool = this.sceneEl.components.pool__bird
+    if (pool && pool.availableEls.length > 0) {
+      let kacsa: Entity = this.el.components.pool__bird.requestEntity()
+      if (kacsa) {
+        // @ts-ignore
+        kacsa.object3D.el.setAttribute("position", `${rnd(-5, 5)} ${rnd(3, 5)} ${rnd(-6, -3)}`)
+        kacsa.play()
+      }
+    }
+  },
+
+  tick() {
+    this.throttledRelease()
   },
 })
