@@ -1,5 +1,3 @@
-let dependencies = ["geometry"]
-
 let mats = {
   lambert: new THREE.MeshLambertMaterial({
     vertexColors: true,
@@ -26,14 +24,39 @@ AFRAME.registerComponent("mat", {
 })
 
 AFRAME.registerComponent("gmat", {
+  dependencies: ["geometry"],
+
   schema: {
     size: { default: 100 },
-    color: { type: "color", default: "#499d45" },
+    color: { type: "color", default: "#13f" },
     color2: { type: "color", default: "#000" },
+    speed: { type: "vec2", default: { x: 0, y: 0 } }, //
+    // speed: { type: "vec2", default: { x: 0, y: -0.00005 } },
   },
+
+  sv: new THREE.Vector2(),
 
   init() {
     this.el.getObject3D("mesh").material = this.getMaterial()
+  },
+
+  update(oldData) {
+    let { el, data } = this
+    if (data.color !== oldData.color || data.color2 !== oldData.color2) {
+      //TODO: update only texture
+      el.getObject3D("mesh").material = this.getMaterial()
+    }
+  },
+
+  tick(_, deltaTime) {
+    let {
+      data: {
+        speed: { x, y },
+      },
+    } = this
+    if (x !== 0 || y !== 0) {
+      this.el.getObject3D("mesh").material.map.offset.add(this.sv.set(x, y).multiplyScalar(deltaTime))
+    }
   },
 
   /**

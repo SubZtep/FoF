@@ -2,14 +2,13 @@
  * http://what-when-how.com/3d-animation-using-maya
  * /modeling-primitives-wireframes-surfaces-and-normals-essential-skills-3d-animation-using-maya-part-1/
  */
-import { rnd, setColor } from "../utils"
+import { setColor } from "../utils"
 
 AFRAME.registerGeometry("bird", {
   init() {
-    let blue = new THREE.Color(0x1da1f2)
-    let yellow = new THREE.Color(0xffff00)
-
-    let geo = new THREE.Geometry()
+    let blue = new THREE.Color(0x1da1f2),
+      yellow = new THREE.Color(0xffff00),
+      geo = new THREE.Geometry()
 
     let body = new THREE.SphereGeometry(1, 8, 8).translate(0, 1.4, 0)
     setColor(body, blue)

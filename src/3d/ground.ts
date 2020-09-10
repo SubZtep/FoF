@@ -1,3 +1,5 @@
+import { random } from "../utils"
+
 AFRAME.registerGeometry("ground", {
   schema: {
     size: {
@@ -20,8 +22,8 @@ AFRAME.registerGeometry("ground", {
     let col = Math.sqrt(numVerts)
 
     for (let i = 0, x = 0, y = 0; i < numVerts; i++) {
-      let h = this.random(i) < 0.35 ? this.random(i + 1) : 0 // noise
-      h += this.random(i + 2) * 0.1 // add some randomness
+      let h = random(i) < 0.35 ? random(i + 1) : 0 // noise
+      h += random(i + 2) * 0.1 // add some randomness
 
       let xx = (x * 2) / frequency - 1
       let yy = (y * 2) / frequency - 1
@@ -61,14 +63,5 @@ AFRAME.registerGeometry("ground", {
     geo.normalsNeedUpdate = true
 
     this.geometry = geo
-  },
-
-  random(x: number, seed = 8) {
-    return parseFloat(
-      "0." +
-        Math.sin(seed * 9999 * x)
-          .toString()
-          .substr(7)
-    )
   },
 })

@@ -1,7 +1,7 @@
 AFRAME.registerComponent("stars", {
   schema: {
     distance: {
-      default: 30,
+      default: 50,
     },
     color: {
       type: "color",
@@ -11,7 +11,7 @@ AFRAME.registerComponent("stars", {
       default: 3,
     },
     count: {
-      default: 100,
+      default: 200,
     },
   },
   init() {
@@ -37,6 +37,7 @@ AFRAME.registerComponent("stars", {
     var particles = new THREE.Points(
       geometry,
       new THREE.PointsMaterial({
+        fog: false,
         color: data.color,
         size: data.size,
         sizeAttenuation: false,

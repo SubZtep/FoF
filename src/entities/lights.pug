@@ -9,6 +9,13 @@ a-entity#ambient(
 a-entity#hemi(
   light="type: hemisphere; color: #303c42; groundColor: #39FF14; intensity: 0.5")
 
+a-entity(
+  light=`type: directional;
+        castShadow: true;
+        intensity: 1.4;
+      shadowCameraVisible: false;`
+  position="-5 3 1.5")
+
 a-entity#sun(
   geometry="primitive: sphere; radius: 2.5; segmentsWidth: 16; segmentsHeight: 2"
   material="fog: false; shader: flat; color: #fff888"

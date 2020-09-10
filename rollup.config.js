@@ -2,10 +2,16 @@ import json from "@rollup/plugin-json"
 import babel from "@rollup/plugin-babel"
 import { terser } from "rollup-plugin-terser"
 import resolve from "rollup-plugin-node-resolve"
+import replace from "@rollup/plugin-replace"
+import strip from "@rollup/plugin-strip"
 
 const extensions = [".js", ".ts"]
 const plugins = [
   resolve({ extensions }),
+  replace({
+    "//debug ": process.env.BUILD === "production" ? "//" : "",
+    delimiters: ["", ""],
+  }),
   babel({
     babelHelpers: "bundled",
     extensions,
@@ -19,7 +25,7 @@ const output = {
 }
 
 if (process.env.BUILD === "production") {
-  plugins.push(terser())
+  plugins.push(strip(), terser())
 }
 
 const config1 = {

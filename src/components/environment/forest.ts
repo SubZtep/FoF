@@ -1,6 +1,6 @@
 import { Entity } from "aframe"
 
-AFRAME.registerComponent("forest", {
+AFRAME.registerComponent("xxxforest", {
   schema: {
     width: { default: 10 },
     gap: { default: 10 },

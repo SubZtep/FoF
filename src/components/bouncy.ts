@@ -9,7 +9,7 @@ AFRAME.registerComponent("bouncy", {
     // ball
     velocity: {
       type: "vec2",
-      default: { x: 0.03, y: 0 },
+      default: { x: 0.03, y: 0.3 },
     },
     mass: {
       default: 0.1, //kg
@@ -71,8 +71,8 @@ AFRAME.registerComponent("bouncy", {
     vel.y += ay * 0.001
 
     // Integrate to get position
-    pos.x += vel.x * delta * 0.1
-    pos.y += vel.y * delta * 0.1
+    pos.x += vel.x * delta * 0.01
+    pos.y += vel.y * delta * 0.01
 
     // Wall hit
     if (pos.y < data.radius) {

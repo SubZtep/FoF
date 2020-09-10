@@ -31,3 +31,11 @@ export const jitter = (geo: THREE.Geometry, per: number) =>
 
 export const chopBottom = (geo: THREE.Geometry, bottom: number) =>
   geo.vertices.forEach(v => (v.y = Math.max(v.y, bottom)))
+
+export const random = (x: number, seed = 8) =>
+  parseFloat(
+    "0." +
+      Math.sin(seed * 9999 * x)
+        .toString()
+        .substr(7)
+  )

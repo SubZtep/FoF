@@ -1,19 +1,21 @@
 - var debugComponents = {}
 unless isProduction
-  - debugComponents.stats = true
+  //- - debugComponents.stats = true
   - debugComponents["stats-in-vr"] = ""
 
 a-scene(
-  pool__bird="mixin: bird; size: 10"
-  pool__oak="mixin: oak; size: 10"
-  pool__knot="mixin: knot; size: 10"
-  pool__pine="mixin: pine; size: 10"
+  pool__bird="mixin: bird; size: 0"
+  pool__oak="mixin: oak; size: 2"
+  pool__knot="mixin: knot; size: 2"
+  pool__pine="mixin: pine; size: 2"
   background="color: #303c42"
-  stars
-  forest
-  fog="color: #303c42; near: 20; far: 60; type: 'exponential'"
+  stars="size: 2.5"
   audio-listener
   )&attributes(debugComponents)
+  //- fog="color: #000; near: 5; far: 25; type: 'exponential'"
+  //- vr-mode-ui="enabled: false"
+  //- shadow="type: pcfsoft"
+  //- forest
 
   include mixins.pug
   include environment.pug
