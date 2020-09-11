@@ -26,7 +26,7 @@ AFRAME.registerComponent("xxxforest", {
       let posX = Math.cos(direction) * distance
       let posY = Math.sin(direction) * distance
 
-      // b = this.el.components.pool__bird.requestEntity()
+      // b = this.el.components.pool__kacsa.requestEntity()
       // @ts-ignore
       e.object3D.el.setAttribute("position", `${posX} 1 ${posY}`)
       e.play()

@@ -4,7 +4,7 @@
  */
 import { setColor } from "../utils"
 
-AFRAME.registerGeometry("bird", {
+AFRAME.registerGeometry("kacsa", {
   init() {
     let blue = new THREE.Color(0x1da1f2),
       yellow = new THREE.Color(0xffff00),
@@ -44,6 +44,7 @@ AFRAME.registerGeometry("bird", {
     geo.merge(rightWing)
 
     geo.scale(0.15, 0.15, 0.15)
+    geo.rotateY(Math.PI)
     // geo.translate(rnd(-5, 5), 3, -2)
 
     this.geometry = geo

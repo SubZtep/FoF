@@ -1,39 +1,56 @@
 - var eyePosition = "0 1.6 0"
 
+  //- wasd-controls="acceleration: 150"
+    //- obstacle-stop
 a-entity#player(
-  wasd-controls="acceleration: 150"
-  wasd-ext)
+  mixin="playerintro"
+  )
+
   a-entity.ray(
     raycaster="far: 2; objects: [data-obstacle]"
-    obstacle-stop)
+    )
 
   a-entity.camera(
     look-controls
     camera="far: 200"
     position=eyePosition
     animation="property: position; to: 0 15 9; startEvents: u; dur: 300"
-    animation__p="property: position; to: 0 1.6 0; startEvents: d; dur: 300")
+    animation__p="property: position; to: 0 1.6 0; startEvents: d; dur: 300"
+    )
 
-    a-entity(
+    a-entity.novr(
+      text="font: roboto; align: center; color: #fff; value: Waiting for VR"
+      position="0 0.5 -1"
+      animation="property: text.opacity; from: 0; to: 1; dur: 1200; dir: alternate; loop: true; easing: easeInOutBack"
+    )
+
+    a-entity.novr(
       cursor
       visible="true"
       raycaster="far: 2; objects: [data-obstacle]"
       position="0 0 -0.1"
       geometry="primitive: ring; radiusInner: 0.0045; radiusOuter: 0.0048"
       material="color: #885; shader: flat"
-      animation="property: visible; to: false; startEvents: enter-vr")
+      animation="property: visible; to: false; startEvents: enter-vr"
+      )
 
-  a-entity.left-hand(
+  a-entity#l(
     hand-controls="hand: left; color: #0ffc93"
-    raycaster="far: 0.15; direction: 1 0 0; objects: [handy]; showLine: true; enabled: false"
+    raycaster="far: 0.15; direction: 1 0 0; objects: [handy]; showLine: true"
+    wasd-vr="target: #tut; action: move"
     hand-vr
-    wasd-vr="action: move")
+    )
+    //- wasd-vr="action: move"
+    //- hand-vr="target: #tut"
+    //-   raycaster="far: 0.15; direction: 1 0 0; objects: [handy]; showLine: true; enabled: false"
 
-  a-entity.right-hand(
+  a-entity#r(
     hand-controls="hand: right; color: #0ffc93"
     raycaster="far: 0.15; direction: -1 0 0; objects: [handy]; showLine: true; enabled: false"
+    wasd-vr="target: #tut; action: turn"
     hand-vr
-    wasd-vr="action: turn")
+    )
+    //- hand-vr
 
   a-box#avatar(
     visible="false"
@@ -42,4 +59,5 @@ a-entity#player(
     height="1.8"
     depth="0.3"
     position="0 0.9 0"
-    shadow)
+    shadow
+    )

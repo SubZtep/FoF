@@ -1,4 +1,4 @@
-import * as AFrame from "aframe"
+import { Entity } from "aframe"
 import { Face3 } from "super-three/src/core/Face3"
 
 export const rnd = (min: number, max: number) => Math.random() * (min - max) + max
@@ -6,11 +6,27 @@ export const rnd = (min: number, max: number) => Math.random() * (min - max) + m
 export const sum = (nums: number[]) => nums.reduce((a, b) => a + b, 0)
 
 export const setColor = (geo: THREE.Geometry, color: THREE.Color | number) => {
-  // geo.faces.forEach(f => f.color.set(color))
   let f: Face3
   for (f of geo.faces) {
     f.color.set(color)
   }
+}
+
+export const addMixin = (el: Entity) => (name: string) => {
+  el.setAttribute("mixin", `${el.getAttribute("mixin") || ""} ${name}`.trimLeft())
+  return el
+}
+
+export const delMixin = (el: Entity) => (name: string) => {
+  let m = el.getAttribute("mixin") || ""
+  el.setAttribute(
+    "mixin",
+    m
+      .split(" ")
+      .filter(m => m !== name)
+      .join(" ")
+  )
+  return el
 }
 
 /**

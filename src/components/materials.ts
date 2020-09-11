@@ -37,7 +37,8 @@ AFRAME.registerComponent("gmat", {
   sv: new THREE.Vector2(),
 
   init() {
-    this.el.getObject3D("mesh").material = this.getMaterial()
+    this.mesh = this.el.getObject3D("mesh")
+    this.mesh.material = this.getMaterial()
   },
 
   update(oldData) {
@@ -55,7 +56,9 @@ AFRAME.registerComponent("gmat", {
       },
     } = this
     if (x !== 0 || y !== 0) {
-      this.el.getObject3D("mesh").material.map.offset.add(this.sv.set(x, y).multiplyScalar(deltaTime))
+      // this.el.getObject3D("mesh").material.map.offset.add(this.sv.set(x, y).multiplyScalar(deltaTime))
+      // this.mat.map.offset.add(this.sv.set(x, y).multiplyScalar(deltaTime))
+      this.mesh.material.map.offset.add(this.sv.set(x, y).multiplyScalar(deltaTime))
     }
   },
 

@@ -1,0 +1,82 @@
+//-a-entity.box(
+  geometry="primitive: box; width: 0.5; height: 0.5; depth: 0.5"
+  position="2 1.5 -3"
+  )
+
+//-
+  a-text.intro(
+    value="Flow Of Four"
+    negate="false"
+    font="roboto"
+    letter-spacing="4.21"
+    color="#fff"
+    width="10"
+    align="center"
+    position="0 2 -6"
+    opacity="0"
+  )
+
+  //- wasd-vr="player: #tut; acceleration: 200"
+
+a-entity#tut.intro(
+  geometry="primitive: kacsa"
+  mat="lambert"
+  position="0 0.25 -2"
+  rotation="0 180 0"
+  shadow="receive: false"
+  mixin="pulse"
+  handy
+  wasd-ext
+  ibidem
+)
+  a-entity(
+    obstacle-stop="target: #tut; diry: 0.5"
+    raycaster="far: 1; objects: [data-obstacle]"
+    )
+
+a-entity#tutaim.intro(
+  geometry="primitive: kacsa"
+  material="shader: flat; color: #404;"
+  position="0 1.2 -3"
+)
+
+a-text.txt(
+  align="center"
+)
+
+- var showObstacle = "false"
+
+a-box.intro(
+  visible=showObstacle
+  data-obstacle
+  position="0 1 -6.5"
+  width="8"
+  height="2"
+)
+
+a-box.intro(
+  visible=showObstacle
+  data-obstacle
+  position="0 1 4.5"
+  rotation="0 180 0"
+  width="8"
+  height="2"
+)
+
+a-box.intro(
+  visible=showObstacle
+  data-obstacle
+  position="-4.5 1 -1"
+  rotation="0 90 0"
+  width="12"
+  height="2"
+)
+
+a-box.intro(
+  visible=showObstacle
+  data-obstacle
+  position="4.5 1 -1"
+  rotation="0 -90 0"
+  width="12"
+  height="2"
+)

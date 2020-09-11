@@ -40,3 +40,10 @@ export type PlayerRayCol = {
   enabled?: boolean
   direction?: THREE.Vector3
 }
+
+export type EmulatedKeys = {
+  KeyW?: number
+  KeyS?: number
+  KeyA?: number
+  KeyD?: number
+}

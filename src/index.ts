@@ -1,10 +1,16 @@
+// Object.defineProperty(AFRAME.components.sound.Component.prototype, "audioLoader", {
+
+//debug import "aframe-stats-in-vr-component/dist/aframe-stats-in-vr-component.js"
+
 import "./3d/ground"
-import "./3d/bird"
+import "./3d/kacsa"
 import "./3d/tree-oak"
 import "./3d/tree-pine"
 
+import "./components/handy"
 import "./components/bouncy"
 import "./components/materials"
+import "./components/ibidem"
 
 import "./components/audio/audio-listener"
 import "./components/audio/analyser"
@@ -22,3 +28,4 @@ import "./components/player/hand-vr"
 import "./systems/forest"
 import "./systems/zoo"
 import "./systems/colours"
+import "./systems/story"

@@ -1,3 +1,8 @@
+- var debugComponents = {}
+unless isProduction
+  - debugComponents.stats = true
+  //- - debugComponents["stats-in-vr"] = ""
+
 doctype html
 html(lang="en")
   head
@@ -21,4 +26,22 @@ html(lang="en")
         background: linear-gradient(#24a3b5, #40320a);
       }
   body
-    include entities/scene.pug
+    a-scene(
+      pool__kacsa="mixin: kacsa; size: 50"
+      pool__oak="mixin: oak; size: 2"
+      pool__knot="mixin: knot; size: 2"
+      pool__pine="mixin: pine; size: 2"
+      background="color: #000"
+      audio-listener
+      fog="color: #000; near: 0; far: 0; type: 'exponential'"
+      )&attributes(debugComponents)
+      //- fog="color: #000; near: 5; far: 25; type: 'exponential'"
+      //- vr-mode-ui="enabled: false"
+      //- shadow="type: pcfsoft"
+      //- forest
+      //-
+      include entities/mixins.pug
+      include entities/environment.pug
+      include entities/lights.pug
+      include entities/intro.pug
+      include entities/player.pug

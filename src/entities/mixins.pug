@@ -1,6 +1,6 @@
 a-assets
 
-  //-|| ( •_•)O*¯`·.¸.·´¯`°Q(•_• ) || Animtions
+  //-|| ( •_•)O*¯`·.¸.·´¯`°Q(•_• ) || Animations
 
   a-mixin#pulse(
     animation="property: scale; to: 1.2 1.2 1.2; dur: 404; loop: true; dir: alternate")
@@ -8,17 +8,45 @@ a-assets
   a-mixin#fastanim(
     animation="dur: 150")
 
+  a-mixin#appear(
+    opacity="0"
+    position="2 1 -3"
+    material="color: blue"
+    animation_v="property: visible; to: true; delay: 1000"
+    animation="property: opacity; from: 0; to: 1; easing: easeInOutElastic; delay: 1500; dur: 1200"
+  )
 
+  a-mixin#fogout(
+    animation="property: fog.far; to: 25; dur: 1200"
+  )
+
+  a-mixin#playerintro(
+    position="0 -1 2.5"
+  )
+
+  //-|| ABC || Fonts
+
+  a-mixin#title(
+    text="font: roboto; negate: false; letter-spacing: 4.21; color: #fff"
+    position="0 2 -6"
+  )
+
+  a-mixin#msg(
+    text="font: roboto; negate: true; letter-spacing: 0; color: #faa"
+    position="0 1.6 -1"
+  )
 
   //-|| 龴ↀ◡ↀ龴 || Bestiarium
 
-  a-mixin#bird(
-    geometry="primitive: bird"
+  a-mixin#kacsa(
+    geometry="primitive: kacsa"
     mat="lambert"
     animation="property: scale; to: 2 2 2; dur: 850; loop: true; dir: alternate; easing: easeOutElastic"
-    handy
+    rotation="0 180 0"
     shadow
-    bouncy)
+    bouncy
+    )
+    //- handy
     //- handy)
 
 

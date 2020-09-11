@@ -10,12 +10,12 @@ import { Intersection } from "super-three/src/core/Raycaster"
 AFRAME.registerComponent("hand-vr", {
   dependencies: ["raycaster"],
 
-  schema: {
-    player: {
-      type: "selector",
-      default: "#player",
-    },
-  },
+  // schema: {
+  //   player: {
+  //     type: "selector",
+  //     default: "#player",
+  //   },
+  // },
 
   intersections: [],
   uuids: [], // object(s) in hand
@@ -34,8 +34,14 @@ AFRAME.registerComponent("hand-vr", {
       switch (detail) {
         case "hold":
           let int: Intersection | any
+          let child
+          let parent
           for (int of this.intersections) {
-            let child = int.object.parent.parent.el.object3D
+            parent = int.object.parent
+            if (parent.type !== "Group") {
+              parent = parent.parent
+            }
+            child = parent.el.object3D
             this.uuids.push(child.uuid)
             el.object3D.attach(child) // copy position and rotation
             //TODO: better base then `children[0]`

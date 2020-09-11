@@ -13,7 +13,7 @@ AFRAME.registerSystem("forest", {
   r: 88343, // for random
 
   init() {
-    this.el.addEventListener("loaded", this.deploy.bind(this), { once: true })
+    // this.el.addEventListener("loaded", this.deploy.bind(this), { once: true })
   },
 
   deploy() {
