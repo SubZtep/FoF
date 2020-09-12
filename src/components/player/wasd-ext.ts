@@ -1,6 +1,6 @@
-import { Vector2 } from "super-three/src/math/Vector2"
-
 /**
+ * ADD TO THE PLAYER OBJECT WITH CAMERA
+ *
  * Add extra keyboard movement keys for `wasd-controls` component:
  * q,Q: turn left
  * e,E: turn right
@@ -10,83 +10,70 @@ AFRAME.registerComponent("wasd-ext", {
   dependencies: ["wasd-controls"],
 
   schema: {
-    turn: {
-      default: 0.001,
-      // default: Math.PI / 5,
-    },
-    avatar: {
-      type: "selector",
-      default: "#avatar",
-    },
+    turn: { default: 0.001 },
+    avatar: { type: "selector", default: "#avatar" },
+    playerCam: { type: "selector", default: ".camera" },
   },
 
-  turn: 0,
-  camUp: false,
-  dorot: true,
+  t: 0, // for timeout
+  turn: 0, // current turn speed
+  camUp: false, // 3rd person avatar view
+  doRot: true, // slice rotation for vr
 
   play() {
     window.addEventListener("keydown", this.onKeyDown.bind(this))
     window.addEventListener("keyup", this.onKeyUp.bind(this))
+    this.el.sceneEl.addEventListener("enter-vr", this.toVR.bind(this))
+    this.el.sceneEl.addEventListener("exit-vr", this.exVR.bind(this))
   },
 
   pause() {
+    clearTimeout(this.t)
     window.removeEventListener("keydown", this.onKeyDown)
     window.removeEventListener("keyup", this.onKeyUp)
-    this.cam(false)
+    this.el.sceneEl.removeEventListener("enter-vr", this.toVR)
+    this.el.sceneEl.removeEventListener("exit-vr", this.exVR)
+  },
+
+  toVR() {
+    this.data.playerCam.object3D.children[0].el.emit("enter-vr", null, false)
+  },
+
+  exVR() {
+    this.data.playerCam.object3D.children[0].el.emit("exit-vr", null, false)
   },
 
   cam(up: boolean) {
-    this.el.sceneEl.camera.el.emit(up ? "u" : "d")
-    setTimeout(() => {
+    this.data.playerCam.object3D.el.emit(up ? "u" : "d")
+    this.t = setTimeout(() => {
       this.data.avatar.setAttribute("visible", up)
       this.el.children[0]?.setAttribute("raycaster", "showLine", up)
     }, 200)
   },
 
   onKeyDown({ key }: KeyboardEvent) {
-    if (key === "q") {
-      this.turn = 1
-    } else if (key === "e") {
-      this.turn = -1
-    } else if (key === "Q" && this.dorot) {
-      this.el.object3D.rotation.y += Math.PI / 5
-      this.dorot = false
-    } else if (key === "E" && this.dorot) {
-      this.el.object3D.rotation.y -= Math.PI / 5
+    if (["q", "e"].includes(key)) {
+      this.turn = key === "q" ? 1 : -1
+    } else if (["Q", "E"].includes(key) && this.dorot) {
+      let ang = Math.PI / 5
+      if (key === "E") ang *= -1
+      this.el.object3D.rotation.y += ang
       this.dorot = false
     } else if (key === "c") {
       this.camUp = !this.camUp
       this.cam(this.camUp)
     }
-    // if (this.turn !== 0) {
-    //   this.el.object3D.rotation.y += this.data.turn * this.turn
-    //   this.turn = 0
-    // }
   },
 
   onKeyUp({ key }: KeyboardEvent) {
-    if (key === "q" || key === "e") {
+    if (["q", "e"].includes(key)) {
       this.turn = 0
-    } else if (key === "Q" || key === "E") {
+    } else if (["Q", "E"].includes(key)) {
       this.dorot = true
     }
   },
 
   tick(_, timeDelta: number) {
     this.el.object3D.rotation.y += this.data.turn * this.turn * timeDelta
-    // if (this.turn !== 0) {
-    //   // this.el.object3D.rotation.y += this.data.turn * this.turn
-    //   // this.turn = 0
-    // }
   },
-
-  // canMove(pos: Vector2) {
-  //   let { borderTL, borderBR } = this.data
-  //   if (
-  //     (borderTL.x === 0 && borderTL.y === 0 && borderBR.x === 0 && borderBR.y === 0) ||
-  //     (borderTL.x > pos.x && borderTL.y > pos.y && borderBR.x < pos.x && borderBR.y < pos.y)
-  //   )
-  //     return true
-  //   return false
-  // },
 })

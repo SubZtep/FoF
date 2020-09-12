@@ -5,6 +5,7 @@
  */
 
 import { DetailEvent, Entity } from "aframe"
+import { addMixin, delMixin } from "../utils"
 
 AFRAME.registerComponent("handy", {
   /** 0: Off, 1: Intersected */
@@ -13,46 +14,59 @@ AFRAME.registerComponent("handy", {
     right: 0,
   },
 
-  init() {
-    let el = this.el
+  play() {
+    let { el } = this
+    el.addEventListener("raycaster-intersected", this.rayIn.bind(this))
+    el.addEventListener("raycaster-intersected-cleared", this.rayOut.bind(this))
+    el.addEventListener("hand", this.inHand.bind(this))
+    el.addEventListener("stateadded", this.setMixins.bind(this))
+    el.addEventListener("stateremoved", this.setMixins.bind(this))
+    this.setMixins()
+  },
 
-    const setMixins = () => {
-      if (el.is("hold")) {
-        el.object3D.scale.set(1, 1, 1)
-        el.removeAttribute("mixin")
-      } else {
-        el.setAttribute("mixin", `pulse${el.is("intersect") ? " fastanim" : ""}`)
+  pause() {
+    let { el } = this
+    el.removeEventListener("raycaster-intersected", this.rayIn)
+    el.removeEventListener("raycaster-intersected-cleared", this.rayOut)
+    el.removeEventListener("hand", this.inHand)
+    el.removeEventListener("stateadded", this.setMixins)
+    el.removeEventListener("stateremoved", this.setMixins)
+  },
+
+  setMixins() {
+    let { el } = this
+    let m
+    if (el.is("hold")) {
+      el.object3D.scale.set(1, 1, 1)
+      m = delMixin(el)
+      m("pulse")
+      m("fastanim")
+    } else {
+      m = addMixin(el)
+      m("pulse")
+      if (el.is("intersect")) m("fastanim")
+    }
+  },
+
+  inHand({ detail }: DetailEvent<boolean>) {
+    this.el[detail ? "addState" : "removeState"]("hold").addState("hold")
+  },
+
+  rayIn({ detail }: DetailEvent<{ el: Entity }>) {
+    let hc = detail.el.components["hand-controls"]
+    if (hc) {
+      this.hands[hc.data.hand] = 1
+      this.el.addState("intersect")
+    }
+  },
+
+  rayOut({ detail }: DetailEvent<{ el: Entity }>) {
+    let hc = detail.el.components["hand-controls"]
+    if (hc) {
+      this.hands[hc.data.hand] = 0
+      if (this.hands.left === 0 && this.hands.right === 0) {
+        this.el.removeState("intersect")
       }
     }
-
-    el.addEventListener("raycaster-intersected", (evt: DetailEvent<{ el: Entity }>) => {
-      let hc = evt.detail.el.components["hand-controls"]
-      if (hc) {
-        this.hands[hc.data.hand] = 1
-        el.addState("intersect")
-      }
-    })
-
-    el.addEventListener("raycaster-intersected-cleared", ({ detail }: DetailEvent<{ el: Entity }>) => {
-      let hc = detail.el.components["hand-controls"]
-      if (hc) {
-        this.hands[hc.data.hand] = 0
-        if (this.hands.left === 0 && this.hands.right === 0) {
-          el.removeState("intersect")
-        }
-      }
-    })
-
-    el.addEventListener("hand", ({ detail }: DetailEvent<boolean>) => {
-      if (detail) {
-        el.addState("hold")
-      } else {
-        el.removeState("hold")
-      }
-    })
-
-    el.addEventListener("stateadded", setMixins)
-    el.addEventListener("stateremoved", setMixins)
-    setMixins()
   },
 })

@@ -1,3 +1,6 @@
+import { Entity } from "aframe"
+import { Object3D } from "super-three/src/core/Object3D"
+
 declare global {
   var THREE: typeof THREE
 }
@@ -46,4 +49,9 @@ export type EmulatedKeys = {
   KeyS?: number
   KeyA?: number
   KeyD?: number
+}
+
+export interface AObject3D extends Object3D {
+  el?: Entity
+  children: AObject3D[]
 }

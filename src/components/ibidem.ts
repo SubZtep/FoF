@@ -6,7 +6,7 @@ const comp = (obj1: Vector3, obj2: Vector3, tolerance: number) =>
   Math.abs(obj1.z - obj2.z) < tolerance
 
 /**
- * Trigger event if "this" object is (about) the same place and rotation as in schema
+ * Trigger event if "this" object is (about) the same place and rotation as target
  */
 AFRAME.registerComponent("ibidem", {
   schema: {

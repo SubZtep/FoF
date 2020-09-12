@@ -23,7 +23,6 @@ import "./components/environment/stars"
 import "./components/player/obstacle-stop"
 import "./components/player/wasd-ext"
 import "./components/player/wasd-vr"
-import "./components/player/hand-vr"
 
 import "./systems/forest"
 import "./systems/zoo"

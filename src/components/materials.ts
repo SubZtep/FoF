@@ -19,7 +19,9 @@ AFRAME.registerComponent("mat", {
     default: "lambert",
   },
   init() {
-    this.el.getObject3D("mesh").material = mats[this.data]
+    let material = mats[this.data]
+    // material.color.convertSRGBToLinear()
+    this.el.getObject3D("mesh").material = material
   },
 })
 
@@ -107,8 +109,12 @@ AFRAME.registerComponent("gmat", {
     texctx.fillRect(0, 0, s, s)
     imdata = texctx.getImageData(0, 0, s, s)
     im = imdata.data
+
     col1 = new THREE.Color(data.color)
+    col1.convertSRGBToLinear()
     col2 = new THREE.Color(data.color2)
+    col2.convertSRGBToLinear()
+
     let walkers = []
     let numwalkers = 1000
     for (i = 0; i < numwalkers; i++) {

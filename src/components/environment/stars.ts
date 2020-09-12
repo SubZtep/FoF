@@ -8,7 +8,7 @@ AFRAME.registerComponent("stars", {
       default: "#daa520",
     },
     size: {
-      default: 3,
+      default: 2.5,
     },
     count: {
       default: 200,
@@ -21,28 +21,28 @@ AFRAME.registerComponent("stars", {
       phi: number
 
     for (var i = 0; i < data.count; i++) {
-      var vertex = new THREE.Vector3()
-
       // @ts-ignore
       theta = THREE.Math.randFloatSpread(360)
       // @ts-ignore
       phi = THREE.Math.randFloatSpread(360)
 
-      vertex.x = data.distance * Math.sin(theta) * Math.cos(phi)
-      vertex.y = Math.abs(data.distance * Math.sin(theta) * Math.sin(phi))
-      vertex.z = data.distance * Math.cos(theta)
-
-      geometry.vertices.push(vertex)
+      geometry.vertices.push(
+        new THREE.Vector3(
+          data.distance * Math.sin(theta) * Math.cos(phi),
+          Math.abs(data.distance * Math.sin(theta) * Math.sin(phi)),
+          data.distance * Math.cos(theta)
+        )
+      )
     }
-    var particles = new THREE.Points(
-      geometry,
-      new THREE.PointsMaterial({
-        fog: false,
-        color: data.color,
-        size: data.size,
-        sizeAttenuation: false,
-      })
-    )
+
+    let m = new THREE.PointsMaterial({
+      fog: false,
+      color: data.color,
+      size: data.size,
+      sizeAttenuation: false,
+    })
+    m.color.convertSRGBToLinear()
+    var particles = new THREE.Points(geometry, m)
     // @ts-ignore
     particles.boundingSphere = 120
 

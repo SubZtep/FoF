@@ -17,7 +17,7 @@ a-assets
   )
 
   a-mixin#fogout(
-    animation="property: fog.far; to: 25; dur: 1200"
+    animation="property: fog.far; to: 25; dur: 2500"
   )
 
   a-mixin#playerintro(
@@ -47,7 +47,6 @@ a-assets
     bouncy
     )
     //- handy
-    //- handy)
 
 
   //-|| இڿڰۣ-ڰۣ—-- || Environment
@@ -63,3 +62,19 @@ a-assets
   a-mixin#pine(
     geometry="primitive: pine"
          mat="toon")
+
+  //-|| STORY || Storyline
+
+  a-mixin#fullfog(
+    fog="color: #000; near: 0; far: 0; type: exponential"
+  )
+
+  a-mixin#scenesun(
+    background="color: #24a3b5"
+    fog="color: #24a3b5; near: 30; far: 50; type: exponential"
+  )
+
+  a-mixin#scenelila(
+    background="color: #303c42"
+    fog="color: #303c42; near: 30; far: 50; type: exponential"
+  )

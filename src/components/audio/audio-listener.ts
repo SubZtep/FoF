@@ -11,7 +11,8 @@ AFRAME.registerComponent("audio-listener", {
 
     if (listener.context.state === "suspended") {
       // The AudioContext was not allowed to start. It must be resumed (or created)
-      // after a user gesture on the page. https://goo.gl/7K7WLu
+      // after a user gesture on the page. https://goo.gl/7K7WLu#
+      //TODO: user already in vt only have controllers
       ;["click", "keypress"].forEach(type =>
         document.addEventListener(
           type,

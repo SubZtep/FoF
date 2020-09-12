@@ -1,12 +1,11 @@
 - var eyePosition = "0 1.6 0"
 
-  //- wasd-controls="acceleration: 150"
-    //- obstacle-stop
 a-entity#player(
   mixin="playerintro"
+  wasd-ext
   )
 
-  a-entity.ray(
+  a-entity(
     raycaster="far: 2; objects: [data-obstacle]"
     )
 
@@ -18,39 +17,35 @@ a-entity#player(
     animation__p="property: position; to: 0 1.6 0; startEvents: d; dur: 300"
     )
 
-    a-entity.novr(
-      text="font: roboto; align: center; color: #fff; value: Waiting for VR"
-      position="0 0.5 -1"
-      animation="property: text.opacity; from: 0; to: 1; dur: 1200; dir: alternate; loop: true; easing: easeInOutBack"
+    //- visible="true"
+    a-entity.novr.intro(
+      animation="property: visible; from: true; to: false; startEvents: enter-vr; resumeEvents: exit-vr"
+      text="font: roboto; align: center; color: #fff; value: Enter VR"
+      position="0 0.02 -0.2"
     )
+    //- animation="property: text.opacity; from: 0; to: 1; dur: 1200; dir: alternate; loop: true; easing: easeInOutBack"
 
-    a-entity.novr(
-      cursor
-      visible="true"
-      raycaster="far: 2; objects: [data-obstacle]"
-      position="0 0 -0.1"
-      geometry="primitive: ring; radiusInner: 0.0045; radiusOuter: 0.0048"
-      material="color: #885; shader: flat"
-      animation="property: visible; to: false; startEvents: enter-vr"
-      )
+    //- a-entity.novr(
+    //-   cursor
+    //-   visible="true"
+    //-   raycaster="far: 2; objects: [data-obstacle]"
+    //-   position="0 0 -0.1"
+    //-   geometry="primitive: ring; radiusInner: 0.0045; radiusOuter: 0.0048"
+    //-   material="color: #885; shader: flat"
+    //-   animation="property: visible; to: false; startEvents: enter-vr"
+    //-   )
 
   a-entity#l(
     hand-controls="hand: left; color: #0ffc93"
     raycaster="far: 0.15; direction: 1 0 0; objects: [handy]; showLine: true"
-    wasd-vr="target: #tut; action: move"
-    hand-vr
+    wasd-vr="target: #player; action: move"
     )
-    //- wasd-vr="action: move"
-    //- hand-vr="target: #tut"
-    //-   raycaster="far: 0.15; direction: 1 0 0; objects: [handy]; showLine: true; enabled: false"
 
   a-entity#r(
     hand-controls="hand: right; color: #0ffc93"
-    raycaster="far: 0.15; direction: -1 0 0; objects: [handy]; showLine: true; enabled: false"
-    wasd-vr="target: #tut; action: turn"
-    hand-vr
+    raycaster="far: 0.15; direction: -1 0 0; objects: [handy]; showLine: true;"
+    wasd-vr="target: #player; action: turn"
     )
-    //- hand-vr
 
   a-box#avatar(
     visible="false"

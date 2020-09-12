@@ -1,5 +1,4 @@
-import { DetailEvent, Entity } from "aframe"
-import { addMixin, delMixin } from "../utils"
+import { addMixin, delEls, delMixin } from "../utils"
 
 AFRAME.registerSystem("story", {
   schema: {
@@ -9,22 +8,27 @@ AFRAME.registerSystem("story", {
     r: { type: "selector", default: "#r" },
     stars: { type: "selector", default: ".stars" },
     ground: { type: "selector", default: ".ground" },
+    player: { type: "selector", default: "#player" },
   },
 
-  t: null,
+  t: 0, // for timeout
 
   init() {
-    setTimeout(() => {
-      this.sceneEl.querySelectorAll(".novr").forEach(e => e.remove())
-    }, 10000)
-
-    this.zoo = this.el.systems["zoo"]
-
     this.el.addEventListener("loaded", () => {
-      // this.el.addEventListener("enter-vr", this.s1.bind(this))
-      this.el.addEventListener("exit-vr", location.reload)
-      this.s1()
+      this.zoo = this.el.systems["zoo"]
+      // this.s5()
     })
+  },
+
+  play() {
+    this.el.addEventListener(
+      "enter-vr",
+      () => {
+        this.s1()
+      },
+      { once: true }
+    )
+    this.el.addEventListener("exit-vr", location.reload)
   },
 
   s1() {
@@ -72,10 +76,11 @@ AFRAME.registerSystem("story", {
 
   s3() {
     let {
+      el,
       data: { txt, l, r, stars, ground },
     } = this
 
-    addMixin(this.el)("fogout")
+    addMixin(el)("fogout")
 
     // this.t = setTimeout(this.s4.bind(this), 3000)
     this.s4()
@@ -98,13 +103,25 @@ AFRAME.registerSystem("story", {
   },
 
   s5() {
-    let all = document.querySelectorAll(".intro") as NodeListOf<Entity>,
-      len = all.length,
-      el: Entity,
-      i: number
-    for (i = 0; i < len; i++) {
-      el = all[i]
-      el.parentNode.removeChild(el).destroy()
-    }
+    let {
+      el,
+      data: { ground, player },
+    } = this
+    console.log("S5")
+    delEls(".intro") // ?
+    let kacsa = document.querySelector("#tut")
+    kacsa.removeAttribute("wasd-ext")
+
+    document.querySelector("#l").setAttribute("wasd-vr", "target", "#player")
+    document.querySelector("#r").setAttribute("wasd-vr", "target", "#player")
+
+    delMixin(player)("playerintro")
+
+    delMixin(el)("fullfog")
+    addMixin(el)("scenesun")
+
+    ground.setAttribute("gmat", "speed", { x: 0, y: 0 })
+    ground.setAttribute("gmat", { color: 0x499d45, color2: 0x000000 })
+    ground.setAttribute("visible", "true")
   },
 })

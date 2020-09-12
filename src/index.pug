@@ -25,23 +25,31 @@ html(lang="en")
       body {
         background: linear-gradient(#24a3b5, #40320a);
       }
+      .a-enter-vr-button {
+        min-width: 116px;
+        min-height: 68px;
+      }
+      .a-enter-vr-button:hover {
+        background-color: #404 !important;
+      }
   body
     a-scene(
-      pool__kacsa="mixin: kacsa; size: 50"
+      renderer="alpha: false; gammaFactor: 2.2; colorManagement: true, antialias: false; logarithmicDepthBuffer: false; physicallyCorrectLights: true: precision: low"
+      pool__kacsa="mixin: kacsa; size: 10"
       pool__oak="mixin: oak; size: 2"
       pool__knot="mixin: knot; size: 2"
       pool__pine="mixin: pine; size: 2"
-      background="color: #000"
       audio-listener
-      fog="color: #000; near: 0; far: 0; type: 'exponential'"
+      shadow="type: pcfsoft"
       )&attributes(debugComponents)
+      //- mixin="fullfog"
+      //- background="color: #000"
       //- fog="color: #000; near: 5; far: 25; type: 'exponential'"
       //- vr-mode-ui="enabled: false"
-      //- shadow="type: pcfsoft"
       //- forest
       //-
       include entities/mixins.pug
       include entities/environment.pug
       include entities/lights.pug
-      include entities/intro.pug
       include entities/player.pug
+      include entities/intro.pug

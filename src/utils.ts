@@ -13,7 +13,10 @@ export const setColor = (geo: THREE.Geometry, color: THREE.Color | number) => {
 }
 
 export const addMixin = (el: Entity) => (name: string) => {
-  el.setAttribute("mixin", `${el.getAttribute("mixin") || ""} ${name}`.trimLeft())
+  let m = el.getAttribute("mixin")
+  if (new RegExp(`\\b${name}\\b`, "g").test(m)) {
+    el.setAttribute("mixin", `${m || ""} ${name}`.trimLeft())
+  }
   return el
 }
 
@@ -55,3 +58,38 @@ export const random = (x: number, seed = 8) =>
         .toString()
         .substr(7)
   )
+
+const delel = (el: Entity) => {
+  Object.keys(el.components).forEach(k => el.removeAttribute(k))
+  el.parentNode?.removeChild(el)
+  el.destroy()
+}
+
+const delEl = (el: Entity) => {
+  if (el.childElementCount > 0) {
+    el.childNodes.forEach(c => c.remove())
+  }
+  delel(el)
+}
+
+/**
+ * Delete but I think it's not reall working...
+ */
+export const delEls = (sel: string) => {
+  let all = document.querySelectorAll(sel) as NodeListOf<Entity>,
+    len = all.length,
+    el: Entity,
+    i: number
+  for (i = 0; i < len; i++) {
+    el = all[i]
+    if (el.hasAttribute("animation")) {
+      el.removeAttribute("animation")
+      //FIXME: wtf not destroy with anim asap?
+      setTimeout(() => {
+        delEl(el)
+      }, 1000)
+    } else {
+      delEl(el)
+    }
+  }
+}

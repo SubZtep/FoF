@@ -10,6 +10,9 @@ AFRAME.registerGeometry("kacsa", {
       yellow = new THREE.Color(0xffff00),
       geo = new THREE.Geometry()
 
+    blue.convertSRGBToLinear()
+    yellow.convertSRGBToLinear()
+
     let body = new THREE.SphereGeometry(1, 8, 8).translate(0, 1.4, 0)
     setColor(body, blue)
     geo.merge(body)
