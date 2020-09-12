@@ -9,7 +9,11 @@ AFRAME.registerComponent("obstacle-stop", {
   schema: {
     target: {
       type: "selector",
-      default: "#player",
+      // default: "#player",
+    },
+    obstacle: {
+      type: "selector",
+      default: "[data-obstacle]",
     },
     dirY: {
       default: 2,
@@ -19,6 +23,10 @@ AFRAME.registerComponent("obstacle-stop", {
   zm: () => new THREE.Vector3(),
   o: null,
   d: null,
+
+  update() {
+    if (!this.data.target) this.data.target = this.el.parentEl
+  },
 
   play() {
     this.wasd = this.data.target.components["wasd-controls"]

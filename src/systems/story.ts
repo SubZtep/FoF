@@ -1,92 +1,133 @@
-import { addMixin, delEls, delMixin } from "../utils"
+import { addMixin, delEls, delMixin, setText, sleep } from "../utils"
 
 AFRAME.registerSystem("story", {
   schema: {
-    txt: { type: "selector", default: ".txt" },
-    box: { type: "selector", default: ".box" },
+    // controllers
     l: { type: "selector", default: "#l" },
     r: { type: "selector", default: "#r" },
+
+    // environment
     stars: { type: "selector", default: ".stars" },
     ground: { type: "selector", default: ".ground" },
+
+    // Text on screen center
+    txt: { type: "selector", default: ".txt" },
+
+    // ??
+    box: { type: "selector", default: ".box" },
     player: { type: "selector", default: "#player" },
   },
 
-  t: 0, // for timeout
+  novr() {
+    let t: any
+    const novrListener = () => {
+      noNovr()
+      this.el.addState("novr")
+      this.el.dispatchEvent(new CustomEvent("enter-vr"))
+      let c = this.data.player.object3D.children.find(e => e.el.classList.contains("camera"))
+      if (c) c.position.y = 1.6
+    }
+    const noNovr = () => {
+      clearTimeout(t)
+      window.removeEventListener("novr", novrListener)
+      document.querySelector(".novr").remove()
+    }
+    t = setTimeout(noNovr, 5000)
+    window.addEventListener("novr", novrListener)
+  },
+
+  hasControllers() {
+    return (this.data.l.is("connected") && this.data.r.is("connected")) || this.el.is("novr")
+  },
 
   init() {
-    this.el.addEventListener("loaded", () => {
-      this.zoo = this.el.systems["zoo"]
-      // this.s5()
+    let { el, data } = this
+    this.novr()
+
+    el.addEventListener("loaded", () => {
+      this.zoo = el.systems["zoo"]
+
+      this.elAM = addMixin(el)
+      this.elDM = delMixin(el)
+      this.grAM = addMixin(data.ground)
+      this.txtAM = addMixin(data.txt)
+      this.txtDM = delMixin(data.txt)
+      this.txtVal = setText(data.txt)
+
+      el.addEventListener("enter-vr", this.s1.bind(this), { once: true })
+      el.addEventListener("exit-vr", location.reload)
     })
   },
 
-  play() {
-    this.el.addEventListener(
-      "enter-vr",
-      () => {
-        this.s1()
-      },
-      { once: true }
-    )
-    this.el.addEventListener("exit-vr", location.reload)
-  },
-
-  s1() {
-    let {
-      el,
-      data: { txt, l, r },
-    } = this
-    el.setAttribute("background", "color", 0x000000)
-
-    addMixin(txt)("msg")
-    txt.setAttribute("value", "Waiting for Controllers")
-
-    l.addEventListener("stateadded", this.s1_checkControllers.bind(this))
-    l.addEventListener("stateremoved", this.s1_checkControllers.bind(this))
-    r.addEventListener("stateadded", this.s1_checkControllers.bind(this))
-    r.addEventListener("stateremoved", this.s1_checkControllers.bind(this))
-
+  async s1() {
+    this.elDM("elsunny", "elfogmid")("eldark", "fogzero")
+    this.grAM("grsea")
+    if (!this.hasControllers()) {
+      await this.s1_checkControllers()
+    }
     this.s2()
   },
 
-  s1_checkControllers() {
-    if (this.data.l.is("connected") && this.data.r.is("connected")) {
-      this.s2()
+  async s1_checkControllers() {
+    let { l, r } = this.data
+
+    this.txtAM("msg")
+    this.txtVal("Waiting for Controllers")
+    await sleep(1)
+
+    const chkCtrls = async res => {
+      if (this.hasControllers()) {
+        l.removeEventListener("stateadded", this.s1_checkControllers)
+        l.removeEventListener("stateremoved", this.s1_checkControllers)
+        r.removeEventListener("stateadded", this.s1_checkControllers)
+        r.removeEventListener("stateremoved", this.s1_checkControllers)
+        this.txtVal("")
+        await sleep(0.1)
+        this.txtVal("Controllers Found")
+        await sleep(1)
+        return res()
+      }
     }
+
+    return new Promise(res => {
+      l.addEventListener("stateadded", chkCtrls.bind(this, res))
+      l.addEventListener("stateremoved", chkCtrls.bind(this, res))
+      r.addEventListener("stateadded", chkCtrls.bind(this, res))
+      r.addEventListener("stateremoved", chkCtrls.bind(this, res))
+    })
   },
 
-  s2() {
-    let { l, r, txt, ground } = this.data
+  async s2() {
+    this.txtDM("msg")("title")
+    this.txtVal("Flow of Four")
+    await sleep(5)
 
-    l.removeEventListener("stateadded", this.s1_checkControllers)
-    l.removeEventListener("stateremoved", this.s1_checkControllers)
-    r.removeEventListener("stateadded", this.s1_checkControllers)
-    r.removeEventListener("stateremoved", this.s1_checkControllers)
+    this.grAM("grstream")
+    this.elAM("fogout")
 
-    addMixin(txt)("title")
-    delMixin(txt)("msg")
-    txt.setAttribute("value", "Flow of Four")
+    await sleep(5)
+    // ground.setAttribute("gmat", "speed", { x: 0, y: 0.0001 })
 
-    ground.setAttribute("visible", true)
-    ground.setAttribute("gmat", "speed", { x: 0, y: 0.0001 })
-
-    // this.t = setTimeout(this.s3.bind(this), 3000)
+    // this.t = setTimeout(this.s3.bind(this), 5000)
     this.s3()
   },
 
   s3() {
+    console.log("s3")
     let {
       el,
       data: { txt, l, r, stars, ground },
     } = this
 
-    addMixin(el)("fogout")
+    // this.elAM("fogout")
+    // addMixin(el)("fogout")
 
     // this.t = setTimeout(this.s4.bind(this), 3000)
     this.s4()
   },
 
   s4() {
+    console.log("s4")
     let { txt, stars } = this.data
 
     delMixin(txt)("title")
@@ -103,12 +144,12 @@ AFRAME.registerSystem("story", {
   },
 
   s5() {
+    console.log("s5")
     let {
       el,
       data: { ground, player },
     } = this
-    console.log("S5")
-    delEls(".intro") // ?
+    // delEls(".intro") // ?
     let kacsa = document.querySelector("#tut")
     kacsa.removeAttribute("wasd-ext")
 

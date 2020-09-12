@@ -1,12 +1,7 @@
 a-assets
-
   //-|| ( •_•)O*¯`·.¸.·´¯`°Q(•_• ) || Animations
-
-  a-mixin#pulse(
-    animation="property: scale; to: 1.2 1.2 1.2; dur: 404; loop: true; dir: alternate")
-
-  a-mixin#fastanim(
-    animation="dur: 150")
+  a-mixin#pulse(animation="property: scale; to: 1.2 1.2 1.2; dur: 404; loop: true; dir: alternate")
+  a-mixin#fastanim(animation="dur: 150")
 
   a-mixin#appear(
     opacity="0"
@@ -16,28 +11,21 @@ a-assets
     animation="property: opacity; from: 0; to: 1; easing: easeInOutElastic; delay: 1500; dur: 1200"
   )
 
-  a-mixin#fogout(
-    animation="property: fog.far; to: 25; dur: 2500"
-  )
-
-  a-mixin#playerintro(
-    position="0 -1 2.5"
-  )
+  a-mixin#fogout(animation="property: fog.far; to: 25; dur: 2500")
+  a-mixin#playerintro(position="0 -1 2.5")
 
   //-|| ABC || Fonts
-
   a-mixin#title(
-    text="font: roboto; negate: false; letter-spacing: 4.21; color: #fff"
-    position="0 2 -6"
-  )
+    text="font: roboto; negate: false; color: white; letter-spacing: 4.21; opacity: 0"
+    animation="property: opacity; to: 1; easing: easeInOutElastic; delay: 1500; dur: 1200"
+    position="0 1 -2")
 
+  //-
   a-mixin#msg(
-    text="font: roboto; negate: true; letter-spacing: 0; color: #faa"
-    position="0 1.6 -1"
-  )
+    text="font: roboto; negate: true; color: red"
+    position="0 1.6 -4")
 
   //-|| 龴ↀ◡ↀ龴 || Bestiarium
-
   a-mixin#kacsa(
     geometry="primitive: kacsa"
     mat="lambert"
@@ -48,33 +36,27 @@ a-assets
     )
     //- handy
 
-
   //-|| இڿڰۣ-ڰۣ—-- || Environment
+  a-mixin#oak(geometry="primitive: oak" mat="phong")
+  a-mixin#knot(geometry="primitive: oak;knot: true" mat="phong")
+  a-mixin#pine(geometry="primitive: pine" mat="toon")
 
-  a-mixin#oak(
-    geometry="primitive: oak"
-         mat="phong")
+  //-|| SCENE ||
+  a-mixin#fogzero(fog="near: 0; far: 0;")
+  a-mixin#fognear(fog="near: 1; far: 20;")
+  a-mixin#fogmid(fog="near: 5; far: 25;")
+  a-mixin#fogfar(fog="near: 20; far: 40;")
+  a-mixin#eldark(background="color: #000" fog="color: #000;")
+  a-mixin#elsunny(background="color: #24a3b5" fog="color: #24a3b5;")
+  a-mixin#ellila(background="color: #303c42" fog="color: #303c42;")
 
-  a-mixin#knot(
-    geometry="primitive: oak;knot: true"
-         mat="phong")
+  //--|| STARS ||
+  a-mixin#stbig(animation="property: stars.size; to: 10; dur: 4000")
+  a-mixin#stdark(animation="property: stars.color; to: #f00; dur: 400")
 
-  a-mixin#pine(
-    geometry="primitive: pine"
-         mat="toon")
-
-  //-|| STORY || Storyline
-
-  a-mixin#fullfog(
-    fog="color: #000; near: 0; far: 0; type: exponential"
-  )
-
-  a-mixin#scenesun(
-    background="color: #24a3b5"
-    fog="color: #24a3b5; near: 30; far: 50; type: exponential"
-  )
-
-  a-mixin#scenelila(
-    background="color: #303c42"
-    fog="color: #303c42; near: 30; far: 50; type: exponential"
-  )
+  //-|| GROUND ||
+  a-mixin#grstream(animation="property: gmat.offset; to: 0 -100; dur: 500000; loop: true")
+  a-mixin#grpara(animation="property: rotation; to: 1; dur: 1000; loop: true")
+  a-mixin#grsea(gmat="c1: #13f; c2: #000")
+  a-mixin#grweed(gmat="c1: #499d45; c2: #000")
+  a-mixin#grgreen(gmat="c1: #836a14; c2: #060")

@@ -12,7 +12,7 @@ AFRAME.registerComponent("ibidem", {
   schema: {
     target: {
       type: "selector",
-      default: "#tutaim",
+      default: "#stux",
     },
     posTolerance: {
       default: 0.2,

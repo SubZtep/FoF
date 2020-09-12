@@ -1,29 +1,29 @@
 //-visible="false"
 
-//- a-entity#tut.intro(
-//-   geometry="primitive: kacsa"
-//-   mat="lambert"
-//-   position="0 0.25 -2"
-//-   rotation="0 180 0"
-//-   shadow="receive: false"
-//-   mixin="pulse"
-//-   handy
-//-   wasd-ext
-//-   ibidem
-//- )
-//-   a-entity(
-//-     obstacle-stop="target: #tut; dirY: 0.5"
-//-     raycaster="far: 1; objects: [data-obstacle]"
-//-     )
+a-entity#stux(
+  visible="false"
+  geometry="primitive: kacsa"
+  material="shader: flat; color: #404;"
+  position="0 1.2 -3")
 
-//- a-entity#tutaim.intro(
-//-   visible="false"
-//-   geometry="primitive: kacsa"
-//-   material="shader: flat; color: #404;"
-//-   position="0 1.2 -3"
-//- )
+a-entity#tux(
+  visible="false"
+  wasd-ext
+  geometry="primitive: kacsa"
+  mat="lambert"
+  position="0 0.25 -2"
+  rotation="0 180 0"
+  shadow="receive: false"
+  mixin="pulse"
+  handy
+)
+  //- ibidem
+  a-entity(
+    raycaster="far: 1; objects: [data-obstacle]"
+    obstacle-stop="dirY: 0.5")
 
 a-text.txt(
+  value="..."
   align="center"
 )
 

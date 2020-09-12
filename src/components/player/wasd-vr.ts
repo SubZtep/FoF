@@ -137,7 +137,7 @@ AFRAME.registerComponent("wasd-vr", {
   },
 
   move(x: number, y: number) {
-    console.log([this.wasd, x, y])
+    // console.log([this.wasd, x, y])
     if (!this.wasd) return
 
     let keys: EmulatedKeys = {}

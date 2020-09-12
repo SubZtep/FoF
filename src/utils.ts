@@ -12,25 +12,29 @@ export const setColor = (geo: THREE.Geometry, color: THREE.Color | number) => {
   }
 }
 
-export const addMixin = (el: Entity) => (name: string) => {
-  let m = el.getAttribute("mixin")
-  if (new RegExp(`\\b${name}\\b`, "g").test(m)) {
-    el.setAttribute("mixin", `${m || ""} ${name}`.trimLeft())
-  }
-  return el
+export const addMixin = (el: Entity) => (...names: string[]) => {
+  let m = el.getAttribute("mixin") || ""
+  el.setAttribute("mixin", [...new Set([...m.split(" "), ...names])].join(" "))
+  return delMixin(el)
 }
 
-export const delMixin = (el: Entity) => (name: string) => {
+export const delMixin = (el: Entity) => (...names: string[]) => {
   let m = el.getAttribute("mixin") || ""
   el.setAttribute(
     "mixin",
     m
       .split(" ")
-      .filter(m => m !== name)
+      .filter(m => !names.includes(m))
       .join(" ")
   )
-  return el
+  return addMixin(el)
 }
+
+export const setText = (el: Entity) => (value: string) => {
+  el.setAttribute("value", value)
+}
+
+export const sleep = (s: number) => new Promise(r => setTimeout(r, s * 1000))
 
 /**
  * remap value from the range of [smin,smax] to [emin,emax]

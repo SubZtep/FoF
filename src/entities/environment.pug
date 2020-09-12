@@ -1,24 +1,17 @@
-//- visible="false"
-a-entity.stars(
-  )
+a-entity.stars(stars)
 
-//- visible="false"
 a-entity.ground(
-  gmat
   geometry="primitive: ground"
   shadow="cast: false"
-  position="0 0.3 0"
   rotation="-90 0 0"
+  mixin="grweed grstream"
   )
 
 //- Water
-//- visible="false"
+//-a-entity(visible="false")
 a-entity(water="size: 100 80" position="0 0 -90")
-//- visible="false"
 a-entity(water="size: 100 80" position="0 0 90")
-//- visible="false"
 a-entity(water="size: 80 100" position="-90 0 0")
-//- visible="false"
 a-entity(water="size: 80 100" position="90 0 0")
 
 //- Pillars

@@ -35,17 +35,29 @@ AFRAME.registerComponent("stars", {
       )
     }
 
-    let m = new THREE.PointsMaterial({
+    // this.color = new THREE.Color(data.color)
+    // color.convertSRGBToLinear()
+
+    this.m = new THREE.PointsMaterial({
       fog: false,
-      color: data.color,
-      size: data.size,
+      // color: this.color,
+      // size: data.size,
       sizeAttenuation: false,
     })
-    m.color.convertSRGBToLinear()
-    var particles = new THREE.Points(geometry, m)
-    // @ts-ignore
-    particles.boundingSphere = 120
 
-    this.el.setObject3D("stars", particles)
+    this.ps = new THREE.Points(geometry, this.m)
+
+    // @ts-ignore
+    this.ps.boundingSphere = 120
+
+    this.el.setObject3D("stars", this.ps)
+  },
+
+  update() {
+    this.color = new THREE.Color(this.data.color)
+    this.m.setValues({
+      color: this.color,
+      size: this.data.size,
+    })
   },
 })

@@ -30,9 +30,10 @@ AFRAME.registerComponent("gmat", {
 
   schema: {
     size: { default: 100 },
-    color: { type: "color", default: "#13f" },
-    color2: { type: "color", default: "#000" },
-    speed: { type: "vec2", default: { x: 0, y: 0 } }, //
+    c1: { type: "color", default: "#0f0" },
+    c2: { type: "color", default: "#000" },
+    offset: { type: "vec2", default: { x: 0, y: 0 } },
+    // speed: { type: "vec2", default: { x: 0, y: 0 } }, //
     // speed: { type: "vec2", default: { x: 0, y: -0.00005 } },
   },
 
@@ -43,26 +44,29 @@ AFRAME.registerComponent("gmat", {
     this.mesh.material = this.getMaterial()
   },
 
-  update(oldData) {
+  update(old) {
     let { el, data } = this
-    if (data.color !== oldData.color || data.color2 !== oldData.color2) {
+    if (data.c1 !== old.c1 || data.c2 !== old.c2) {
       //TODO: update only texture
       el.getObject3D("mesh").material = this.getMaterial()
     }
-  },
-
-  tick(_, deltaTime) {
-    let {
-      data: {
-        speed: { x, y },
-      },
-    } = this
-    if (x !== 0 || y !== 0) {
-      // this.el.getObject3D("mesh").material.map.offset.add(this.sv.set(x, y).multiplyScalar(deltaTime))
-      // this.mat.map.offset.add(this.sv.set(x, y).multiplyScalar(deltaTime))
-      this.mesh.material.map.offset.add(this.sv.set(x, y).multiplyScalar(deltaTime))
+    if (!old.offset || data.offset.x !== old.offset.x || data.offset.y !== old.offset.y) {
+      this.mesh.material.map.offset.set(data.offset.x, data.offset.y)
     }
   },
+
+  // tick(_, deltaTime) {
+  //   let {
+  //     data: {
+  //       speed: { x, y },
+  //     },
+  //   } = this
+  //   if (x !== 0 || y !== 0) {
+  //     // this.el.getObject3D("mesh").material.map.offset.add(this.sv.set(x, y).multiplyScalar(deltaTime))
+  //     // this.mat.map.offset.add(this.sv.set(x, y).multiplyScalar(deltaTime))
+  //     this.mesh.material.map.offset.add(this.sv.set(x, y).multiplyScalar(deltaTime))
+  //   }
+  // },
 
   /**
    * @param texMeters ground texture of 20 x 20 meters
@@ -89,42 +93,39 @@ AFRAME.registerComponent("gmat", {
 
   drawTexture(ctx: CanvasRenderingContext2D, size: number) {
     let { data } = this
-    ctx.fillStyle = data.color
+    ctx.fillStyle = data.c1
     ctx.fillRect(0, 0, size, size)
 
-    let i: number
-    let col: THREE.Color
-    let col1: THREE.Color
-    let col2: THREE.Color
-    let im: Uint8ClampedArray
-    let imdata: ImageData
-
-    // walkernoise
-    let s = Math.floor(size / 2)
-    let tex: any = document.createElement("canvas")
+    let i: number,
+      c: THREE.Color,
+      c1 = new THREE.Color(data.c1),
+      c2 = new THREE.Color(data.c2),
+      im: Uint8ClampedArray,
+      imdata: ImageData,
+      // walkernoise
+      s = Math.floor(size / 2),
+      tex: any = document.createElement("canvas")
+    // c1.convertSRGBToLinear()
+    // c2.convertSRGBToLinear()
     tex.width = s
     tex.height = s
     let texctx = tex.getContext("2d")
-    texctx.fillStyle = data.color
+    texctx.fillStyle = c1
     texctx.fillRect(0, 0, s, s)
     imdata = texctx.getImageData(0, 0, s, s)
     im = imdata.data
 
-    col1 = new THREE.Color(data.color)
-    col1.convertSRGBToLinear()
-    col2 = new THREE.Color(data.color2)
-    col2.convertSRGBToLinear()
-
     let walkers = []
     let numwalkers = 1000
     for (i = 0; i < numwalkers; i++) {
-      col = col1.clone().lerp(col2, Math.random())
+      c = c1.clone().lerp(c2, Math.random())
+      c.convertSRGBToLinear()
       walkers.push({
         x: Math.random() * s,
         y: Math.random() * s,
-        r: Math.floor(col.r * 255),
-        g: Math.floor(col.g * 255),
-        b: Math.floor(col.b * 255),
+        r: Math.floor(c.r * 255),
+        g: Math.floor(c.g * 255),
+        b: Math.floor(c.b * 255),
       })
     }
     let iterations = 5000

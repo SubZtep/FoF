@@ -1,29 +1,26 @@
 - var eyePosition = "0 1.6 0"
 
-a-entity#player(
-  mixin="playerintro"
-  wasd-ext
-  )
-
+//- mixin="playerintro"
+a-entity#player(wasd-ext)
   a-entity(
-    raycaster="far: 2; objects: [data-obstacle]"
-    )
+    raycaster="far: 2; objects: [data-obstacle]; showLine: true"
+    obstacle-stop)
 
   a-entity.camera(
     look-controls
     camera="far: 200"
     position=eyePosition
-    animation="property: position; to: 0 15 9; startEvents: u; dur: 300"
-    animation__p="property: position; to: 0 1.6 0; startEvents: d; dur: 300"
-    )
+    animation="property: position; to: 0 9 9; startEvents: u; dur: 300"
+    animation__p="property: position; to: 0 1.6 0; startEvents: d; dur: 300")
 
-    //- visible="true"
-    a-entity.novr.intro(
-      animation="property: visible; from: true; to: false; startEvents: enter-vr; resumeEvents: exit-vr"
-      text="font: roboto; align: center; color: #fff; value: Enter VR"
-      position="0 0.02 -0.2"
-    )
-    //- animation="property: text.opacity; from: 0; to: 1; dur: 1200; dir: alternate; loop: true; easing: easeInOutBack"
+    a-entity(
+      text__s="font: roboto; align: center; color: #404; letter-spacing: -1; width: 0.65; value: Enter VR"
+      text="font: roboto; align: center; color: #ee5; letter-spacing: -1; width: 0.66; value: Enter VR"
+      position="0 0.02 -0.1"
+      animation="property: text__s.opacity; from: 0; to: 1; dur: 1200; dir: alternate; loop: true; easing: easeInOutBack"
+      animation__a="property: text.opacity; from: 0; to: 1; dur: 1200; dir: alternate; loop: true; easing: easeInOutBack"
+      animation__v="property: visible; from: true; to: false; startEvents: enter-vr; resumeEvents: exit-vr")
+
 
     //- a-entity.novr(
     //-   cursor

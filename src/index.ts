@@ -1,5 +1,4 @@
 // Object.defineProperty(AFRAME.components.sound.Component.prototype, "audioLoader", {
-
 //debug import "aframe-stats-in-vr-component/dist/aframe-stats-in-vr-component.js"
 
 import "./3d/ground"
@@ -26,5 +25,4 @@ import "./components/player/wasd-vr"
 
 import "./systems/forest"
 import "./systems/zoo"
-import "./systems/colours"
 import "./systems/story"
