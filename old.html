@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>#js13k-2020</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+    <link rel="icon" href="data:," />
+    <script src="https://js13kgames.com/webxr-src/2020/aframe.js"></script>
+    <script src="old.js"></script>
+    <style type="text/css">
+      html,
+      body {
+        width: 100vw;
+        height: 100vh;
+        padding: 0;
+        margin: 0;
+      }
+      body {
+        background: linear-gradient(#24a3b5, #40320a);
+      }
+    </style>
+  </head>
+  <body>
+    <a-scene
+      background="color: #303c42"
+      skypox
+      stats="true"
+      fog="color: #303c42; near: 30; far: 50; type: 'exponential'"
+      audio-listener
+      ><a-assets
+        ><a-mixin
+          id="pulse"
+          animation="property: scale; to: 1.1 1.1 1.1; dur: 500; loop: true; dir: alternate"
+        ></a-mixin
+        ><a-mixin
+          id="opacity"
+          material="transparent: true; opacity: 0.8"
+        ></a-mixin
+        ><a-mixin id="fastanim" animation="dur: 150"></a-mixin></a-assets
+      ><a-entity
+        class="ground"
+        shadow="cast: false; receive: true"
+        rotation="-90 0 0"
+        ground="size: 100; resolution: 32"
+      ></a-entity
+      ><a-entity
+        class="forest"
+        data-obstacle
+        forest="treeCount: 200"
+        shadow="cast: true; receive: false"
+      ></a-entity
+      ><a-entity class="water" position="0 0 0"
+        ><a-entity water="size: 100 40" position="0 0 -70"></a-entity
+        ><a-entity water="size: 100 40" position="0 0 70"></a-entity
+        ><a-entity water="size: 40 100" position="-70 0 0"></a-entity
+        ><a-entity water="size: 40 100" position="70 0 0"></a-entity></a-entity
+      ><a-entity class="pillar"
+        ><a-box
+          color="black"
+          width="0.2"
+          height="100"
+          depth="0.2"
+          position="50 0 0"
+        ></a-box
+        ><a-box
+          color="black"
+          width="0.2"
+          height="100"
+          depth="0.2"
+          position="-50 0 0"
+        ></a-box
+        ><a-box
+          color="black"
+          width="0.2"
+          height="100"
+          depth="0.2"
+          position="0 0 50"
+        ></a-box
+        ><a-box
+          color="black"
+          width="0.2"
+          height="100"
+          depth="0.2"
+          position="0 0 -50"
+        ></a-box></a-entity
+      ><a-entity
+        id="ambient"
+        light="type: ambient; color: #404; intensity: 0.2"
+      ></a-entity
+      ><a-entity
+        id="hemi"
+        light="type: hemisphere; color: #303c42; groundColor: #39FF14; intensity: 0.5"
+      ></a-entity
+      ><a-entity
+        id="sun"
+        geometry="primitive: sphere; radius: 2.5; segmentsWidth: 16; segmentsHeight: 2"
+        material="fog: false; shader: flat; color: #fff888"
+        light="type: directional; color: #ffffff; intensity: 0.5; castShadow: true; target: #t; shadowCameraVisible: true; shadowCameraFar: 100; shadowCameraLeft: -100; shadowCameraRight: 100; shadowCameraTop: -100; shadowCameraBottom: 100;"
+        position="0 50 30"
+      ></a-entity
+      ><a-entity id="t" position="0 -5 -50"></a-entity
+      ><a-entity id="player" wasd-controls="acceleration: 150" wasd-ext
+        ><a-entity
+          class="ray"
+          obstacle-stop
+          raycaster="far: 2; objects: [data-obstacle]"
+        ></a-entity
+        ><a-entity
+          class="camera"
+          look-controls
+          camera="far: 200"
+          position="0 1.6 0"
+          animation="property: position; to: 0 15 9; startEvents: u; dur: 300"
+          animation__pd="property: position; to: 0 1.6 0; startEvents: d; dur: 300"
+          ><a-entity
+            cursor
+            visible="true"
+            animation="property: visible; to: false; startEvents: enter-vr; "
+            raycaster="far: 2; objects: [data-obstacle]"
+            position="0 0 -0.1"
+            geometry="primitive: ring; radiusInner: 0.0045; radiusOuter: 0.0048"
+            material="color: #885; shader: flat"
+          ></a-entity></a-entity
+        ><a-entity
+          class="left-hand"
+          hand-controls="hand: left; color: #0ffc93"
+          raycaster="far: 0.15; direction: 1 0 0; objects: [handy]; showLine: true; enabled: false"
+          hand-vr
+          wasd-vr="action: move"
+        ></a-entity
+        ><a-entity
+          class="right-hand"
+          hand-controls="hand: right; color: #0ffc93"
+          raycaster="far: 0.15; direction: -1 0 0; objects: [handy]; showLine: true; enabled: false"
+          hand-vr
+          wasd-vr="action: turn"
+        ></a-entity
+        ><a-box
+          id="avatar"
+          visible="false"
+          color="lime"
+          width="0.5"
+          height="1.8"
+          depth="0.3"
+          position="0 0.9 0"
+          shadow
+        ></a-box></a-entity
+      ><a-entity
+        handy
+        geometry="primitive: box; width: 0.25; height: 0.25; depth: 0.25"
+        position="0 1.7 -0.5"
+        material="color: green"
+      ></a-entity
+      ><a-entity
+        data-obstacle
+        geometry="primitive: box; width: 0.5; height: 0.5; depth: 0.5"
+        position="4 1.5 -3"
+        material="color: red"
+      ></a-entity
+      ><a-entity
+        pos-audio
+        oscillator=""
+        oscillator__a="frequency: 110"
+        position="-4 1.6 -3"
+        rotation="0 90 0"
+        analyser="lag: true"
+      ></a-entity
+    ></a-scene>
+  </body>
+</html>
