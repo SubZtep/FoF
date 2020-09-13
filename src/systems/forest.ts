@@ -13,7 +13,8 @@ AFRAME.registerSystem("forest", {
   r: 88343, // for random
 
   init() {
-    // this.el.addEventListener("loaded", this.deploy.bind(this), { once: true })
+    this.el.addEventListener("secretforest", this.deploy.bind(this), { once: true })
+    // this.el.addEventListener("stateadded", this.deploy.bind(this), { once: true })
   },
 
   deploy() {
@@ -36,29 +37,50 @@ AFRAME.registerSystem("forest", {
       pool = el.components[`pool__${pn}`]
 
       if (pool.availableEls.length > 0) {
-        tree = pool.requestEntity()
+        let trees: BufferGeometry[] = []
+        let e = pool.requestEntity()
 
-        tree.addEventListener("loaded", (e: any) => {
-          let trees: BufferGeometry[] = []
+        let m: THREE.Mesh<BufferGeometry> = e.getObject3D("mesh")
+        let g = m.geometry
 
-          let m: THREE.Mesh<BufferGeometry> = e.target.getObject3D("mesh")
-          let g = m.geometry
+        for (i = 0; i < data.trees; i++) {
+          trees.push(g.clone().translate(...nextPos()))
+        }
 
-          for (i = 0; i < data.trees; i++) {
-            trees.push(g.clone().translate(...nextPos()))
-          }
+        // let merged = THREE.BufferGeometryUtils.mergeBufferGeometries(trees)
+        // @ts-ignore
+        let merged = mergeBufferGeometries(trees)
+        // merged.normalizeNormals()
+        let ms = new THREE.Mesh(merged, m.material)
 
-          // let merged = THREE.BufferGeometryUtils.mergeBufferGeometries(trees)
-          // @ts-ignore
-          let merged = mergeBufferGeometries(trees)
-          // merged.normalizeNormals()
-          let ms = new THREE.Mesh(merged, m.material)
+        let forest = document.createElement("a-entity")
+        forest.setObject3D("mesh", ms)
+        forest.setAttribute("class", "forest")
+        el.appendChild(forest)
 
-          let forest = document.createElement("a-entity")
-          forest.setObject3D("mesh", ms)
-          //debug forest.setAttribute("class", "forest")
-          el.appendChild(forest)
-        })
+        // tree.addEventListener("loaded", (e: any) => {
+        //   let trees: BufferGeometry[] = []
+
+        //   let m: THREE.Mesh<BufferGeometry> = e.target.getObject3D("mesh")
+        //   let g = m.geometry
+
+        //   for (i = 0; i < data.trees; i++) {
+        //     trees.push(g.clone().translate(...nextPos()))
+        //   }
+
+        //   // let merged = THREE.BufferGeometryUtils.mergeBufferGeometries(trees)
+        //   // @ts-ignore
+        //   let merged = mergeBufferGeometries(trees)
+        //   // merged.normalizeNormals()
+        //   let ms = new THREE.Mesh(merged, m.material)
+
+        //   let forest = document.createElement("a-entity")
+        //   forest.setObject3D("mesh", ms)
+        //   forest.setAttribute("class", "forest")
+        //   el.appendChild(forest)
+
+        //   console.log(forest)
+        // })
 
         pool.returnEntity(tree)
       }

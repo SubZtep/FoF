@@ -30,6 +30,10 @@ export const delMixin = (el: Entity) => (...names: string[]) => {
   return addMixin(el)
 }
 
+export const clearMixins = (el: Entity) => {
+  el.setAttribute("mixin", "")
+}
+
 export const setText = (el?: Entity) => (value: string) => {
   el.setAttribute("text", "value", value || "")
 }
@@ -71,7 +75,6 @@ export const delEls = (sel: string) => {
   for (i = 0; i < len; i++) {
     el = all[i]
     el.parentNode?.removeChild(el)
-    console.log(el)
     el.destroy()
   }
 }

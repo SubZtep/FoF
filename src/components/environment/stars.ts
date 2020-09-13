@@ -8,7 +8,7 @@ AFRAME.registerComponent("stars", {
       default: "#daa520",
     },
     size: {
-      default: 2.5,
+      default: 2.2,
     },
     count: {
       default: 200,

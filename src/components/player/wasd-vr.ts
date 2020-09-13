@@ -170,9 +170,12 @@ AFRAME.registerComponent("wasd-vr", {
   },
 
   addWasd(target: Entity) {
+    if (!target) return
     this.ext = target.components["wasd-ext"]
     this.wasd = target.components["wasd-controls"]
-    this.acceleration = this.wasd.data.acceleration
+    if (this.wasd) {
+      this.acceleration = this.wasd.data.acceleration
+    }
   },
 
   rmWasd() {
@@ -212,8 +215,6 @@ AFRAME.registerComponent("wasd-vr", {
     } catch {
       button = ["thumbstick", "trigger", "grip"][detail.id]
     }
-
-    // console.log(detail.id)
 
     switch (button) {
       case "thumbstick":

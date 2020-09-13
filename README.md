@@ -6,13 +6,19 @@
 
 2020.
 
+> Release in this branch is a work in progress, I'm going to continue in a separated branch.
+> Keep this for the gamejam, there are a few seconds of fun, if you are interested in an earlier (and better)
+> stage [click here to run](https://subztep.github.io/js13k-2020/old.html)
+
 ---
 
 ## Game Controls
 
 Left joystick for all directions is moving.
 
-Right joystick pnly for x angles rotate.
+Right joystick only for x angles rotate.
+
+Grab and Trigger for the birds (depends).
 
 ## What Without RIG
 
@@ -20,7 +26,7 @@ Tested only with **Oculus Rift** and its **Touch Controller**. Certainly PC, **G
 
 ### Without _working_ VR headset
 
-Find quickly the `NoVR` button on the bottom-left corner right after pageload to able to visit scenes without ~~interactive~~ experience.
+Find quickly the `NoVR` button on the bottom-left corner right after page-load to able to visit scenes without ~~interactive~~ experience.
 
 ### Without _working_ controller
 
