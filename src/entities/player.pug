@@ -3,7 +3,7 @@
 //- mixin="playerintro"
 a-entity#player(wasd-ext)
   a-entity(
-    raycaster="far: 2; objects: [data-obstacle]; showLine: true"
+    raycaster="far: 2; objects: [data-obstacle]"
     obstacle-stop)
 
   a-entity.camera(
@@ -14,12 +14,13 @@ a-entity#player(wasd-ext)
     animation__p="property: position; to: 0 1.6 0; startEvents: d; dur: 300")
 
     a-entity(
+      position="0 0.02 -0.1"
       text__s="font: roboto; align: center; color: #404; letter-spacing: -1; width: 0.65; value: Enter VR"
       text="font: roboto; align: center; color: #ee5; letter-spacing: -1; width: 0.66; value: Enter VR"
-      position="0 0.02 -0.1"
-      animation="property: text__s.opacity; from: 0; to: 1; dur: 1200; dir: alternate; loop: true; easing: easeInOutBack"
-      animation__a="property: text.opacity; from: 0; to: 1; dur: 1200; dir: alternate; loop: true; easing: easeInOutBack"
-      animation__v="property: visible; from: true; to: false; startEvents: enter-vr; resumeEvents: exit-vr")
+      animation="property: visible; from: true; to: false; startEvents: enter-vr; resumeEvents: exit-vr"
+      animation__t="property: text.opacity; from: 0; to: 1; dur: 1200; dir: alternate; loop: true; easing: easeInOutBack"
+      animation__s="property: text__s.opacity; from: 0; to: 1; dur: 1200; dir: alternate; loop: true; easing: easeInOutBack"
+      )
 
 
     //- a-entity.novr(
@@ -35,14 +36,12 @@ a-entity#player(wasd-ext)
   a-entity#l(
     hand-controls="hand: left; color: #0ffc93"
     raycaster="far: 0.15; direction: 1 0 0; objects: [handy]; showLine: true"
-    wasd-vr="target: #player; action: move"
-    )
+    wasd-vr="target: #player; action: move")
 
   a-entity#r(
     hand-controls="hand: right; color: #0ffc93"
     raycaster="far: 0.15; direction: -1 0 0; objects: [handy]; showLine: true;"
-    wasd-vr="target: #player; action: turn"
-    )
+    wasd-vr="target: #player; action: turn")
 
   a-box#avatar(
     visible="false"

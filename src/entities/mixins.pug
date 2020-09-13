@@ -11,13 +11,15 @@ a-assets
     animation="property: opacity; from: 0; to: 1; easing: easeInOutElastic; delay: 1500; dur: 1200"
   )
 
-  a-mixin#fogout(animation="property: fog.far; to: 25; dur: 2500")
+  a-mixin#fogout(animation="property: fog.far; to: 25; dur: 3500")
+
   a-mixin#playerintro(position="0 -1 2.5")
+  a-mixin#playerbase(position="0 0 0")
 
   //-|| ABC || Fonts
   a-mixin#title(
     text="font: roboto; negate: false; color: white; letter-spacing: 4.21; opacity: 0"
-    animation="property: opacity; to: 1; easing: easeInOutElastic; delay: 1500; dur: 1200"
+    animation="property: opacity; to: 1; easing: easeInOutElastic; delay: 2500; dur: 1200"
     position="0 1 -2")
 
   //-
@@ -56,6 +58,10 @@ a-assets
 
   //-|| GROUND ||
   a-mixin#grstream(animation="property: gmat.offset; to: 0 -100; dur: 500000; loop: true")
+  a-mixin#grstreamgo(
+    animation="property: gmat.offset; to: 0 100; dur: 100000; loop: true"
+    animation__m="property: position; from: 0 0 -30; to: 0 0 30; dur: 3000; loop: true; easing: linear")
+
   a-mixin#grpara(animation="property: rotation; to: 1; dur: 1000; loop: true")
   a-mixin#grsea(gmat="c1: #13f; c2: #000")
   a-mixin#grweed(gmat="c1: #499d45; c2: #000")

@@ -49,7 +49,7 @@ AFRAME.registerComponent("handy", {
   },
 
   inHand({ detail }: DetailEvent<boolean>) {
-    this.el[detail ? "addState" : "removeState"]("hold").addState("hold")
+    this.el[detail ? "addState" : "removeState"]("hold")
   },
 
   rayIn({ detail }: DetailEvent<{ el: Entity }>) {

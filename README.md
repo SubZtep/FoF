@@ -1,6 +1,36 @@
-# :eye:
+# Flow of Four :eye:
 
-...
+[Js13kGames](https://js13kgames.com/)
+
+###### #4o4
+
+2020.
+
+---
+
+## Game Controls
+
+## What Without RIG
+
+Tested only with **Oculus Rift** and its **Touch Controller**.
+
+Certainly PC, **GTX 1070** and on (a surprisingly overperform other browsers) **Chrome**, but it was okay on Firefox as well. Maybe runs on different platforms but I can't be sure.
+
+### Without _working_ VR headset
+
+Find quickly the `NoVR` button on the bottom-left corner, right after pageload to able to visit scenes without interactive experience.
+
+### Without _working_ controller
+
+| Key | Event                            |
+| :-: | -------------------------------- |
+|  q  | Turn left a slice                |
+|  Q  | Continuous turn left             |
+|     |
+|  c  | Toggle camera to 3rd person view |
+|  n  | Load next thingie/happening      |
+
+---
 
 ## Local Setup
 

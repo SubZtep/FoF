@@ -16,18 +16,16 @@ a-entity#tux(
   shadow="receive: false"
   mixin="pulse"
   handy
-)
-  //- ibidem
+  ibidem)
   a-entity(
     raycaster="far: 1; objects: [data-obstacle]"
     obstacle-stop="dirY: 0.5")
 
 a-text.txt(
   value="..."
-  align="center"
-)
+  align="center")
 
-- var showObstacle = "false"
+- var showObstacle = "true"
 
 a-box.intro(
   visible=showObstacle

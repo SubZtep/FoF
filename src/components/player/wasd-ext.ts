@@ -13,6 +13,7 @@ AFRAME.registerComponent("wasd-ext", {
     turn: { default: 0.001 },
     avatar: { type: "selector", default: "#avatar" },
     playerCam: { type: "selector", default: ".camera" },
+    enabled: { default: true },
   },
 
   t: 0, // for timeout
@@ -52,6 +53,7 @@ AFRAME.registerComponent("wasd-ext", {
   },
 
   onKeyDown({ key }: KeyboardEvent) {
+    if (!this.data.enabled) return
     if (["q", "e"].includes(key)) {
       this.turn = key === "q" ? 1 : -1
     } else if (["Q", "E"].includes(key) && this.dorot) {
@@ -74,6 +76,15 @@ AFRAME.registerComponent("wasd-ext", {
   },
 
   tick(_, timeDelta: number) {
-    this.el.object3D.rotation.y += this.data.turn * this.turn * timeDelta
+    if (this.data.enabled) this.el.object3D.rotation.y += this.data.turn * this.turn * timeDelta
+  },
+
+  update({ enabled }) {
+    let { el, data } = this
+
+    if (data.enabled !== enabled && el.components["wasd-controls"]) {
+      el.setAttribute("wasd-controls", "enabled", enabled)
+      if (!enabled) this.turn = 0
+    }
   },
 })

@@ -11,6 +11,11 @@ AFRAME.registerSystem("zoo", {
       kacsa.play()
       kacsa.object3D.position.set(rnd(-5, 5), rnd(-3, 6), rnd(-8, -2))
       this.kacsas.push(kacsa)
+      return kacsa
     }
+  },
+
+  retk() {
+    while (this.kacsas.length > 0) this.el.components.pool__kacsa.returnEntity(this.kacsas.pop())
   },
 })

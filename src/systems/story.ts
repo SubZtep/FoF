@@ -1,3 +1,4 @@
+import { Entity } from "aframe"
 import { addMixin, delEls, delMixin, setText, sleep } from "../utils"
 
 AFRAME.registerSystem("story", {
@@ -13,43 +14,68 @@ AFRAME.registerSystem("story", {
     // Text on screen center
     txt: { type: "selector", default: ".txt" },
 
+    // Kacsa
+    tux: { type: "selector", default: "#tux" },
+    stux: { type: "selector", default: "#stux" },
+
     // ??
     box: { type: "selector", default: ".box" },
     player: { type: "selector", default: "#player" },
   },
 
+  novrListener() {
+    this.data.player.object3D.position.y = 1.6
+    this.noNovr()
+
+    this.el.addState("novr")
+    this.el.dispatchEvent(new CustomEvent("enter-vr"))
+    // let c = this.data.player.object3D.children.find(e => e.el.classList.contains("camera"))
+    // if (c) c.position.y = 1.6
+  },
+
+  noNovr() {
+    clearTimeout(this.t)
+    window.removeEventListener("novr", this.novrListener.bind(this))
+    document.querySelector(".novr").remove()
+  },
+
   novr() {
-    let t: any
-    const novrListener = () => {
-      noNovr()
-      this.el.addState("novr")
-      this.el.dispatchEvent(new CustomEvent("enter-vr"))
-      let c = this.data.player.object3D.children.find(e => e.el.classList.contains("camera"))
-      if (c) c.position.y = 1.6
-    }
-    const noNovr = () => {
-      clearTimeout(t)
-      window.removeEventListener("novr", novrListener)
-      document.querySelector(".novr").remove()
-    }
-    t = setTimeout(noNovr, 5000)
-    window.addEventListener("novr", novrListener)
+    window.addEventListener("novr", this.novrListener.bind(this))
+    this.t = setTimeout(this.noNovr.bind(this), 5000)
   },
 
   hasControllers() {
     return (this.data.l.is("connected") && this.data.r.is("connected")) || this.el.is("novr")
   },
 
+  s: 1,
+  next() {
+    window.addEventListener("keydown", e => {
+      if (e.key === "n") {
+        try {
+        this[`s${++this.s}`]()
+        console.log(`Load s${this.s}`)
+        } catch {
+          this.s = 0
+        }
+      }
+    })
+  },
+
   init() {
     let { el, data } = this
     this.novr()
+    this.next()
 
     el.addEventListener("loaded", () => {
       this.zoo = el.systems["zoo"]
 
+      this.pAM = addMixin(data.player)
+      this.pDM = delMixin(data.player)
       this.elAM = addMixin(el)
       this.elDM = delMixin(el)
       this.grAM = addMixin(data.ground)
+      this.grDM = delMixin(data.ground)
       this.txtAM = addMixin(data.txt)
       this.txtDM = delMixin(data.txt)
       this.txtVal = setText(data.txt)
@@ -61,7 +87,7 @@ AFRAME.registerSystem("story", {
 
   async s1() {
     this.elDM("elsunny", "elfogmid")("eldark", "fogzero")
-    this.grAM("grsea")
+    this.grAM("grsea", "grstream")
     if (!this.hasControllers()) {
       await this.s1_checkControllers()
     }
@@ -69,100 +95,97 @@ AFRAME.registerSystem("story", {
   },
 
   async s1_checkControllers() {
-    let { l, r } = this.data
-
     this.txtAM("msg")
     this.txtVal("Waiting for Controllers")
     await sleep(1)
 
-    const chkCtrls = async res => {
-      if (this.hasControllers()) {
-        l.removeEventListener("stateadded", this.s1_checkControllers)
-        l.removeEventListener("stateremoved", this.s1_checkControllers)
-        r.removeEventListener("stateadded", this.s1_checkControllers)
-        r.removeEventListener("stateremoved", this.s1_checkControllers)
-        this.txtVal("")
-        await sleep(0.1)
-        this.txtVal("Controllers Found")
-        await sleep(1)
-        return res()
-      }
-    }
-
     return new Promise(res => {
-      l.addEventListener("stateadded", chkCtrls.bind(this, res))
-      l.addEventListener("stateremoved", chkCtrls.bind(this, res))
-      r.addEventListener("stateadded", chkCtrls.bind(this, res))
-      r.addEventListener("stateremoved", chkCtrls.bind(this, res))
+      let { l, r } = this.data
+      l.addEventListener("stateadded", this.s1_chkCtrls.bind(this, res))
+      l.addEventListener("stateremoved", this.s1_chkCtrls.bind(this, res))
+      r.addEventListener("stateadded", this.s1_chkCtrls.bind(this, res))
+      r.addEventListener("stateremoved", this.s1_chkCtrls.bind(this, res))
     })
   },
 
+  s1_chkCtrls(res: () => void) {
+    if (this.hasControllers()) {
+      let { l, r } = this.data
+      l.removeEventListener("stateadded", this.s1_checkControllers)
+      l.removeEventListener("stateremoved", this.s1_checkControllers)
+      r.removeEventListener("stateadded", this.s1_checkControllers)
+      r.removeEventListener("stateremoved", this.s1_checkControllers)
+      return res()
+    }
+  },
+
   async s2() {
+    let { player, l, r, tux, stux } = this.data
+
+    tux.setAttribute("visible", true)
+    stux.setAttribute("visible", true)
+
+    l.setAttribute("wasd-vr", "zombody", tux)
+    r.setAttribute("wasd-vr", "zombody", tux)
+
+    if (!this.el.is("novr")) this.pAM("playerintro")
+
     this.txtDM("msg")("title")
     this.txtVal("Flow of Four")
-    await sleep(5)
+    await sleep(3)
 
-    this.grAM("grstream")
     this.elAM("fogout")
 
-    await sleep(5)
-    // ground.setAttribute("gmat", "speed", { x: 0, y: 0.0001 })
+    await sleep(1)
+    this.txtVal()
+    await sleep(3)
 
-    // this.t = setTimeout(this.s3.bind(this), 5000)
-    this.s3()
+    this.el.addEventListener("introDone", this.s3.bind(this), { once: true })
   },
 
-  s3() {
-    console.log("s3")
+  async s3() {
     let {
       el,
-      data: { txt, l, r, stars, ground },
+      data: { ground, player, tux, stux, l, r },
     } = this
 
-    // this.elAM("fogout")
-    // addMixin(el)("fogout")
+    tux.setAttribute("visible", false)
+    stux.setAttribute("visible", false)
 
-    // this.t = setTimeout(this.s4.bind(this), 3000)
-    this.s4()
-  },
-
-  s4() {
-    console.log("s4")
-    let { txt, stars } = this.data
-
-    delMixin(txt)("title")
-    stars.setAttribute("visible", true)
-
-    this.el.addEventListener("introDone", this.s5.bind(this), { once: true })
-
-    // for (let i = 0; i < 10; i++) {
-    //   delay += 500
-    //   setTimeout(() => {
-    //     this.zoo.kacsa()
-    //   }, delay)
-    // }
-  },
-
-  s5() {
-    console.log("s5")
-    let {
-      el,
-      data: { ground, player },
-    } = this
-    // delEls(".intro") // ?
-    let kacsa = document.querySelector("#tut")
-    kacsa.removeAttribute("wasd-ext")
+    l.setAttribute("wasd-vr", "zombody", null)
+    r.setAttribute("wasd-vr", "zombody", null)
 
     document.querySelector("#l").setAttribute("wasd-vr", "target", "#player")
     document.querySelector("#r").setAttribute("wasd-vr", "target", "#player")
 
-    delMixin(player)("playerintro")
+    this.grDM("grstream")("grstreamgo")
+    this.elDM("eldark", "fogzero", "fogout")("elsunny", "fognear")
 
-    delMixin(el)("fullfog")
-    addMixin(el)("scenesun")
+    let i: number
+    for (i = 0; i < 2; i++) {
+      this.zoo.kacsa().object3D.rotateY(135)
+      await sleep(0.5)
+    }
 
-    ground.setAttribute("gmat", "speed", { x: 0, y: 0 })
-    ground.setAttribute("gmat", { color: 0x499d45, color2: 0x000000 })
-    ground.setAttribute("visible", "true")
+    await sleep(10)
+    this.s4()
+    // ground.setAttribute("gmat", "speed", { x: 0, y: 0 })
+    // ground.setAttribute("gmat", { color: 0x499d45, color2: 0x000000 })
+    // ground.setAttribute("visible", "true")
+  },
+
+  s4() {
+    // LAND
+    delEls(".intro")
+
+    this.zoo.retk()
+    this.data.stars.setAttribute("visible", false)
+    this.grDM("grsea", "grstreamgo")("grgreen")
+    this.elDM("fognear")("fogfar")
+    // this.elDM("elsunny", "fognear")("fogfar")
+
+    // delMixin(this.data.player)("playerintro")
+    this.pDM("playerintro")("playerbase") //("playerbase")
+    // re-set player position (?) (meybe walked away in the very beginning before zombikacsa)
   },
 })

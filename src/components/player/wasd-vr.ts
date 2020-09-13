@@ -5,7 +5,7 @@
  *
  * Entity state: run, hold, exe
  */
-import { DetailEvent } from "aframe"
+import { DetailEvent, Entity } from "aframe"
 import { Intersection } from "super-three/src/core/Raycaster"
 import { AxisDetail, ButtonDetail, Hand, InputMapping, EmulatedKeys, ControllerMap, AObject3D } from "../../types"
 
@@ -14,40 +14,45 @@ AFRAME.registerComponent("wasd-vr", {
 
   schema: {
     action: { default: "move" /* oneOf: ["move", "turn"], */ },
-    run: { default: 2 /* multiplier */ },
-    target: { type: "selector", default: "#player" },
+    run: { default: 2 }, // multiplier
+    target: { type: "selector" },
+    zombody: { type: "selector" },
   },
 
   intersections: [], // objects in ray
   uuids: [], // object(s) in hand
 
-  // update(oldData) {
-  //   let { el, data } = this
-  //   console.log([data.target, oldData.target])
-  //   if (data.target !== oldData.target) {
-  //     //this.addControls()
-  //   }
-  // },
+  update(old) {
+    let { data } = this
+
+    if (data.zombody !== old.zombody && data.zombody) {
+      this.rmWasd()
+      if (data.target) data.target.setAttribute("wasd-ext", "enabled", false)
+
+      if (data.zombody.hasLoaded) this.addWasd(data.zombody)
+      else data.zombody.addEventListener("loaded", this.addWasd.bind(this, data.zombody))
+    } else if (data.target) {
+      if (old.target) this.rmControls()
+
+      data.target.setAttribute("wasd-ext", "enabled", true)
+      if (data.target.hasLoaded) this.addControls()
+      else data.target.addEventListener("loaded", this.addControls.bind(this))
+    }
+  },
 
   play() {
-    this.addELs()
+    let { el, data } = this
+    if (data.target && !data.zombody) {
+      el.addEventListener("raycaster-intersection", this.rayIn.bind(this))
+      el.addEventListener("raycaster-intersection-cleared", this.rayOut.bind(this))
+      el.addEventListener("stateadded", this.newState.bind(this))
+      el.addEventListener("stateremoved", this.delState.bind(this))
+      el.addEventListener("controllerconnected", this.ctrlConn.bind(this))
+      el.addEventListener("controllerdisconnected", this.ctrlDisconn.bind(this))
+    }
   },
 
   pause() {
-    this.rmELs()
-  },
-
-  addELs() {
-    let { el } = this
-    el.addEventListener("raycaster-intersection", this.rayIn.bind(this))
-    el.addEventListener("raycaster-intersection-cleared", this.rayOut.bind(this))
-    el.addEventListener("stateadded", this.newState.bind(this))
-    el.addEventListener("stateremoved", this.delState.bind(this))
-    el.addEventListener("controllerconnected", this.ctrlConn.bind(this))
-    el.addEventListener("controllerdisconnected", this.ctrlDisconn.bind(this))
-  },
-
-  rmELs() {
     let { el } = this
     el.removeEventListener("raycaster-intersection", this.rayIn)
     el.removeEventListener("raycaster-intersection-cleared", this.rayOut)
@@ -58,7 +63,7 @@ AFRAME.registerComponent("wasd-vr", {
   },
 
   rayIn() {
-    this.intersections = this.raycaster.intersections
+    this.intersections = this.el.components["raycaster"].intersections
   },
 
   rayOut() {
@@ -68,9 +73,9 @@ AFRAME.registerComponent("wasd-vr", {
   newState({ detail }: DetailEvent<string>) {
     switch (detail) {
       case "connected":
-        this.addControls()
+        if (this.data.target?.hasLoaded) this.addControls()
         break
-      case "hold":
+      case "hold": // hold an object
         let int: Intersection | any, child: AObject3D, parent: AObject3D
         for (int of this.intersections) {
           parent = int.object.parent
@@ -84,7 +89,7 @@ AFRAME.registerComponent("wasd-vr", {
           child.children[0].el.emit("hand", true)
         }
         break
-      case "exe":
+      case "exe": // execute something
         let a: AObject3D
         for (a of this.el.object3D.children as AObject3D[]) {
           if (this.uuids.includes(a.uuid)) {
@@ -137,7 +142,6 @@ AFRAME.registerComponent("wasd-vr", {
   },
 
   move(x: number, y: number) {
-    // console.log([this.wasd, x, y])
     if (!this.wasd) return
 
     let keys: EmulatedKeys = {}
@@ -164,11 +168,24 @@ AFRAME.registerComponent("wasd-vr", {
     }
   },
 
+  addWasd(target: Entity) {
+    this.ext = target.components["wasd-ext"]
+    this.wasd = target.components["wasd-controls"]
+    this.acceleration = this.wasd.data.acceleration
+  },
+
+  rmWasd() {
+    if (this.wasd && this.acceleration) {
+      this.wasd.data.acceleration = this.acceleration
+    }
+    this.wasd = undefined
+    this.ext = undefined
+  },
+
   addControls() {
     let { el, data } = this
-    this.ext = data.target.components["wasd-ext"]
-    this.wasd = data.target.components["wasd-controls"]
-    this.acceleration = this.wasd.data.acceleration
+
+    this.addWasd(data.target)
 
     el.addEventListener("buttonchanged", this.btnChg.bind(this))
     el.addEventListener("axismove", this.axMv.bind(this))
@@ -178,9 +195,7 @@ AFRAME.registerComponent("wasd-vr", {
   rmControls() {
     let { el } = this
 
-    this.wasd.data.acceleration = this.acceleration
-    this.wasd = undefined
-    this.ext = undefined
+    this.rmWasd()
 
     el.removeEventListener("buttonchanged", this.btnChg)
     el.removeEventListener("axismove", this.axMv)

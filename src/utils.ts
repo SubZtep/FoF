@@ -24,14 +24,14 @@ export const delMixin = (el: Entity) => (...names: string[]) => {
     "mixin",
     m
       .split(" ")
-      .filter(m => !names.includes(m))
+      .filter((m: string) => !names.includes(m))
       .join(" ")
   )
   return addMixin(el)
 }
 
-export const setText = (el: Entity) => (value: string) => {
-  el.setAttribute("value", value)
+export const setText = (el?: Entity) => (value: string) => {
+  el.setAttribute("text", "value", value || "")
 }
 
 export const sleep = (s: number) => new Promise(r => setTimeout(r, s * 1000))
@@ -63,22 +63,6 @@ export const random = (x: number, seed = 8) =>
         .substr(7)
   )
 
-const delel = (el: Entity) => {
-  Object.keys(el.components).forEach(k => el.removeAttribute(k))
-  el.parentNode?.removeChild(el)
-  el.destroy()
-}
-
-const delEl = (el: Entity) => {
-  if (el.childElementCount > 0) {
-    el.childNodes.forEach(c => c.remove())
-  }
-  delel(el)
-}
-
-/**
- * Delete but I think it's not reall working...
- */
 export const delEls = (sel: string) => {
   let all = document.querySelectorAll(sel) as NodeListOf<Entity>,
     len = all.length,
@@ -86,14 +70,8 @@ export const delEls = (sel: string) => {
     i: number
   for (i = 0; i < len; i++) {
     el = all[i]
-    if (el.hasAttribute("animation")) {
-      el.removeAttribute("animation")
-      //FIXME: wtf not destroy with anim asap?
-      setTimeout(() => {
-        delEl(el)
-      }, 1000)
-    } else {
-      delEl(el)
-    }
+    el.parentNode?.removeChild(el)
+    console.log(el)
+    el.destroy()
   }
 }
