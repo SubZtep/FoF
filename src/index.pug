@@ -1,6 +1,6 @@
 - var debugComponents = {}
 unless isProduction
-  - debugComponents.stats = true
+  //- - debugComponents.stats = true
   //- - debugComponents["stats-in-vr"] = ""
 
 doctype html
@@ -16,30 +16,11 @@ html(lang="en")
       script(src="aframe.js")
     script(src="index.js")
     style(type="text/css").
-      html, body {
-        width: 100vw;
-        height: 100vh;
-        padding: 0;
-        margin: 0;
-      }
-      body {
-        background: linear-gradient(#24a3b5, #40320a);
-      }
-      .a-enter-vr-button {
-        min-width: 116px;
-        min-height: 68px;
-      }
-      .a-enter-vr-button:hover {
-        background-color: #404 !important;
-      }
-      .novr {
-        position: absolute;
-        bottom: 8px;
-        left: 8px;
-        font-size: 32px;
-        font-weight: bold;
-        opacity: 0.5;
-      }
+      html, body { width: 100vw; height: 100vh; padding: 0; margin: 0; }
+      body { background: linear-gradient(#24a3b5, #40320a); }
+      .a-enter-vr-button { min-width: 116px; min-height: 68px; }
+      .novr { position: absolute; bottom: 15px; left: 15px; font-size: 32px; font-weight: bold; opacity: 0.5; }
+
   body
     a-scene(
       renderer="alpha: false; colorManagement: true; antialias: false; logarithmicDepthBuffer: false; physicallyCorrectLights: true: precision: low"
@@ -50,7 +31,7 @@ html(lang="en")
       audio-listener
       shadow="type: pcfsoft"
       fog="type: 'exponential'"
-      mixin="elsunny elfogmid"
+      mixin="elstart"
       )&attributes(debugComponents)
 
       include entities/mixins.pug

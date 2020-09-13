@@ -1,7 +1,7 @@
 AFRAME.registerComponent("stars", {
   schema: {
     distance: {
-      default: 50,
+      default: 80,
     },
     color: {
       type: "color",

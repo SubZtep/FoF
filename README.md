@@ -10,25 +10,36 @@
 
 ## Game Controls
 
+Left joystick for all directions is moving.
+
+Right joystick pnly for x angles rotate.
+
 ## What Without RIG
 
-Tested only with **Oculus Rift** and its **Touch Controller**.
-
-Certainly PC, **GTX 1070** and on (a surprisingly overperform other browsers) **Chrome**, but it was okay on Firefox as well. Maybe runs on different platforms but I can't be sure.
+Tested only with **Oculus Rift** and its **Touch Controller**. Certainly PC, **GTX 1070** and on **Chrome**, but it was okay on Firefox as well with quite a bit performance differences. Maybe runs on different platforms, not sure, nevertheless it's not intended to run in a non-virtual environment.
 
 ### Without _working_ VR headset
 
-Find quickly the `NoVR` button on the bottom-left corner, right after pageload to able to visit scenes without interactive experience.
+Find quickly the `NoVR` button on the bottom-left corner right after pageload to able to visit scenes without ~~interactive~~ experience.
 
 ### Without _working_ controller
 
-| Key | Event                            |
-| :-: | -------------------------------- |
-|  q  | Turn left a slice                |
-|  Q  | Continuous turn left             |
-|     |
-|  c  | Toggle camera to 3rd person view |
-|  n  | Load next thingie/happening      |
+Use mouse for looking around and the keys below.
+
+|    Key    | Event                            |
+| :-------: | -------------------------------- |
+|     w     | e                                |
+|     a     | g                                |
+|     s     |
+|     d     |
+|     q     | Turn left a slice                |
+|     Q     | Continuous turn left             |
+|     e     | T                                |
+|     E     | R                                |
+|           |
+| :godmode: | **Debug**                        |
+|     c     | Toggle camera to 3rd person view |
+|     n     | Load next thingie/happening      |
 
 ---
 
@@ -36,7 +47,7 @@ Find quickly the `NoVR` button on the bottom-left corner, right after pageload t
 
 Run `npm install`, this command copy _A-Frame_ developer bundle to the `dist` folder.
 
-## Oculus Rift with Google Chrome
+## Oculus Rift with _Google_ Chrome
 
 Be sure no Chrome instances are running and start the browser with the following command-line options:
 

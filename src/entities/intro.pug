@@ -1,5 +1,3 @@
-//-visible="false"
-
 a-entity#stux(
   visible="false"
   geometry="primitive: kacsa"
@@ -21,11 +19,14 @@ a-entity#tux(
     raycaster="far: 1; objects: [data-obstacle]"
     obstacle-stop="dirY: 0.5")
 
-a-text.txt(
-  value="..."
-  align="center")
+a-entity.title.intro(
+  visible="false"
+  text="font: roboto; negate: false; color: #fff; letter-spacing: 9.21; align: center; value: Flow of Four"
+  scale="40 40 1"
+  position="0 5 -25")
+  //- animation="property: text.color; from: #fff; to: #000; easing: easeInOutElastic; dir: alternate; dur: 1200; loop: 2; delay: 2500"
 
-- var showObstacle = "true"
+- var showObstacle = "false"
 
 a-box.intro(
   visible=showObstacle

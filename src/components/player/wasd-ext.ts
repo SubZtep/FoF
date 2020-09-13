@@ -68,10 +68,11 @@ AFRAME.registerComponent("wasd-ext", {
   },
 
   onKeyUp({ key }: KeyboardEvent) {
-    if (["q", "e"].includes(key)) {
+    if (["q", "e", "Q", "E"].includes(key)) {
       this.turn = 0
-    } else if (["Q", "E"].includes(key)) {
-      this.dorot = true
+      if (["Q", "E"].includes(key)) {
+        this.dorot = true
+      }
     }
   },
 

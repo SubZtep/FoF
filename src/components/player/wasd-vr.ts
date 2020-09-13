@@ -17,6 +17,7 @@ AFRAME.registerComponent("wasd-vr", {
     run: { default: 2 }, // multiplier
     target: { type: "selector" },
     zombody: { type: "selector" },
+    hand: { type: "string" },
   },
 
   intersections: [], // objects in ray
@@ -205,7 +206,14 @@ AFRAME.registerComponent("wasd-vr", {
   btnChg({ detail }: DetailEvent<ButtonDetail>) {
     let { el } = this
     let fn = detail.state.pressed ? "addState" : "removeState"
-    let button = this.mapping().buttons[detail.id]
+    let button
+    try {
+      button = this.mapping().buttons[detail.id]
+    } catch {
+      button = ["thumbstick", "trigger", "grip"][detail.id]
+    }
+
+    // console.log(detail.id)
 
     switch (button) {
       case "thumbstick":
@@ -222,9 +230,13 @@ AFRAME.registerComponent("wasd-vr", {
   },
 
   axMv({ detail: { axis } }: DetailEvent<AxisDetail>) {
-    // @ts-ignore
-    let [x, y] = Object.values(this.mapping().axes)[0]
-    this[this.data.action](axis[x], axis[y])
+    try {
+      // @ts-ignore
+      let [x, y] = Object.values(this.mapping().axes)[0]
+      this[this.data.action](axis[x], axis[y])
+    } catch {
+      this[this.data.action](axis[0], axis[1])
+    }
   },
 
   mapping(): ControllerMap {
