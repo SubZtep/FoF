@@ -38,7 +38,7 @@ export const setText = (el?: Entity) => (value: string) => {
   el.setAttribute("text", "value", value || "")
 }
 
-export const sleep = (s: number) => new Promise(r => setTimeout(r, s * 1000))
+export const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
 /**
  * remap value from the range of [smin,smax] to [emin,emax]

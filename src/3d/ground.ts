@@ -20,6 +20,7 @@ AFRAME.registerGeometry("ground", {
     let inc = frequency / resolution
 
     let col = Math.sqrt(numVerts)
+    // console.log([numVerts, col])
 
     for (let i = 0, x = 0, y = 0; i < numVerts; i++) {
       let h = random(i) < 0.35 ? random(i + 1) : 0 // noise

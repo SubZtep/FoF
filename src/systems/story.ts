@@ -65,26 +65,23 @@ AFRAME.registerSystem("story", {
   },
 
   init() {
-    let { el, data } = this
-    this.novr()
-    this.next()
-
-    el.addEventListener("loaded", () => {
-      this.zoo = el.systems["zoo"]
-      // this.forest = el.systems["forest"]
-
-      this.pAM = addMixin(data.player)
-      this.pDM = delMixin(data.player)
-      this.elAM = addMixin(el)
-      this.elDM = delMixin(el)
-      this.stAM = addMixin(data.stars)
-      this.stDM = delMixin(data.stars)
-      this.grAM = addMixin(data.ground)
-      this.grDM = delMixin(data.ground)
-
-      el.addEventListener("enter-vr", this.s1.bind(this), { once: true })
-      el.addEventListener("exit-vr", location.reload)
-    })
+    // let { el, data } = this
+    // this.novr()
+    // this.next()
+    // el.addEventListener("loaded", () => {
+    //   this.zoo = el.systems["zoo"]
+    //   // this.forest = el.systems["forest"]
+    //   this.pAM = addMixin(data.player)
+    //   this.pDM = delMixin(data.player)
+    //   this.elAM = addMixin(el)
+    //   this.elDM = delMixin(el)
+    //   this.stAM = addMixin(data.stars)
+    //   this.stDM = delMixin(data.stars)
+    //   this.grAM = addMixin(data.ground)
+    //   this.grDM = delMixin(data.ground)
+    //   el.addEventListener("enter-vr", this.s1.bind(this), { once: true })
+    //   el.addEventListener("exit-vr", location.reload)
+    // })
   },
 
   async s1() {
