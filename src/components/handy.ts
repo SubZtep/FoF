@@ -5,7 +5,7 @@
  */
 
 import { DetailEvent, Entity } from "aframe"
-import { addMixin, delMixin } from "../utils"
+import { addMixin, delMixin } from "../utils.ts"
 
 AFRAME.registerComponent("handy", {
   /** 0: Off, 1: Intersected */

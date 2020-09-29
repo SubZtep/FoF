@@ -1,3 +1,18 @@
+```
+  n
+ / `\
+(___:)
+ """"
+  ||
+  ||
+  ))
+ //
+((
+ \\
+  ))
+  ||
+```
+
 1. kodos erdobe megy
 2. kod egyre kozelebb jon
 3. mikor kod tavolodik csak 1 pici szobaban van

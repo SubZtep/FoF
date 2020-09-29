@@ -62,3 +62,27 @@ a-box.intro(
   width="12"
   height="2"
 )
+
+//- ----------------------------------------------------------------
+//-  ---------- - ------- ------ o()xxxx[{::::::::::::::::::::::::::::::::::>
+
+
+a-entity.intro(
+  position="0 0.01 -0.08"
+  text__s="font: roboto; align: center; color: #000; letter-spacing: 0; width: 0.65; value: Enter VR"
+  text="font: roboto; align: center; color: #B0B8B4; letter-spacing: -1; width: 0.66; value: Enter VR"
+  animation="property: visible; from: true; to: false; startEvents: enter-vr; resumeEvents: exit-vr"
+  animation__t="property: text.opacity; from: 0; to: 1; dur: 1200; dir: alternate; loop: true; easing: easeInOutBack"
+  animation__s="property: text__s.opacity; from: 0; to: 1; dur: 1200; dir: alternate; loop: true; easing: easeInOutBack"
+  )
+
+
+a-entity.novr(
+  cursor
+  visible="true"
+  raycaster="far: 2; objects: [data-obstacle]"
+  position="0 0 -0.1"
+  geometry="primitive: ring; radiusInner: 0.0045; radiusOuter: 0.0048"
+  material="color: #885; shader: flat"
+  animation="property: visible; to: false; startEvents: enter-vr"
+  )

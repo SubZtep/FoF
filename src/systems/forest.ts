@@ -1,4 +1,4 @@
-import { mergeBufferGeometries } from "../vendor.js"
+// import { mergeBufferGeometries } from "../xxxvendor.js"
 import { Entity } from "aframe"
 import { BufferGeometry } from "super-three/src/core/BufferGeometry"
 import { random } from "../utils"
@@ -49,14 +49,14 @@ AFRAME.registerSystem("forest", {
 
         // let merged = THREE.BufferGeometryUtils.mergeBufferGeometries(trees)
         // @ts-ignore
-        let merged = mergeBufferGeometries(trees)
-        // merged.normalizeNormals()
-        let ms = new THREE.Mesh(merged, m.material)
+        // let merged = mergeBufferGeometries(trees)
+        // // merged.normalizeNormals()
+        // let ms = new THREE.Mesh(merged, m.material)
 
-        let forest = document.createElement("a-entity")
-        forest.setObject3D("mesh", ms)
-        forest.setAttribute("class", "forest")
-        el.appendChild(forest)
+        // let forest = document.createElement("a-entity")
+        // forest.setObject3D("mesh", ms)
+        // forest.setAttribute("class", "forest")
+        // el.appendChild(forest)
 
         // tree.addEventListener("loaded", (e: any) => {
         //   let trees: BufferGeometry[] = []

@@ -1,12 +1,15 @@
 {
   "compilerOptions": {
+    "outDir": "./dist/",
     "lib": ["DOM", "ESNext"],
     "module": "ESNext",
     "target": "ESNext",
     "moduleResolution": "Node",
-    "allowUmdGlobalAccess": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true
+    // "allowUmdGlobalAccess": true,
+    // "resolveJsonModule": true,
+    // "esModuleInterop": true,
+    "allowJs": true,
+    "sourceMap": true,
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

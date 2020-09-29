@@ -7,14 +7,14 @@ AFRAME.registerSystem("sketch", {
   schema: {
     box: {
       type: "selector",
-      default: "#box",
+      default: ".box",
     },
   },
 
   init() {
-    addMixin(this.data.box)("blackbox", "bigbox")
-    setTimeout(() => {
-      delMixin(this.data.box)("blackbox")
-    }, 1000)
+    // addMixin(this.data.box)("blackbox", "bigbox")
+    // setTimeout(() => {
+    //   delMixin(this.data.box)("blackbox")
+    // }, 1000)
   },
 })

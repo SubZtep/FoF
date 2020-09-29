@@ -1,0 +1,58 @@
+doctype html
+html(lang="en")
+  head
+    title 🌳🌑⚫ a〜#4o4 ⸻ Flow of Four [#{isProduction ? "production" : "development"}]
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0")
+    link(rel="icon" href="eye-drops.png")
+    include ../dist/vendors.pug
+    // bundle
+    style(type="text/css").
+      html, body { width: 100vw; height: 100vh; padding: 0; margin: 0; }
+      /*.a-enter-vr-button { min-width: 116px; min-height: 68px; }*/
+  body
+    a-scene(
+      renderer="alpha: false; colorManagement: true; antialias: false; logarithmicDepthBuffer: false; physicallyCorrectLights: true: precision: low"
+      loading-screen="dotsColor: #000; backgroundColor: #8a0707"
+      audio-listener
+      shadow="type: pcfsoft"
+      fog="type: 'exponential'"
+      background="color: #666"
+      )
+      //- fog="type: 'exponential'; color: #666; near: 2; far: 10"
+
+      a-assets
+        include entities/assets.pug
+        include entities/mixins.pug
+
+      include entities/environment.pug
+      include entities/lights.pug
+      //- a-box.box
+
+      a-plane.ground(
+        shadow="cast: false"
+        rotation="-90 0 0"
+        width="100"
+        height="100"
+        material="shade: flat; color: #859393"
+        )
+        //- gltf-material
+
+      a-entity#stage(position="0 0 0" rotation="0 30 0")
+        include entities/player.pug
+        include entities/test.pug
+
+      //- a-gltf-model(src="#ScaryTree" scale="0.1 0.1 0.1" position="-2 0 -18" animation-mixer="clip: idle" recolor shadow="receive: false")
+      //-a-gltf-model(src="#Trees" scale="0.01 0.01 0.01" position="0 0 -12" shadow="receive: false")
+      //-a-gltf-model(src="#Tree" scale="0.01 0.01 0.01" position="-10 0 -16" shadow="receive: false")
+
+      //- mixin="fullfog"
+      //- background="color: #000"
+      //- fog="color: #000; near: 5; far: 25; type: 'exponential'"
+      //- vr-mode-ui="enabled: false"
+      //- forest
+      //-
+
+
+      //- include entities/player.pug
+      //- include entities/intro.pug
