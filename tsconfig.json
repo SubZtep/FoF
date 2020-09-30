@@ -1,16 +1,21 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
-    "lib": ["DOM", "ESNext"],
+    "lib": ["es2020", "dom"],
     "module": "ESNext",
     "target": "ESNext",
     "moduleResolution": "Node",
-    // "allowUmdGlobalAccess": true,
+    // "isolatedModules": true,
+    "downlevelIteration": true,
+    "noImplicitThis": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "allowUmdGlobalAccess": true,
     // "resolveJsonModule": true,
-    // "esModuleInterop": true,
     "allowJs": true,
+    "checkJs": true,
     "sourceMap": true,
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "test/**/*"],
   "exclude": ["node_modules", "dist"]
 }

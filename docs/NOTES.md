@@ -7,3 +7,4 @@
 - https://github.com/hoverinc/ray-tracing-renderer
 - https://github.com/colgruv/UnityToThreeJS
 - https://github.com/spite/THREE.MeshLine
+- https://github.com/supermedium/aframe-super-hot-loader

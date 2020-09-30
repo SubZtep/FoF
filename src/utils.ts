@@ -1,6 +1,7 @@
 import { Entity } from "aframe"
 import { Face3 } from "super-three/src/core/Face3"
 
+/** Real number */
 export const rnd = (min: number, max: number) => Math.random() * (min - max) + max
 
 export const sum = (nums: number[]) => nums.reduce((a, b) => a + b, 0)
