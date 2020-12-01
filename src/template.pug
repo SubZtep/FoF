@@ -22,6 +22,7 @@ html(lang="en")
       forest)
       a-assets
         include assets.pug
+
         include mixins.pug
         a-timeline#intro
           a-timeline-group(direction="alternate")
@@ -52,13 +53,14 @@ html(lang="en")
           negate="false")
         a-sprite#romi(position="0 0.8 -0.3" resize="1 1 1" src="assets/sprites/Romeo-Toasty.png" shadow)
 
-      a-entity#telo(
-        gltf-model="url(assets/3d-objects/phone_booth_from_prypiat.glb)"
+      a-gltf-model#telo(
+        src="#PhoneBooth"
         scale="0.015 0.015 0.015"
         position="2 3.2 -6"
         rotation="0 180 0"
         shadow
         animation-mixer="loop: pingpong")
+
 
       a-gltf-model#fa(
         src="#ScaryTree"
