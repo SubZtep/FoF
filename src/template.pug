@@ -5,54 +5,67 @@ html(lang="en")
     meta(charset="utf-8")
     meta(name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0")
     link(rel="icon" href="eye-drops.png")
+    link(rel="stylesheet" type="text/css" href="style.css")
     include ../dist/vendors.pug
     // bundle
-    style(type="text/css").
-      html, body { width: 100vw; height: 100vh; padding: 0; margin: 0; }
-      /*.a-enter-vr-button { min-width: 116px; min-height: 68px; }*/
   body
     a-scene(
       renderer="alpha: false; colorManagement: true; antialias: false; logarithmicDepthBuffer: false; physicallyCorrectLights: true: precision: low"
       loading-screen="dotsColor: #000; backgroundColor: #8a0707"
       audio-listener
       shadow="type: pcfsoft"
-      fog="type: 'exponential'"
       background="color: #666"
-      )
-      //- fog="type: 'exponential'; color: #666; near: 2; far: 10"
-
+      mixin="fullfog"
+      fog="type: 'exponential'; color: #666; near: 2; far: 10"
+      vr-mode-ui="enabled: false"
+      animation-timeline="timeline: #intro; loop: true; direction: alternate;"
+      forest)
       a-assets
-        include entities/assets.pug
-        include entities/mixins.pug
+        include assets.pug
+        include mixins.pug
+        a-timeline#intro
+          a-timeline-group(direction="alternate")
+            a-timeline-animation(select="#box" name="heightzero" offset="500")
+          a-mixin#boxanim(
+            animation__heightzero="property: rotation.x; from: 0; to: 45; dur: 1000; easing: easeInOutCirc; autoplay: false;")
 
-      include entities/environment.pug
       include entities/lights.pug
-      //- a-box.box
+      include entities/environment.pug
 
-      a-plane.ground(
-        shadow="cast: false"
-        rotation="-90 0 0"
-        width="100"
-        height="100"
-        material="shade: flat; color: #859393"
-        )
-        //- gltf-material
+      a-plane.ground(shadow="cast: false" rotation="-90 0 0" width="100" height="100" material="color: #859393")
 
-      a-entity#stage(position="0 0 0" rotation="0 30 0")
-        include entities/player.pug
-        include entities/test.pug
+      a-box#box(
+        mixin="boxanim"
+        position="-3 1 -3"
+        width="3"
+        depth="0.5"
+        shadow="receive: false"
+        warpspeed="useWorker: true; backgroundColor: #000000; starColor: #ffffff; useCircles: false; warpEffect: false; width: 1024; height: 256; starScale: 20; density: 10")
+        a-text(
+          value="Insert Dreams Here"
+          position="-1.64 -0.6 0.4"
+          rotation="-30 0 0"
+          color="#000"
+          opacity="0.6"
+          width="8.2"
+          side="double"
+          negate="false")
+        a-sprite#romi(position="0 0.8 -0.3" resize="1 1 1" src="assets/sprites/Romeo-Toasty.png" shadow)
 
-      //- a-gltf-model(src="#ScaryTree" scale="0.1 0.1 0.1" position="-2 0 -18" animation-mixer="clip: idle" recolor shadow="receive: false")
-      //-a-gltf-model(src="#Trees" scale="0.01 0.01 0.01" position="0 0 -12" shadow="receive: false")
-      //-a-gltf-model(src="#Tree" scale="0.01 0.01 0.01" position="-10 0 -16" shadow="receive: false")
+      a-entity#telo(
+        gltf-model="url(assets/3d-objects/phone_booth_from_prypiat.glb)"
+        scale="0.015 0.015 0.015"
+        position="2 3.2 -6"
+        rotation="0 180 0"
+        shadow
+        animation-mixer="loop: pingpong")
 
-      //- mixin="fullfog"
-      //- background="color: #000"
-      //- fog="color: #000; near: 5; far: 25; type: 'exponential'"
-      //- vr-mode-ui="enabled: false"
-      //- forest
-      //-
-
-
-      //- include entities/player.pug
-      //- include entities/intro.pug
+      a-gltf-model#fa(
+        src="#ScaryTree"
+        scale="0.1 0.1 0.1"
+        position="6 0.1 -8"
+        animation-mixer="clip: idle"
+        recolor
+        shadow="receive: false")
+      //- a-gltf-model(src="#Trees" scale="0.01 0.01 0.01" position="0 0 -12" shadow="receive: false")
+      //- a-gltf-model(src="#Tree" scale="0.01 0.01 0.01" position="-10 0 -16" shadow="receive: false")

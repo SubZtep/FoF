@@ -1,3 +1,5 @@
 node_modules/
 dist/entities/
+dist/assets/3d-objects/**/*
+!dist/assets/3d-objects/*.glb
 *.pem

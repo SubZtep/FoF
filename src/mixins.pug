@@ -1,0 +1,78 @@
+a-mixin#blackbox(material="color: #000")
+a-mixin#bigbox(geometry="width: 10; depth: 5")
+
+//-|| ( •_•)O*¯`·.¸.·´¯`°Q(•_• ) || Animations
+a-mixin#pulse(animation="property: scale; to: 1.2 1.2 1.2; dur: 404; loop: true; dir: alternate")
+a-mixin#fastanim(animation="dur: 150")
+
+//-a-mixin#appear(
+  opacity="0"
+  position="2 1 -3"
+  material="color: blue"
+  animation_v="property: visible; to: true; delay: 1000"
+  animation="property: opacity; from: 0; to: 1; easing: easeInOutElastic; delay: 1500; dur: 1200"
+  )
+
+//-a-mixin#foginout(
+  animation__n="property: fog.near; from: 5; to: 0; dur: 3000; dir: alternate; loop: 2; easing: linear"
+  animation="property: fog.far; from: 25; to: 0; dur: 3000; dir: alternate; loop: 2; easing: linear")
+
+a-mixin#fogin(
+  animation__n="property: fog.near; from: 5; to: 0; dur: 1500; loop: 0; easing: linear"
+  animation="property: fog.far; from: 25; to: 0; dur: 1500; loop: 0; easing: linear")
+a-mixin#fogout(
+  animation__n="property: fog.near; from: 5; to: 0; dur: 1500; dir: reverse; loop: 0; easing: linear"
+  animation="property: fog.far; from: 25; to: 0; dur: 1500; dir: reverse; loop: 0; easing: linear")
+
+//-a-mixin#playerintro(position="0 -1 2.5")
+//-a-mixin#playerbase(position="0 0 0")
+
+//-|| 龴ↀ◡ↀ龴 || Bestiarium
+a-mixin#kacsa(
+  geometry="primitive: kacsa"
+  mat="lambert"
+  animation="property: scale; to: 2 2 2; dur: 850; loop: true; dir: alternate; easing: easeOutElastic"
+  rotation="0 180 0"
+  shadow
+  bouncy
+  handy)
+
+a-mixin#rotmov(
+  animation__m="property: position; to: -1 0 0; dur: 1500; loop: 0"
+  animation="property: rotation; to: 90; dur: 1500; loop: 0")
+
+//-|| இڿڰۣ-ڰۣ—-- || Environment
+a-mixin#oak(geometry="primitive: oak" mat="phong")
+a-mixin#knot(geometry="primitive: oak;knot: true" mat="phong")
+a-mixin#pine(geometry="primitive: pine" mat="toon")
+
+//-|| SCENE ||
+//-a-mixin#fogzero(fog="far: 0; color: #000")
+//-a-mixin#fognear(fog="near: 1; far: 20;")
+a-mixin#fogmid(fog="near: 5; far: 25;")
+a-mixin#fogfar(fog="near: 20; far: 40;")
+a-mixin#elstart(background="color: #1c1c1b")
+a-mixin#eldark(background="color: #000" fog="color: #000")
+a-mixin#elsunny(background="color: #24a3b5" fog="color: #24a3b5")
+a-mixin#ellila(background="color: #303c42" fog="color: #303c42")
+
+//--|| STARS ||
+//-a-mixin#stbig(animation="property: stars.size; to: 10; dur: 4000")
+//-a-mixin#stred(animation="property: stars.color; to: #a00; dur: 1000")
+//-a-mixin#stsm(animation="property: stars.size; to: 1; dur: 1000")
+
+//-|| GROUND ||
+a-mixin#grstream(animation="property: gmat.offset; to: 0 -100; dur: 500000; loop: true")
+a-mixin#grstreamgo(
+  animation="property: gmat.offset; to: 0 100; dur: 100000; loop: true"
+  animation__m="property: position; from: 0 0 -30; to: 0 0 30; dur: 3000; loop: true; easing: linear")
+
+//- animation="property: rotation; from: -90 0 0; to: -60 0 0; dur: 2000; loop: 0"
+a-mixin#para(
+  animation="property: rotation; to: -145 0 0; dur: 2000; loop: 0; easing: easeInQuint"
+  animation__p="property: position; to: 0 -8 20; dur: 2000; loop: 0; easing: easeInQuint")
+
+a-mixin#grdark(gmat="c1: #060a03; c2: #0e0d00")
+a-mixin#grsea(gmat="c1: #13f; c2: #000")
+a-mixin#grweed(gmat="c1: #499d45; c2: #000")
+a-mixin#grgreen(gmat="c1: #836a14; c2: #060")

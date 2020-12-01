@@ -1,8 +1,4 @@
-a-entity#stux(
-  visible="false"
-  geometry="primitive: kacsa"
-  material="shader: flat; color: #404;"
-  position="0 1.2 -3")
+a-entity#stux(visible="false" geometry="primitive: kacsa" material="shader: flat; color: #404;" position="0 1.2 -3")
 
 a-entity#tux(
   visible="false"
@@ -15,9 +11,7 @@ a-entity#tux(
   mixin="pulse"
   handy
   ibidem)
-  a-entity(
-    raycaster="far: 1; objects: [data-obstacle]"
-    obstacle-stop="dirY: 0.5")
+  a-entity(raycaster="far: 1; objects: [data-obstacle]" obstacle-stop="dirY: 0.5")
 
 a-entity.title.intro(
   visible="false"
@@ -26,46 +20,18 @@ a-entity.title.intro(
   position="0 5 -25")
   //- animation="property: text.color; from: #fff; to: #000; easing: easeInOutElastic; dir: alternate; dur: 1200; loop: 2; delay: 2500"
 
-- var showObstacle = "false"
+- var showObstacle = 'false'
 
-a-box.intro(
-  visible=showObstacle
-  data-obstacle
-  position="0 1 -6.5"
-  width="8"
-  height="2"
-)
+a-box.intro(visible=showObstacle data-obstacle position="0 1 -6.5" width="8" height="2")
 
-a-box.intro(
-  visible=showObstacle
-  data-obstacle
-  position="0 1 4.5"
-  rotation="0 180 0"
-  width="8"
-  height="2"
-)
+a-box.intro(visible=showObstacle data-obstacle position="0 1 4.5" rotation="0 180 0" width="8" height="2")
 
-a-box.intro(
-  visible=showObstacle
-  data-obstacle
-  position="-4.5 1 -1"
-  rotation="0 90 0"
-  width="12"
-  height="2"
-)
+a-box.intro(visible=showObstacle data-obstacle position="-4.5 1 -1" rotation="0 90 0" width="12" height="2")
 
-a-box.intro(
-  visible=showObstacle
-  data-obstacle
-  position="4.5 1 -1"
-  rotation="0 -90 0"
-  width="12"
-  height="2"
-)
+a-box.intro(visible=showObstacle data-obstacle position="4.5 1 -1" rotation="0 -90 0" width="12" height="2")
 
 //- ----------------------------------------------------------------
 //-  ---------- - ------- ------ o()xxxx[{::::::::::::::::::::::::::::::::::>
-
 
 a-entity.intro(
   position="0 0.01 -0.08"
@@ -73,9 +39,7 @@ a-entity.intro(
   text="font: roboto; align: center; color: #B0B8B4; letter-spacing: -1; width: 0.66; value: Enter VR"
   animation="property: visible; from: true; to: false; startEvents: enter-vr; resumeEvents: exit-vr"
   animation__t="property: text.opacity; from: 0; to: 1; dur: 1200; dir: alternate; loop: true; easing: easeInOutBack"
-  animation__s="property: text__s.opacity; from: 0; to: 1; dur: 1200; dir: alternate; loop: true; easing: easeInOutBack"
-  )
-
+  animation__s="property: text__s.opacity; from: 0; to: 1; dur: 1200; dir: alternate; loop: true; easing: easeInOutBack")
 
 a-entity.novr(
   cursor
@@ -84,5 +48,4 @@ a-entity.novr(
   position="0 0 -0.1"
   geometry="primitive: ring; radiusInner: 0.0045; radiusOuter: 0.0048"
   material="color: #885; shader: flat"
-  animation="property: visible; to: false; startEvents: enter-vr"
-  )
+  animation="property: visible; to: false; startEvents: enter-vr")

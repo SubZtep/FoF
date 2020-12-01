@@ -8,3 +8,5 @@
 - https://github.com/colgruv/UnityToThreeJS
 - https://github.com/spite/THREE.MeshLine
 - https://github.com/supermedium/aframe-super-hot-loader
+- https://github.com/mikewesthad/navmesh
+- https://github.com/networked-aframe/networked-aframe
