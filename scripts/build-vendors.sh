@@ -1,18 +1,20 @@
 #!/usr/bin/env bash
-target=dist
-f1=aframe-v1.0.4.js
-f2=animation-mixer.js
-f3=aframe-sprite-component.js
-f4=awt.min.js
-f5=aframe-animation-timeline-component.js
 
-cd `dirname "$BASH_SOURCE"`/..
-cp node_modules/aframe/dist/$f1* $target
-cp node_modules/aframe-extras/src/loaders/$f2 $target
-cp node_modules/aframe-sprite-component/dist/$f3 $target
+files=(
+  node_modules/aframe/dist/aframe-v1.0.4.js*
+  # node_modules/aframe-extras/src/loaders/animation-mixer.js
+  node_modules/aframe-sprite-component/dist/aframe-sprite-component.js
+  node_modules/aframe-animation-timeline-component/dist/aframe-animation-timeline-component.js
+  dist/aframe-warpspeed-texture.1.0.1.umd.js
+)
 
-printf "script(src=\"$f1\")\n" > $target/vendors.pug
-#printf "script(src=\"$f2\")\n" >> $target/vendors.pug
-printf "script(src=\"$f3\")\n" >> $target/vendors.pug
-printf "script(src=\"$f4\")\n" >> $target/vendors.pug
-printf "script(src=\"$f5\")\n" >> $target/vendors.pug
+> dist/vendors.pug
+
+for f in ${files[@]}; do
+  if [[ "$f" == "node_modules"* ]]; then
+    cp $f dist
+  fi
+  if [[ "$f" != *"map" ]]; then
+    printf "script(src=\"$(basename $f)\")\n" >> dist/vendors.pug
+  fi
+done
