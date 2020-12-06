@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 files=(
-  node_modules/aframe/dist/aframe-v1.0.4.js*
+  node_modules/aframe/dist/aframe-v1.1.0.js*
   # node_modules/aframe-extras/src/loaders/animation-mixer.js
   node_modules/aframe-sprite-component/dist/aframe-sprite-component.js
   node_modules/aframe-animation-timeline-component/dist/aframe-animation-timeline-component.js

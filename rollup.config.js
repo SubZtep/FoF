@@ -33,7 +33,7 @@ const plugins = [
         .compileFile("src/template.pug", { pretty: !isProd })()
         .replace(
           "<!-- bundle-->",
-          bundle.entrypoints.map(({ importPath }) => `<script type="module" src="${importPath}"></script>`)
+          bundle.entrypoints.map(({ importPath }) => `<script src="${importPath}"></script>`)
         ),
     minify: isProd,
   }),

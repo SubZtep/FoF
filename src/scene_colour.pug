@@ -1,0 +1,31 @@
+style.
+  /*body { background: #ff0000; }*/
+  .colours {
+    display: flex;
+    height: 100vh;
+  }
+  .red {
+    background-color: #ff0000;
+    flex: 2;
+  }
+  .green {
+    background-color: #00ff00;
+    flex: 1;
+  }
+  .blue {
+    background-color: #0000ff;
+    flex: 2;
+  }
+
+.colours
+  .red
+  .green
+  .blue
+
+a-scene(
+  degui-renderer
+  vr-mode-ui="enabled: false")
+
+  a-box(color="#F00" position="-2 1.6 -3")
+  a-box(color="#0F0" position="0 1.6 -3")
+  a-box(color="#00F" position="2 1.6 -3")

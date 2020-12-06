@@ -1,7 +1,12 @@
+import "aframe"
+// require("aframe")
 // require("aframe-physics-system")
 // import "aframe-physics-system"
-import "aframe-extras/src/loaders/animation-mixer.js"
-import "./systems/sketch"
+// import "aframe-extras/src/loaders/animation-mixer.js"
+// import "./systems/sketch"
+
+import "./misc/degui"
+// import "./sceneset/gui"
 // function requireAll(req) {
 //   req.keys().forEach(req)
 // }
